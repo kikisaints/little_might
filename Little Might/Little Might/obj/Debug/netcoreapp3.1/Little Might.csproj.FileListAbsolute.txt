@@ -1,0 +1,50 @@
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Little Might.exe
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Little Might.deps.json
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Little Might.runtimeconfig.json
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Little Might.runtimeconfig.dev.json
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Little Might.dll
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Little Might.pdb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\MonoGame.Framework.dll
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\runtimes\linux-x64\native\libSDL2-2.0.so.0
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\runtimes\linux-x64\native\libopenal.so.1
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\runtimes\osx\native\libSDL2-2.0.0.dylib
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\runtimes\osx\native\libopenal.1.dylib
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\SDL2.dll
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\soft_oal.dll
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\SDL2.dll
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\soft_oal.dll
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\obj\Debug\netcoreapp3.1\Little Might.GeneratedMSBuildEditorConfig.editorconfig
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\obj\Debug\netcoreapp3.1\Little Might.AssemblyInfoInputs.cache
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\obj\Debug\netcoreapp3.1\Little Might.AssemblyInfo.cs
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\obj\Debug\netcoreapp3.1\Little Might.csproj.CoreCompileInputs.cache
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\obj\Debug\netcoreapp3.1\Little Might.csproj.CopyComplete
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\obj\Debug\netcoreapp3.1\Little Might.dll
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\obj\Debug\netcoreapp3.1\Little Might.pdb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\obj\Debug\netcoreapp3.1\Little Might.genruntimeconfig.cache
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\character_base.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\MonoGame.Extended.dll
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\tree_evergreen.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\shaders\crt_lottes_mg.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\background.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\tile_water.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\tree_regular.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\tile_grass.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\tile_mountain.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\chest_little.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\fonts\pixelfont.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\tree_fruit.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\bush.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\rock.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\tile_water_top.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\icon_disease.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\icon_food.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\icon_heart.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\icon_water.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\inventory_ui.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\obj\Debug\netcoreapp3.1\Little Might.csproj.AssemblyReference.cache
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\berries.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\flint.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\stone.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\twig.xnb
+D:\Documents\Game_Projects\LittleMight\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\system_notice_ui.xnb

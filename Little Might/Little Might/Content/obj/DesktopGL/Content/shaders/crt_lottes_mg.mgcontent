@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SourceFile>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/shaders/crt_lottes_mg.fx</SourceFile>
+  <SourceTime>2021-12-07T06:11:27.2109741-08:00</SourceTime>
+  <DestFile>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/bin/DesktopGL/Content/shaders/crt_lottes_mg.xnb</DestFile>
+  <DestTime>2021-12-07T06:11:35.8553467-08:00</DestTime>
+  <Importer>EffectImporter</Importer>
+  <ImporterTime>2020-08-10T09:17:54-07:00</ImporterTime>
+  <Processor>EffectProcessor</Processor>
+  <ProcessorTime>2020-08-10T09:17:54-07:00</ProcessorTime>
+  <Parameters>
+    <Key>DebugMode</Key>
+    <Value>Auto</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>

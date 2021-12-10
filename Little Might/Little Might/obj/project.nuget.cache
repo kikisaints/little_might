@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "Xc2nmpVoDNCJIqH/4byJIwnGI3ePH7e7vZ3472nzRGrXh/qhPUmiwkFhCHXMtdMslZk7qzu2uxHlMkvN54mNQg==",
+  "success": true,
+  "projectFilePath": "D:\\Documents\\Game_Projects\\LittleMight\\Little Might\\Little Might\\Little Might.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\matri\\.nuget\\packages\\monogame.content.builder.task\\3.8.0.1641\\monogame.content.builder.task.3.8.0.1641.nupkg.sha512",
+    "C:\\Users\\matri\\.nuget\\packages\\monogame.extended\\3.8.0\\monogame.extended.3.8.0.nupkg.sha512",
+    "C:\\Users\\matri\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.0.1641\\monogame.framework.desktopgl.3.8.0.1641.nupkg.sha512",
+    "C:\\Users\\matri\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\matri\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.21\\microsoft.netcore.app.host.win-x64.3.1.21.nupkg.sha512"
+  ],
+  "logs": []
+}

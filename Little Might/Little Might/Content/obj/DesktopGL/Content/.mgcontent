@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Profile>Reach</Profile>
+  <Platform>DesktopGL</Platform>
+  <Config />
+  <SourceFiles>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/background.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/berries.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/bush.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/character_base.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/chest_little.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/flint.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/fonts/pixelfont.spritefont</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/icon_disease.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/icon_food.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/icon_heart.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/icon_water.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/inventory_ui.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/rock.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/shaders/crt_lottes_mg.fx</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/stone.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/system_notice_ui.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/tile_grass.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/tile_mountain.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/tile_water.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/tile_water_top.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/tree_evergreen.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/tree_fruit.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/tree_regular.png</File>
+    <File>D:/Documents/Game_Projects/LittleMight/Little Might/Little Might/Content/twig.png</File>
+  </SourceFiles>
+  <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+  </DestFiles>
+</SourceFileCollection>
