@@ -193,7 +193,7 @@ namespace Little_Might.Utils
             return false;
         }
 
-        private int[] GetFogOfWarShape(int drawRadius, Vector2 centerPoint, int mapWidth)
+        private int[] GetFOVShape(int drawRadius, Vector2 centerPoint, int mapWidth)
         {
             float xCenter = centerPoint.X / Utils.WorldMap.UNITSIZE;
             float yCenter = centerPoint.Y / Utils.WorldMap.UNITSIZE;
@@ -226,23 +226,33 @@ namespace Little_Might.Utils
                         if (viewIndex >= 0 && viewIndex < _worldObjects.Count)
                         {
                             drawIndicies[drawIndiciesCount] = viewIndex;
-                            drawIndiciesCount++;
+                            drawIndiciesCount++;                            
+                        }                       
+                    }
 
-                            if (y != 0 && viewIndexA >= 0 && viewIndexA < _worldObjects.Count)
-                            {
-                                drawIndicies[drawIndiciesCount] = viewIndexA;
-                                drawIndiciesCount++;
-                            }
-                            if (x != 0 && viewIndexB >= 0 && viewIndexB < _worldObjects.Count)
-                            {
-                                drawIndicies[drawIndiciesCount] = viewIndexB;
-                                drawIndiciesCount++;
-                            }
-                            if (y != 0 && x != 0 && viewIndexC >= 0 && viewIndexC < _worldObjects.Count)
-                            {
-                                drawIndicies[drawIndiciesCount] = viewIndexC;
-                                drawIndiciesCount++;
-                            }
+                    if (IsPointInCircle(viewIndexA % mapWidth, viewIndexA / mapWidth, startFOWIndex % mapWidth, startFOWIndex / mapWidth, drawRadius))
+                    {
+                        if (y != 0 && viewIndexA >= 0 && viewIndexA < _worldObjects.Count)
+                        {
+                            drawIndicies[drawIndiciesCount] = viewIndexA;
+                            drawIndiciesCount++;
+                        }
+                    }
+                    if (IsPointInCircle(viewIndexB % mapWidth, viewIndexB / mapWidth, startFOWIndex % mapWidth, startFOWIndex / mapWidth, drawRadius))
+                    {
+                        if (x != 0 && viewIndexB >= 0 && viewIndexB < _worldObjects.Count)
+                        {
+                            drawIndicies[drawIndiciesCount] = viewIndexB;
+                            drawIndiciesCount++;
+                        }
+                    }
+
+                    if (IsPointInCircle(viewIndexC % mapWidth, viewIndexC / mapWidth, startFOWIndex % mapWidth, startFOWIndex / mapWidth, drawRadius))
+                    {
+                        if (y != 0 && x != 0 && viewIndexC >= 0 && viewIndexC < _worldObjects.Count)
+                        {
+                            drawIndicies[drawIndiciesCount] = viewIndexC;
+                            drawIndiciesCount++;
                         }
                     }
                 }
@@ -258,7 +268,7 @@ namespace Little_Might.Utils
             _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, cameraTransform);
             //_effect.CurrentTechnique.Passes[0].Apply();
 
-            int[] drawArray = GetFogOfWarShape(radius, charPos, width);
+            int[] drawArray = GetFOVShape(radius, charPos, width);
 
             foreach (int i in drawArray)
             {
@@ -334,19 +344,72 @@ namespace Little_Might.Utils
             //DRAW UI OBJECTS            
             foreach (Modules.ScreenObject screenObj in _screenObjects)
             {
-                _spriteBatch.Draw(screenObj.Sprite, screenObj.Position + new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width, 0), null, Color.White, 0f, Vector2.Zero, screenObj.Scale, SpriteEffects.None, 0.5f);
+                _spriteBatch.Draw(screenObj.Sprite, 
+                    screenObj.Position + new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width, 0), 
+                    null, 
+                    Color.White, 
+                    0f, 
+                    Vector2.Zero, 
+                    screenObj.Scale, 
+                    SpriteEffects.None, 
+                    0.5f);
             }
 
             foreach (Modules.InventoryItem item in character.Inv.Items)
             {
-                _spriteBatch.Draw(item.Sprite, item.Position + new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width, 0), null, Color.White, 0f, Vector2.Zero, item.Scale, SpriteEffects.None, 0.5f);
+                _spriteBatch.Draw(item.Sprite, 
+                    item.Position + new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width, 0), 
+                    null, 
+                    Color.White, 
+                    0f, 
+                    Vector2.Zero, 
+                    item.Scale, 
+                    SpriteEffects.None, 
+                    0.5f);
+            }
+
+            if (character.Inv.NavigatingInventory)
+            {
+                _spriteBatch.Draw(character.Inv.InventorySelector.Sprite,
+                    character.Inv.InventorySelector.Position + new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width, 0), 
+                    null, 
+                    Color.White, 
+                    0f, 
+                    Vector2.Zero, 
+                    character.Inv.InventorySelector.Scale, 
+                    SpriteEffects.None, 
+                    0.5f);
+
+                //Display item info here
+                FontOrigin = _font.MeasureString(character.Inv.GetSelectedItemName().ToUpper()) / 2;
+                _spriteBatch.DrawString(_font,
+                    character.Inv.GetSelectedItemName().ToUpper(), 
+                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 800, (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 125), 
+                    Color.White, 
+                    0, 
+                    FontOrigin, 
+                    1f, 
+                    SpriteEffects.None, 
+                    1f);
+
+                //string itemDisc = "Lorem ipsum dolar amit\nlorem ipsum";
+                //FontOrigin = _font.MeasureString(itemDisc) / 2;
+                //_spriteBatch.DrawString(_font,
+                //    itemDisc,
+                //    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 800, (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 150),
+                //    Color.White,
+                //    0,
+                //    FontOrigin,
+                //    0.75f,
+                //    SpriteEffects.None,
+                //    1f);
             }
 
             if (_showSystemUI)
             {
                 FontOrigin = _font.MeasureString(_systemMessage) / 2;
                 _spriteBatch.DrawString(_font, _systemMessage, new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 35, (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 455), Color.Black, 0, FontOrigin, 1f, SpriteEffects.None, 1f);
-                _spriteBatch.Draw(_systemPopup, new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) - 150, (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 400), null, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.1f);                              
+                _spriteBatch.Draw(_systemPopup, new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) - 150, (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 400), null, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.1f);
             }
 
             _spriteBatch.End();
@@ -354,16 +417,17 @@ namespace Little_Might.Utils
 
         public void ShowSystemMessage(string message)
         {
-            _showSystemUI = true;
+            if (!_showSystemUI)
+                _showSystemUI = true;
+            else
+                _displayMsgTime = 0f;
+
             _systemMessage = message;
             _showSysMsgTimer = 0;
         }
 
-        public void DrawUpdate(Matrix cameraMatrix, int viewRadius, Vector2 center, int mapWidth, Modules.Character player, GameTime time)
+        private void UpdateSystemDialogs(GameTime time)
         {
-            DrawGame(viewRadius, center, mapWidth, cameraMatrix);
-            DrawUI(center, player);
-
             if (_showSystemUI)
             {
                 _showSysMsgTimer += time.ElapsedGameTime.TotalSeconds;
@@ -374,6 +438,25 @@ namespace Little_Might.Utils
                     _showSystemUI = false;
                 }
             }
+            else if (_displayMsgTime < 1) //"Flash" reset the dialog to show that a new action has occurred
+            {
+                _showSystemUI = false;
+                _showSysMsgTimer += time.ElapsedGameTime.Milliseconds;
+
+                if (_showSysMsgTimer >= 150)
+                {
+                    _showSysMsgTimer = 0;
+                    _showSystemUI = true;
+                    _displayMsgTime = 3;
+                }
+            }
+        }
+
+        public void DrawUpdate(Matrix cameraMatrix, int viewRadius, Vector2 center, int mapWidth, Modules.Character player, GameTime time)
+        {
+            DrawGame(viewRadius, center, mapWidth, cameraMatrix);
+            DrawUI(center, player);
+            UpdateSystemDialogs(time);
         }
     }
 }

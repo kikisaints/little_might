@@ -9,11 +9,19 @@ namespace Little_Might.Modules
 {
     class InventoryItem : ScreenObject
     {
-        public InventoryItem(Texture2D tex, Vector2 pos, float size)
+        Inventory.ITEMTYPE _itemType;
+
+        public Inventory.ITEMTYPE Type
+        {
+            get { return _itemType; }
+        }
+
+        public InventoryItem(Texture2D tex, Vector2 pos, float size, Inventory.ITEMTYPE invType)
         {
             Sprite = tex;
             Position = pos;
             Scale = size;
+            _itemType = invType;
         }
     }
 
@@ -32,35 +40,99 @@ namespace Little_Might.Modules
 
         private List<InventoryItem> _invItems;
         private Vector2 _startingSlotPos;
+        private Vector2 _startingInvSelectorPos;
         private Vector2 _spacing;
         private int _maxInvSlots = 78;
+
+        private int _invXSlots = 6;
+        private int _invYSlots = 10;
+        private int _invXIndex = 0;
+        private int _invYIndex = 0;
+
         private int _invRows = 0;
         private int _invCols = 0;
+        private ScreenObject _invSelector;
+
+        public bool NavigatingInventory = false;
+
+        public ScreenObject InventorySelector
+        {
+            get { return _invSelector; }
+        }
 
         public List<InventoryItem> Items
         {
             get { return _invItems; }
         }
 
-        public Inventory()
+        public Inventory(ContentManager content)
         {
             _invItems = new List<InventoryItem>();
             _startingSlotPos = new Vector2(-280, 235);
+            _startingInvSelectorPos = new Vector2(-288, 227);
             _spacing = new Vector2(35, 35);
+            _invSelector = new ScreenObject(content.Load<Texture2D>("inventory_selector"), 
+                _startingInvSelectorPos, 
+                4f);
         }
 
-        public void AddItem(ITEMTYPE type, ContentManager content)
+        public string GetSelectedItemName()
+        {
+            if (_invItems.Count > 0)
+            {
+                int index = Utils.ArrayHandler.Get1DIndex(_invXIndex, _invYIndex, _maxInvSlots - 1);
+
+                if (index < _invItems.Count)
+                    return (_invItems[index].Type.ToString());
+            }
+
+            return "";
+        }
+
+        public void UpdateInventory(Utils.InputManager inputManager)
+        {
+            if (NavigatingInventory)
+            {
+                if (inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Left) && _invXIndex > 0)
+                {
+                    _invSelector.Position -= new Vector2(_spacing.X, 0);
+                    _invXIndex--;
+                }
+                if (inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Right) && _invXIndex < _invXSlots)
+                {
+                    _invSelector.Position += new Vector2(_spacing.X, 0);
+                    _invXIndex++;
+                }
+                if (inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Up) && _invYIndex > 0)
+                {
+                    _invSelector.Position -= new Vector2(0, _spacing.Y);
+                    _invYIndex--;
+                }
+                if (inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Down) && _invYIndex < _invYSlots)
+                {
+                    _invSelector.Position += new Vector2(0, _spacing.Y);
+                    _invYIndex++;
+                }
+            }
+        }
+
+        //Returns true if the item was successfully added to the inventory
+        public bool AddItem(ITEMTYPE type, ContentManager content)
         {
             Texture2D sprite = GetSpriteTexture(type, content);
 
             if (sprite != null && _invItems.Count + 1 < _maxInvSlots)
             {
-                _invItems.Add(new InventoryItem(sprite, GetInvSlotPosition(), 3f));
+                _invItems.Add(new InventoryItem(sprite, GetNewInvSlotPosition(), 3f, type));
                 _invCols++;
+
+                return true;
             }
+
+            return false;
         }
 
-        private Vector2 GetInvSlotPosition()
+        private Vector2 GetNewInvSlotPosition()
         {
             if (_invItems.Count % 7 == 0 && _invItems.Count > 1)
             {

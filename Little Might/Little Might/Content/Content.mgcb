@@ -140,6 +140,18 @@
 /processorParam:TextureFormat=Color
 /build:icon_water.png
 
+#begin inventory_selector.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:inventory_selector.png
+
 #begin inventory_ui.png
 /importer:TextureImporter
 /processor:TextureProcessor

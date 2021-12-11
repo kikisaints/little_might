@@ -325,23 +325,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\matri\\.nuget\\packages\\": {},
+    "C:\\Users\\Kiki\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Documents\\Game_Projects\\LittleMight\\Little Might\\Little Might\\Little Might.csproj",
+      "projectUniqueName": "C:\\Users\\Kiki\\Documents\\GitHub\\little_might\\Little Might\\Little Might\\Little Might.csproj",
       "projectName": "Little Might",
-      "projectPath": "D:\\Documents\\Game_Projects\\LittleMight\\Little Might\\Little Might\\Little Might.csproj",
-      "packagesPath": "C:\\Users\\matri\\.nuget\\packages\\",
-      "outputPath": "D:\\Documents\\Game_Projects\\LittleMight\\Little Might\\Little Might\\obj\\",
+      "projectPath": "C:\\Users\\Kiki\\Documents\\GitHub\\little_might\\Little Might\\Little Might\\Little Might.csproj",
+      "packagesPath": "C:\\Users\\Kiki\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Kiki\\Documents\\GitHub\\little_might\\Little Might\\Little Might\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\matri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Kiki\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -391,18 +391,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[3.1.21, 3.1.21]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }

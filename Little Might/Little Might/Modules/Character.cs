@@ -15,6 +15,7 @@ namespace Little_Might.Modules
         private Utils.GraphicsManager _graphicsManager;
 
         private int _steps = 0;
+        private bool _canMove = true;
 
         public Inventory Inv
         {
@@ -30,7 +31,7 @@ namespace Little_Might.Modules
         {
             _inputManager = new Utils.InputManager();
             _stats = new AdvancedStats(50, 10, 0, 1, 10, 10, 10, 10, 10, 0f);
-            _playerInventory = new Inventory();
+            _playerInventory = new Inventory(contentManager);
 
             Sprite = contentManager.Load<Texture2D>(spriteFileName);
             Position = startingPosition;
@@ -41,16 +42,21 @@ namespace Little_Might.Modules
         public void UpdateCharacter(GameTime time, Utils.WorldMap map, ContentManager content)
         {
             _inputManager.UpdateInput(time);
-            UpdateInput(map, content);
-            UpdateMovementSpeed(map);            
+            UpdateInventoryInteraction();
+
+            if (_canMove)
+            {
+                UpdateInput(map, content);
+                UpdateMovementSpeed(map);
+            }
         }
 
         private void CheckTileResource(Vector2 movePos, Utils.WorldMap wMap, ContentManager content)
         {
             if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.FRUIT)
             {
-                _playerInventory.AddItem(Inventory.ITEMTYPE.FRUIT, content);
-                _graphicsManager.ShowSystemMessage("Picked up " + Inventory.ITEMTYPE.FRUIT.ToString());
+                if (_playerInventory.AddItem(Inventory.ITEMTYPE.FRUIT, content))
+                    _graphicsManager.ShowSystemMessage("Picked up " + Inventory.ITEMTYPE.FRUIT.ToString());
             }
 
             if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.BUSH)
@@ -59,8 +65,8 @@ namespace Little_Might.Modules
 
                 if (randomBushItem != Inventory.ITEMTYPE.NONE)
                 {
-                    _playerInventory.AddItem(randomBushItem, content);
-                    _graphicsManager.ShowSystemMessage("Picked up " + randomBushItem.ToString());
+                    if (_playerInventory.AddItem(randomBushItem, content))
+                        _graphicsManager.ShowSystemMessage("Picked up " + randomBushItem.ToString());
                 }
             }
             if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.ROCK)
@@ -69,9 +75,23 @@ namespace Little_Might.Modules
 
                 if (randomRockItem != Inventory.ITEMTYPE.NONE)
                 {
-                    _playerInventory.AddItem(randomRockItem, content);
-                    _graphicsManager.ShowSystemMessage("Picked up " + randomRockItem.ToString());
+                    if (_playerInventory.AddItem(randomRockItem, content))
+                        _graphicsManager.ShowSystemMessage("Picked up " + randomRockItem.ToString());
                 }
+            }
+        }
+
+        private void UpdateInventoryInteraction()
+        {
+            if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.I))
+            {
+                _canMove = !_canMove;
+                _playerInventory.NavigatingInventory = !_playerInventory.NavigatingInventory;
+            }
+
+            if (_playerInventory.NavigatingInventory)
+            {
+                _playerInventory.UpdateInventory(_inputManager);
             }
         }
 
@@ -176,16 +196,6 @@ namespace Little_Might.Modules
                 _stats.HP -= 1;
             if (_stats.Hydration <= 0)
                 _stats.HP -= 2;
-
-            if (_stats.Hunger < 50 && _stats.Hunger > 25)
-                _graphicsManager.ShowSystemMessage("You are HUNGRY");
-            else if (_stats.Hunger <= 25)
-                _graphicsManager.ShowSystemMessage("You are STARVING");
-
-            if (_stats.Hydration < 50 && _stats.Hydration > 25)
-                _graphicsManager.ShowSystemMessage("You are THIRSTY");
-            else if (_stats.Hydration <= 25)
-                _graphicsManager.ShowSystemMessage("You are DEHYDRATED");
         }
 
         private void UpdateMovementSpeed(Utils.WorldMap wMap)
