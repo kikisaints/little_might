@@ -19,11 +19,14 @@ namespace Little_Might
         private int _mapSize = 500;
         private SCENE _currentScene = SCENE.MENU;
 
+        private bool _inOverworld = true;
+
         public enum SCENE
         {
             MENU = 0,
             DIFFICULTY,
             GAME,
+            BATTLE,
             DEATH,
             CREDITS,
             OPTIONS
@@ -77,72 +80,34 @@ namespace Little_Might
                 if (_character.Stats.HP <= 0)
                     _currentScene = SCENE.DEATH;
             }
-        }
-
-        private void DrawGame(GameTime gameTime)
-        {
-            if (_currentScene == SCENE.GAME)
-                _graphicsManager.DrawUpdate(_camera.GetViewMatrix(), 10, _character.Position, _mapSize, _character, gameTime);
-
-            if (_currentScene == SCENE.DIFFICULTY)
+            else if (_currentScene == SCENE.DIFFICULTY)
             {
-                string[] menuMessage = {
-                    "SELECT DIFFICULTY",
-                    "1 - Baby's first survival game",
-                    "2 - I play games",
-                    "3 - Normal",
-                    "4 - Challenge me!"
-                };
-
-                float[] messageScale = {
-                    2f,
-                    1f,
-                    1f,
-                    1f,
-                    1f,
-                };
-
-                _graphicsManager.DrawUIString(menuMessage, new Vector2(500, 50), messageScale);
-
-                if (Keyboard.GetState().IsKeyDown(Keys.D1))
+                if (Keyboard.GetState().IsKeyDown(Keys.D1) || Keyboard.GetState().IsKeyDown(Keys.NumPad1))
                 {
                     LoadGameContent();
                     _currentScene = SCENE.GAME;
                 }
-                if (Keyboard.GetState().IsKeyDown(Keys.D2))
+                if (Keyboard.GetState().IsKeyDown(Keys.D2) || Keyboard.GetState().IsKeyDown(Keys.NumPad2))
                 {
                     _mapSize *= 2;
                     LoadGameContent();
                     _currentScene = SCENE.GAME;
                 }
-                if (Keyboard.GetState().IsKeyDown(Keys.D3))
+                if (Keyboard.GetState().IsKeyDown(Keys.D3) || Keyboard.GetState().IsKeyDown(Keys.NumPad3))
                 {
                     _mapSize *= 4;
                     LoadGameContent();
                     _currentScene = SCENE.GAME;
                 }
-                if (Keyboard.GetState().IsKeyDown(Keys.D4))
+                if (Keyboard.GetState().IsKeyDown(Keys.D4) || Keyboard.GetState().IsKeyDown(Keys.NumPad4))
                 {
                     _mapSize *= 6;
                     LoadGameContent();
                     _currentScene = SCENE.GAME;
                 }
             }
-
-            if (_currentScene == SCENE.MENU)
+            else if (_currentScene == SCENE.MENU)
             {
-                string[] menuMessage = {
-                    "LITTLE MIGHT",
-                    "press ENTER to start",
-                };
-
-                float[] messageScale = {
-                    2f,
-                    1f,
-                };
-
-                _graphicsManager.DrawUIString(menuMessage, new Vector2(500, 25), messageScale);
-
                 if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                 {
                     _currentScene = SCENE.DIFFICULTY;
@@ -150,29 +115,34 @@ namespace Little_Might
             }
             else if (_currentScene == SCENE.DEATH)
             {
-                string causeOfDeath = _character.GetCauseOfDeath();
-
-                if (causeOfDeath != "")
-                    causeOfDeath = " of " + causeOfDeath;
-
-                string[] deathMessage = {
-                    "YOU DIED" + causeOfDeath,
-                    "Press F to Rage Quit",
-                    "Press R to Restart"
-                };
-
-                float[] messageScale = {
-                    2f,
-                    1f,
-                    1f
-                };
-
-                _graphicsManager.DrawUIString(deathMessage, new Vector2(500, 25), messageScale);
-
                 if (Keyboard.GetState().IsKeyDown(Keys.R))
                 {
                     _currentScene = SCENE.MENU;
                 }
+            }
+        }
+
+        private void DrawGame(GameTime gameTime)
+        {
+            if (_currentScene == SCENE.GAME)
+            {
+                _graphicsManager.DrawUpdate(_camera.GetViewMatrix(), 10, _character.Position, _mapSize, _character, gameTime, _inOverworld);
+            }
+            else
+            {
+                string _deathCause = "";
+
+                if (_character != null)
+                {
+                    _deathCause = _character.GetCauseOfDeath();
+
+                    if (_deathCause != "")
+                        _deathCause = " of " + _deathCause;
+                }
+
+                _graphicsManager.DrawUIString(Utils.SceneInfo.GetSceneMessage(_currentScene, _deathCause),
+                    new Vector2(500, 50),
+                    Utils.SceneInfo.GetSceneScale(_currentScene));
             }
         }
 

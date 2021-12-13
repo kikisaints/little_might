@@ -197,7 +197,7 @@ namespace Little_Might.Utils
             Random rand = new Random();
             int arrayIndex = _grassPoints[rand.Next(150, _grassPoints.Count - 1)];
             
-            _startingPosition = ArrayHandler.Get2DPoint(arrayIndex, _width) * UNITSIZE;
+            _startingPosition = MathHandler.Get2DPoint(arrayIndex, _width) * UNITSIZE;
             return _startingPosition;
         }
 

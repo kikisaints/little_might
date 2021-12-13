@@ -9,7 +9,21 @@ namespace Little_Might.Modules
 {
     class InventoryItem : ScreenObject
     {
-        Inventory.ITEMTYPE _itemType;
+        private Inventory.ITEMTYPE _itemType;
+        private string _discription;
+        private string _name;
+
+        public bool Toggled = false;
+
+        public string Name
+        {
+            get { return _name; }
+        }
+
+        public string Discription
+        {
+            get { return _discription; }
+        }
 
         public Inventory.ITEMTYPE Type
         {
@@ -22,6 +36,9 @@ namespace Little_Might.Modules
             Position = pos;
             Scale = size;
             _itemType = invType;
+
+            _discription = Utils.ItemInfo.GetItemInformation(_itemType);
+            _name = _itemType.ToString();
         }
     }
 
@@ -34,8 +51,11 @@ namespace Little_Might.Modules
             BERRY,
             FLINT,
             STONE,
-            TWIG,
-            COIN
+            STICK,
+            COIN,
+            CAMPFIRE,
+            STONESWORD,
+            TWINE
         }        
 
         private List<InventoryItem> _invItems;
@@ -83,17 +103,28 @@ namespace Little_Might.Modules
             RefreshInventory();
         }
 
-        public ITEMTYPE GetSelectedItem()
+        public void RemoveToggledItems()
+        {
+            for (int i = 0; i < _invItems.Count; i++)
+            {
+                if (_invItems[i].Toggled)
+                    _invItems.RemoveAt(i);
+            }
+
+            RefreshInventory();
+        }
+
+        public InventoryItem GetSelectedItem()
         {
             if (_invItems.Count > 0)
             {
-                _currentlySelectedIndex = Utils.ArrayHandler.Get1DIndex(_invYIndex, _invXIndex, _invXSlots + 1);
+                _currentlySelectedIndex = Utils.MathHandler.Get1DIndex(_invYIndex, _invXIndex, _invXSlots + 1);
 
                 if (_currentlySelectedIndex < _invItems.Count)
-                    return (_invItems[_currentlySelectedIndex].Type);
+                    return (_invItems[_currentlySelectedIndex]);
             }
 
-            return ITEMTYPE.NONE;
+            return null;
         }
 
         public void UpdateInventory(Utils.InputManager inputManager)
@@ -172,10 +203,16 @@ namespace Little_Might.Modules
                     return contentMgr.Load<Texture2D>("flint");
                 case ITEMTYPE.STONE:
                     return contentMgr.Load<Texture2D>("stone");
-                case ITEMTYPE.TWIG:
+                case ITEMTYPE.STICK:
                     return contentMgr.Load<Texture2D>("twig");
                 case ITEMTYPE.BERRY:
                     return contentMgr.Load<Texture2D>("berries");
+                case ITEMTYPE.CAMPFIRE:
+                    return contentMgr.Load<Texture2D>("campfire");
+                case ITEMTYPE.STONESWORD:
+                    return contentMgr.Load<Texture2D>("stone_sword");
+                case ITEMTYPE.TWINE:
+                    return contentMgr.Load<Texture2D>("twine");
             }
 
             return null;

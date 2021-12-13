@@ -17,6 +17,14 @@ namespace Little_Might.Modules
         private int _steps = 0;
         private bool _canMove = true;
 
+        private int _craftIndex = 0;
+        private Modules.Inventory.ITEMTYPE[] _craftingList = {
+            Modules.Inventory.ITEMTYPE.NONE,
+            Modules.Inventory.ITEMTYPE.NONE,
+            Modules.Inventory.ITEMTYPE.NONE,
+            Modules.Inventory.ITEMTYPE.NONE
+        };
+
         public Inventory Inv
         {
             get { return _playerInventory; }
@@ -42,12 +50,12 @@ namespace Little_Might.Modules
         public void UpdateCharacter(GameTime time, Utils.WorldMap map, ContentManager content)
         {
             _inputManager.UpdateInput(time);
-            UpdateInventoryInteraction();
+            UpdateMovementSpeed(map);
+            UpdateInventoryInteraction(content);
 
             if (_canMove)
             {
-                UpdateInput(map, content);
-                UpdateMovementSpeed(map);
+                UpdateInput(map, content);                
             }
         }
 
@@ -81,7 +89,7 @@ namespace Little_Might.Modules
             }
         }
 
-        private void UpdateInventoryInteraction()
+        private void UpdateInventoryInteraction(ContentManager content)
         {
             if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.I))
             {
@@ -94,20 +102,32 @@ namespace Little_Might.Modules
                 _playerInventory.UpdateInventory(_inputManager);
             }
 
-            //TEMP - Need to be smarter/more componentized about how info is grabbed for each item type...
             if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Enter))
             {
-                if (_playerInventory.GetSelectedItem() == Inventory.ITEMTYPE.FRUIT)
+                int _hungerValue = Utils.ItemInfo.GetItemHungerValue(_playerInventory.GetSelectedItem().Type);
+                _playerInventory.GetSelectedItem().Toggled = !_playerInventory.GetSelectedItem().Toggled;
+
+                if (_hungerValue != 0)
                 {
-                    _stats.Hunger += 35;
-                    _graphicsManager.ShowSystemMessage("Ate " + Inventory.ITEMTYPE.FRUIT.ToString() + "\n+35 HUNGER");
-                    _playerInventory.RemoveSelectedItem(); //temp
+                    _stats.Hunger += _hungerValue;
+                    _graphicsManager.ShowSystemMessage("Ate " + _playerInventory.GetSelectedItem().Type.ToString() + "\n+" + _hungerValue.ToString() + " HUNGER");
+                    _playerInventory.RemoveSelectedItem();
                 }
-                else if (_playerInventory.GetSelectedItem() == Inventory.ITEMTYPE.BERRY)
+                else if (_craftIndex < 4)
                 {
-                    _stats.Hunger += 15;
-                    _graphicsManager.ShowSystemMessage("Ate " + Inventory.ITEMTYPE.BERRY.ToString() + "! \n+15 HUNGER");
-                    _playerInventory.RemoveSelectedItem(); //temp
+                    _craftingList[_craftIndex] = _playerInventory.GetSelectedItem().Type;
+                    _craftIndex++;
+                }
+
+                Inventory.ITEMTYPE _craftedType = Utils.ItemInfo.CheckCraftables(_craftingList);
+
+                if (_craftedType != Inventory.ITEMTYPE.NONE)
+                {
+                    _playerInventory.RemoveToggledItems();
+                    _playerInventory.AddItem(_craftedType, content);
+
+                    _craftIndex = 0;
+                    Array.Clear(_craftingList, 0, _craftingList.Length);                    
                 }
             }
         }
@@ -217,17 +237,24 @@ namespace Little_Might.Modules
 
         private void UpdateMovementSpeed(Utils.WorldMap wMap)
         {
-            if (wMap.GetTileType(new Vector2(Position.X, Position.Y)) == Utils.WorldMap.MAPTILETYPE.TREE)
+            if (_canMove)
             {
-                _inputManager.MoveSpeed = 0.5 * _stats.Speed;
-            }
-            else if (wMap.GetTileType(new Vector2(Position.X, Position.Y)) == Utils.WorldMap.MAPTILETYPE.EVERGREEN)
-            {
-                _inputManager.MoveSpeed = 1.5 * _stats.Speed;
+                if (wMap.GetTileType(new Vector2(Position.X, Position.Y)) == Utils.WorldMap.MAPTILETYPE.TREE)
+                {
+                    _inputManager.MoveSpeed = 0.5 * _stats.Speed;
+                }
+                else if (wMap.GetTileType(new Vector2(Position.X, Position.Y)) == Utils.WorldMap.MAPTILETYPE.EVERGREEN)
+                {
+                    _inputManager.MoveSpeed = 1.5 * _stats.Speed;
+                }
+                else
+                {
+                    _inputManager.MoveSpeed = 0.15 * _stats.Speed;
+                }
             }
             else
             {
-                _inputManager.MoveSpeed = 0.15 * _stats.Speed;
+                _inputManager.MoveSpeed = 0.15;
             }
         }
 
