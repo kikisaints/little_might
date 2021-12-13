@@ -51,6 +51,7 @@ namespace Little_Might.Modules
 
         private int _invRows = 0;
         private int _invCols = 0;
+        private int _currentlySelectedIndex = 0;
         private ScreenObject _invSelector;
 
         public bool NavigatingInventory = false;
@@ -68,7 +69,7 @@ namespace Little_Might.Modules
         public Inventory(ContentManager content)
         {
             _invItems = new List<InventoryItem>();
-            _startingSlotPos = new Vector2(-280, 235);
+            _startingSlotPos = new Vector2(-282, 233);
             _startingInvSelectorPos = new Vector2(-288, 227);
             _spacing = new Vector2(35, 35);
             _invSelector = new ScreenObject(content.Load<Texture2D>("inventory_selector"), 
@@ -76,17 +77,23 @@ namespace Little_Might.Modules
                 4f);
         }
 
-        public string GetSelectedItemName()
+        public void RemoveSelectedItem()
+        {
+            _invItems.RemoveAt(_currentlySelectedIndex);
+            RefreshInventory();
+        }
+
+        public ITEMTYPE GetSelectedItem()
         {
             if (_invItems.Count > 0)
             {
-                int index = Utils.ArrayHandler.Get1DIndex(_invXIndex, _invYIndex, _maxInvSlots - 1);
+                _currentlySelectedIndex = Utils.ArrayHandler.Get1DIndex(_invYIndex, _invXIndex, _invXSlots + 1);
 
-                if (index < _invItems.Count)
-                    return (_invItems[index].Type.ToString());
+                if (_currentlySelectedIndex < _invItems.Count)
+                    return (_invItems[_currentlySelectedIndex].Type);
             }
 
-            return "";
+            return ITEMTYPE.NONE;
         }
 
         public void UpdateInventory(Utils.InputManager inputManager)
@@ -132,9 +139,21 @@ namespace Little_Might.Modules
             return false;
         }
 
+        public void RefreshInventory()
+        {
+            _invRows = 0;
+            _invCols = 0;
+
+            for (int i = 0; i < _invItems.Count; i++)
+            {
+                _invItems[i].Position = GetNewInvSlotPosition();
+                _invCols++;
+            }
+        }
+
         private Vector2 GetNewInvSlotPosition()
         {
-            if (_invItems.Count % 7 == 0 && _invItems.Count > 1)
+            if (_invCols % 7 == 0 && _invItems.Count > 1 && _invCols != 0)
             {
                 _invRows++;
                 _invCols = 0;

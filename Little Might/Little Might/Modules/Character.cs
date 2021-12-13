@@ -93,6 +93,23 @@ namespace Little_Might.Modules
             {
                 _playerInventory.UpdateInventory(_inputManager);
             }
+
+            //TEMP - Need to be smarter/more componentized about how info is grabbed for each item type...
+            if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Enter))
+            {
+                if (_playerInventory.GetSelectedItem() == Inventory.ITEMTYPE.FRUIT)
+                {
+                    _stats.Hunger += 35;
+                    _graphicsManager.ShowSystemMessage("Ate " + Inventory.ITEMTYPE.FRUIT.ToString() + "\n+35 HUNGER");
+                    _playerInventory.RemoveSelectedItem(); //temp
+                }
+                else if (_playerInventory.GetSelectedItem() == Inventory.ITEMTYPE.BERRY)
+                {
+                    _stats.Hunger += 15;
+                    _graphicsManager.ShowSystemMessage("Ate " + Inventory.ITEMTYPE.BERRY.ToString() + "! \n+15 HUNGER");
+                    _playerInventory.RemoveSelectedItem(); //temp
+                }
+            }
         }
 
         private void UpdateInput(Utils.WorldMap wMap, ContentManager contentManager)

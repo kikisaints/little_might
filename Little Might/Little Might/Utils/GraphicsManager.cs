@@ -381,9 +381,9 @@ namespace Little_Might.Utils
                     0.5f);
 
                 //Display item info here
-                FontOrigin = _font.MeasureString(character.Inv.GetSelectedItemName().ToUpper()) / 2;
+                FontOrigin = _font.MeasureString(character.Inv.GetSelectedItem().ToString().ToUpper()) / 2;
                 _spriteBatch.DrawString(_font,
-                    character.Inv.GetSelectedItemName().ToUpper(), 
+                    character.Inv.GetSelectedItem().ToString().ToUpper(), 
                     new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 800, (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 125), 
                     Color.White, 
                     0, 
@@ -392,17 +392,17 @@ namespace Little_Might.Utils
                     SpriteEffects.None, 
                     1f);
 
-                //string itemDisc = "Lorem ipsum dolar amit\nlorem ipsum";
-                //FontOrigin = _font.MeasureString(itemDisc) / 2;
-                //_spriteBatch.DrawString(_font,
-                //    itemDisc,
-                //    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 800, (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 150),
-                //    Color.White,
-                //    0,
-                //    FontOrigin,
-                //    0.75f,
-                //    SpriteEffects.None,
-                //    1f);
+                string itemDisc = Utils.ItemInfo.GetItemInformation(character.Inv.GetSelectedItem());
+                FontOrigin = _font.MeasureString(itemDisc) / 2;
+                _spriteBatch.DrawString(_font,
+                    itemDisc,
+                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 800, (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 180),
+                    Color.White,
+                    0,
+                    FontOrigin,
+                    0.75f,
+                    SpriteEffects.None,
+                    1f);
             }
 
             if (_showSystemUI)

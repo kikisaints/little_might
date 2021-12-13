@@ -19,16 +19,29 @@ namespace Little_Might.Modules
         private int _hydration;
         private ILLNESSES _illness;
 
+        private int _maxHunger;
+        private int _maxHydration;
+
         public int Hunger
         {
             get { return _hunger; }
-            set { _hunger = value; }
+            set { 
+                _hunger = value;
+
+                if (_hunger > _maxHunger)
+                    _hunger = _maxHunger;
+            }
         }
 
         public int Hydration
         {
             get { return _hydration; }
-            set { _hydration = value; }
+            set { 
+                _hydration = value;
+
+                if (_hydration > _maxHydration)
+                    _hydration = _maxHydration;
+            }
         }
 
         public ILLNESSES Illness
@@ -54,6 +67,9 @@ namespace Little_Might.Modules
             _hunger = 100;
             _hydration = 100;
             _illness = ILLNESSES.NONE;
+
+            _maxHunger = _hunger;
+            _maxHydration = _hydration;
         }
     }
 }
