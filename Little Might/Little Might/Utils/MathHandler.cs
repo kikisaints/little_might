@@ -35,5 +35,13 @@ namespace Little_Might.Utils
 
             return new Color(r, g, b, (byte)255);
         }
+
+        public static bool WorldObjectIntersects(Modules.WorldObject objA, Modules.WorldObject objB)
+        {
+            Rectangle rectA = new Rectangle((int)objA.Position.X, (int)objA.Position.Y, Utils.WorldMap.UNITSIZE, Utils.WorldMap.UNITSIZE);
+            Rectangle rectB = new Rectangle((int)objB.Position.X, (int)objB.Position.Y, Utils.WorldMap.UNITSIZE, Utils.WorldMap.UNITSIZE);
+
+            return rectA.Intersects(rectB);
+        }
     }
 }

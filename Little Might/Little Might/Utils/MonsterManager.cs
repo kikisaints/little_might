@@ -15,19 +15,16 @@ namespace Little_Might.Utils
         //TEST
         bool spawned = false;
 
-        public MonsterManager(ContentManager content, Utils.GraphicsManager gManager)
+        public MonsterManager(ContentManager content, Utils.GraphicsManager gManager, Vector2 playerPos)
         {
             _graphicsManager = gManager;
-            _content = content;            
+            _content = content;
+
+            _graphicsManager.AddCharacterObject(new Modules.Monster("monster_slime", "slime_interaction_img", playerPos + new Vector2(18, 9), _content, Utils.GameColors.MonsterSlimeColor, Modules.Monster.MONSTERTYPE.SLIME));
         }
 
-        public void UpdateMonsters(Vector2 playerPos, GameTime time)
+        public void UpdateMonsters(GameTime time)
         {
-            if (!spawned)
-            {
-                spawned = true;
-                _graphicsManager.AddCharacterObject(new Modules.Monster("monster_slime", playerPos + new Vector2(9,0), _content, Utils.GameColors.MonsterSlimeColor));
-            }
         }
     }
 }

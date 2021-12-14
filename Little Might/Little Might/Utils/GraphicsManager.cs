@@ -39,7 +39,12 @@ namespace Little_Might.Utils
         public GraphicsDeviceManager Graphics
         {
             get { return _graphics; }
-        }        
+        }
+
+        public List<Modules.WorldObject> Characters
+        {
+            get { return _characters; }
+        }
 
         public GraphicsManager(Game gameClass)
         {
@@ -300,24 +305,27 @@ namespace Little_Might.Utils
             _spriteBatch.End();
         }
 
-        public void DrawUIString(string[] text, Vector2 offset, float[] scale)
+        public void DrawUIString(string[] text, Vector2 offset, float[] scale, bool withSpriteBatch = true)
         {
-            _spriteBatch.GraphicsDevice.Clear(Utils.GameColors.MainBackgroundColor);
+            if (withSpriteBatch)
+            {
+                _spriteBatch.GraphicsDevice.Clear(Utils.GameColors.MainBackgroundColor);
 
-            _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, null);
+                _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, null);
+            }
 
             for (int s = 0; s < text.Length; s++)
             {
                 Vector2 FontOrigin = _font.MeasureString(text[s]);
                 _spriteBatch.DrawString(_font, text[s], new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + offset.X, (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + (offset.Y * s)), Color.White, 0, FontOrigin, scale[s], SpriteEffects.None, 0.5f);
             }
-            _spriteBatch.End();
+
+            if (withSpriteBatch)
+                _spriteBatch.End();
         }
 
         private void DisplayOverworldUI(Modules.Character character, Vector2 playerOrigin)
         {
-            Vector2 offset = new Vector2(75, 0);
-
             //Show character's coordinates
             float xCenter = playerOrigin.X / Utils.WorldMap.UNITSIZE;
             float yCenter = playerOrigin.Y / Utils.WorldMap.UNITSIZE;
@@ -325,36 +333,7 @@ namespace Little_Might.Utils
             //DEBUG COORDINATES
             string output = xCenter.ToString() + ", " + yCenter.ToString();
             Vector2 FontOrigin = _font.MeasureString(output) / 2;
-            _spriteBatch.DrawString(_font, output, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width / 2, 25), Color.White, 0, FontOrigin, 1f, SpriteEffects.None, 0.5f);
-
-            //STAT TRACKERS
-            //HP
-            string health = character.Stats.HP.ToString();
-            FontOrigin = _font.MeasureString(health);
-            _spriteBatch.DrawString(_font, health, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width - 150, 50) + offset, Color.White, 0, FontOrigin, 2f, SpriteEffects.None, 0.5f);
-
-            _spriteBatch.Draw(_hpIcon, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width - 135, 18) + offset, null, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.5f);
-
-            //Hunger
-            string hunger = character.Stats.Hunger.ToString();
-            FontOrigin = _font.MeasureString(hunger);
-            _spriteBatch.DrawString(_font, hunger, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width - 150, 100) + offset, Color.White, 0, FontOrigin, 2f, SpriteEffects.None, 0.5f);
-
-            _spriteBatch.Draw(_foodIcon, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width - 135, 68) + offset, null, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.5f);
-
-            //Water
-            string hydration = character.Stats.Hydration.ToString();
-            FontOrigin = _font.MeasureString(hydration);
-            _spriteBatch.DrawString(_font, hydration, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width - 150, 150) + offset, Color.White, 0, FontOrigin, 2f, SpriteEffects.None, 0.5f);
-
-            _spriteBatch.Draw(_waterIcon, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width - 135, 118) + offset, null, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.5f);
-
-            //Water
-            string illness = character.Stats.Illness.ToString();
-            FontOrigin = _font.MeasureString(illness);
-            _spriteBatch.DrawString(_font, illness, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width - 150, 200) + offset, Color.White, 0, FontOrigin, 2f, SpriteEffects.None, 0.5f);
-
-            _spriteBatch.Draw(_diseaseIcon, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width - 135, 168) + offset, null, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.5f);
+            _spriteBatch.DrawString(_font, output, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width / 2, 25), Color.White, 0, FontOrigin, 1f, SpriteEffects.None, 0.5f);            
 
             //DRAW UI OBJECTS            
             foreach (Modules.ScreenObject screenObj in _screenObjects)
@@ -421,22 +400,77 @@ namespace Little_Might.Utils
                         SpriteEffects.None,
                         1f);
                 }
-            }
-
-            if (_showSystemUI)
-            {
-                FontOrigin = _font.MeasureString(_systemMessage) / 2;
-                _spriteBatch.DrawString(_font, _systemMessage, new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 35, (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 455), Color.Black, 0, FontOrigin, 1f, SpriteEffects.None, 1f);
-                _spriteBatch.Draw(_systemPopup, new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) - 150, (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 400), null, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.1f);
-            }
+            }            
         }
 
-        private void DrawUI(Vector2 characterPoint, Modules.Character character, bool world = true)
+        private void DisplayInteractionUI(Modules.Character character, Modules.WorldObject interactor)
+        {
+            Vector2 screenCenter = new Vector2(Utils.ResolutionHandler.WindowWidth / 2, Utils.ResolutionHandler.WindowHeight / 2);
+
+            _spriteBatch.Draw(character.InteractionSprite, screenCenter + new Vector2(-350, -250), null, character.ObjectColor, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.5f);
+            _spriteBatch.Draw((interactor as Modules.Monster).InteractionSprite, screenCenter + new Vector2(350, -300), null, interactor.ObjectColor, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.5f);
+
+            DrawUIString(character.InteractionOptions, new Vector2(250, 50), new float[] { 1f, 1f, 1f }, false);
+        }
+
+        private void ShowStats(Modules.Character character)
+        {
+            Vector2 offset = new Vector2(75, 0);
+
+            //STAT TRACKERS
+            //HP
+            string health = character.Stats.HP.ToString();
+            Vector2 FontOrigin = _font.MeasureString(health);
+            _spriteBatch.DrawString(_font, health, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width - 150, 50) + offset, Color.White, 0, FontOrigin, 2f, SpriteEffects.None, 0.5f);
+
+            _spriteBatch.Draw(_hpIcon, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width - 135, 18) + offset, null, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.5f);
+
+            //Hunger
+            string hunger = character.Stats.Hunger.ToString();
+            FontOrigin = _font.MeasureString(hunger);
+            _spriteBatch.DrawString(_font, hunger, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width - 150, 100) + offset, Color.White, 0, FontOrigin, 2f, SpriteEffects.None, 0.5f);
+
+            _spriteBatch.Draw(_foodIcon, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width - 135, 68) + offset, null, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.5f);
+
+            //Water
+            string hydration = character.Stats.Hydration.ToString();
+            FontOrigin = _font.MeasureString(hydration);
+            _spriteBatch.DrawString(_font, hydration, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width - 150, 150) + offset, Color.White, 0, FontOrigin, 2f, SpriteEffects.None, 0.5f);
+
+            _spriteBatch.Draw(_waterIcon, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width - 135, 118) + offset, null, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.5f);
+
+            //Water
+            string illness = character.Stats.Illness.ToString();
+            FontOrigin = _font.MeasureString(illness);
+            _spriteBatch.DrawString(_font, illness, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width - 150, 200) + offset, Color.White, 0, FontOrigin, 2f, SpriteEffects.None, 0.5f);
+
+            _spriteBatch.Draw(_diseaseIcon, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width - 135, 168) + offset, null, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.5f);
+        }
+
+        private void DrawUI(Vector2 characterPoint, Modules.Character character, bool world = true, Modules.WorldObject interactionObj = null)
         {
             _spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, null);
 
+            ShowStats(character);
+
             if (world)
                 DisplayOverworldUI(character, characterPoint);
+            else
+                DisplayInteractionUI(character, interactionObj);
+
+            if (_showSystemUI)
+            {
+                Vector2 FontOrigin = _font.MeasureString(_systemMessage) / 2;
+                _spriteBatch.DrawString(_font, _systemMessage, 
+                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 35, 
+                    (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 455), 
+                    Color.Black, 0, FontOrigin, 1f, SpriteEffects.None, 1f);
+
+                _spriteBatch.Draw(_systemPopup, 
+                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) - 150, 
+                    (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 400), 
+                    null, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.1f);
+            }
 
             _spriteBatch.End();
         }
@@ -478,10 +512,10 @@ namespace Little_Might.Utils
             }
         }
 
-        public void DrawUpdate(Matrix cameraMatrix, int viewRadius, Vector2 center, int mapWidth, Modules.Character player, GameTime time, bool overworld = true)
+        public void DrawUpdate(Matrix cameraMatrix, int viewRadius, Vector2 center, int mapWidth, Modules.Character player, GameTime time, bool overworld = true, Modules.WorldObject interactor = null)
         {
             DrawGame(viewRadius, center, mapWidth, cameraMatrix, overworld);
-            DrawUI(center, player, overworld);
+            DrawUI(center, player, overworld, interactor);
 
             UpdateSystemDialogs(time);
         }

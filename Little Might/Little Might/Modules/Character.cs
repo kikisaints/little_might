@@ -13,9 +13,14 @@ namespace Little_Might.Modules
         private Utils.InputManager _inputManager;
         private Inventory _playerInventory;
         private Utils.GraphicsManager _graphicsManager;
+        private Game1 _game;
 
+        private Texture2D _interactionSprite;
         private int _steps = 0;
         private bool _canMove = true;
+
+        private string[] _interactionOptions;
+        private int _interactIndex = 0;
 
         private int _craftIndex = 0;
         private Modules.Inventory.ITEMTYPE[] _craftingList = {
@@ -35,27 +40,74 @@ namespace Little_Might.Modules
             get { return _stats; }
         }
 
-        public Character (string spriteFileName, Vector2 startingPosition, ContentManager contentManager, Utils.GraphicsManager gManager)
+        public Texture2D InteractionSprite
+        {
+            get { return _interactionSprite; }
+        }
+
+        public String[] InteractionOptions
+        {
+            get { return _interactionOptions; }
+        }
+
+        public Character (string spriteName, string interactSpriteName, Vector2 startingPosition, ContentManager contentManager, Utils.GraphicsManager gManager, Game1 gameClass)
         {
             _inputManager = new Utils.InputManager();
             _stats = new AdvancedStats(50, 10, 0, 1, 10, 10, 10, 10, 10, 0f);
             _playerInventory = new Inventory(contentManager);
+            _interactionOptions = new string[] { "Attempt Communication -", "Fight", "Runaway" };
 
-            Sprite = contentManager.Load<Texture2D>(spriteFileName);
+            _game = gameClass;
+            _interactionSprite = contentManager.Load<Texture2D>(interactSpriteName);
+            Sprite = contentManager.Load<Texture2D>(spriteName);
             Position = startingPosition;
             ObjectColor = Color.White;
             _graphicsManager = gManager;
         }
 
-        public void UpdateCharacter(GameTime time, Utils.WorldMap map, ContentManager content)
+        public void UpdateCharacter(GameTime time, Utils.WorldMap map, ContentManager content, bool inInteraction = false)
         {
             _inputManager.UpdateInput(time);
-            UpdateMovementSpeed(map);
-            UpdateInventoryInteraction(content, map);
 
-            if (_canMove)
+            if (!inInteraction)
+            {                
+                UpdateMovementSpeed(map);
+                UpdateInventoryInteraction(content, map);
+
+                if (_canMove)
+                {
+                    UpdateInput(map, content);
+                }
+            }
+            else
             {
-                UpdateInput(map, content);                
+                if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Down))
+                {
+                    if (_interactIndex + 1 < _interactionOptions.Length)
+                    {
+                        _interactionOptions[_interactIndex] = _interactionOptions[_interactIndex].Remove(_interactionOptions[_interactIndex].Length - 2, 2);
+                        _interactIndex++;
+                        _interactionOptions[_interactIndex] += " -";
+                    }
+                }
+                else if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Up))
+                {
+                    if (_interactIndex - 1 >= 0)
+                    {
+                        _interactionOptions[_interactIndex] = _interactionOptions[_interactIndex].Remove(_interactionOptions[_interactIndex].Length - 2, 2);
+                        _interactIndex--;
+                        _interactionOptions[_interactIndex] += " -";
+                    }
+                }
+
+                if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Enter) &&
+                    _interactionOptions[_interactIndex] == "Runaway -")
+                {
+                    _interactionOptions[_interactIndex] = _interactionOptions[_interactIndex].Remove(_interactionOptions[_interactIndex].Length - 2, 2);
+                    _interactIndex = 0;
+                    _interactionOptions[_interactIndex] += " -";
+                    _game.LeaveInteraction();
+                }
             }
         }
 

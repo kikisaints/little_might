@@ -20,8 +20,10 @@
     <File>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/inventory_selector.png</File>
     <File>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/inventory_ui.png</File>
     <File>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/monster_slime.png</File>
+    <File>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/player_interaction_img.png</File>
     <File>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/rock.png</File>
     <File>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/shaders/crt_lottes_mg.fx</File>
+    <File>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/slime_interaction_img.png</File>
     <File>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/stone.png</File>
     <File>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/stone_selected.png</File>
     <File>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/stone_sword.png</File>
@@ -39,6 +41,8 @@
     <File>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/twine_selected.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

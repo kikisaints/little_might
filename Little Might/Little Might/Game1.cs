@@ -13,6 +13,7 @@ namespace Little_Might
         Utils.WorldMap _worldMap;
         Utils.MonsterManager _monsterManager;
         Modules.Character _character;
+        Modules.Monster _interactor;
 
         private OrthographicCamera _camera;
         private Texture2D _mapTexture;
@@ -27,7 +28,6 @@ namespace Little_Might
             MENU = 0,
             DIFFICULTY,
             GAME,
-            BATTLE,
             DEATH,
             CREDITS,
             OPTIONS
@@ -37,9 +37,7 @@ namespace Little_Might
         {
             _graphicsManager = new Utils.GraphicsManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = false;
-
-            _monsterManager = new MonsterManager(Content, _graphicsManager);
+            IsMouseVisible = false;            
         }
 
         protected override void Initialize()
@@ -73,16 +71,40 @@ namespace Little_Might
             base.Draw(gameTime);            
         }
 
+        private void CheckCharacterInteractions()
+        {
+            for (int i = 1; i < _graphicsManager.Characters.Count; i++)
+            {
+                if (Utils.MathHandler.WorldObjectIntersects(_graphicsManager.Characters[i], _character))
+                {
+                    _inOverworld = false;
+                    _interactor = _graphicsManager.Characters[i] as Modules.Monster;
+
+                    _graphicsManager.ShowSystemMessage("Encountered " + _interactor.MonsterType.ToString().ToUpper() + "!");
+                    return;
+                }
+            }
+        }
+
+        public void LeaveInteraction()
+        {
+            _character.Position = new Vector2(_character.Position .X, _character.Position.Y - Utils.WorldMap.UNITSIZE);
+            _inOverworld = true;
+        }
+
         private void UpdateGame(GameTime gTime)
         {
             if (_currentScene == SCENE.GAME)
             {
-                _monsterManager.UpdateMonsters(_character.Position, gTime);
-                _character.UpdateCharacter(gTime, _worldMap, Content);
+                _monsterManager.UpdateMonsters(gTime);
+                _character.UpdateCharacter(gTime, _worldMap, Content, !_inOverworld);
                 _camera.LookAt(_character.Position);
 
                 if (_character.Stats.HP <= 0)
                     _currentScene = SCENE.DEATH;
+
+                if (_inOverworld)
+                    CheckCharacterInteractions();
             }
             else if (_currentScene == SCENE.DIFFICULTY)
             {
@@ -130,7 +152,7 @@ namespace Little_Might
         {
             if (_currentScene == SCENE.GAME)
             {
-                _graphicsManager.DrawUpdate(_camera.GetViewMatrix(), 10, _character.Position, _mapSize, _character, gameTime, _inOverworld);
+                _graphicsManager.DrawUpdate(_camera.GetViewMatrix(), 10, _character.Position, _mapSize, _character, gameTime, _inOverworld, _interactor);
             }
             else
             {
@@ -153,15 +175,15 @@ namespace Little_Might
         private void LoadGameContent()
         {
             _graphicsManager.ClearGraphics();
-
-            _mapTexture = new Texture2D(GraphicsDevice, _mapSize, _mapSize);
-            _character = new Modules.Character("character_base", Vector2.Zero, Content, _graphicsManager);
-            _worldMap = new WorldMap(_mapSize, _mapSize, ref _mapTexture, 11, GraphicsDevice);
+            _character = new Modules.Character("character_base", "player_interaction_img", Vector2.Zero, Content, _graphicsManager, this);
+            _mapTexture = new Texture2D(GraphicsDevice, _mapSize, _mapSize);            
+            _worldMap = new WorldMap(_mapSize, _mapSize, ref _mapTexture, 11, GraphicsDevice);            
 
             _graphicsManager.VisualizeMap(_worldMap, Content);
-            _graphicsManager.AddCharacterObject(_character);
-
+            _graphicsManager.AddCharacterObject(_character);            
             _character.Position = _worldMap.GetCharacterStartingPoint();
+
+            _monsterManager = new MonsterManager(Content, _graphicsManager, _character.Position);
         }
     }
 }
