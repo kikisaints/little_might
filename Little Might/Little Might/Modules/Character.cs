@@ -51,7 +51,7 @@ namespace Little_Might.Modules
         {
             _inputManager.UpdateInput(time);
             UpdateMovementSpeed(map);
-            UpdateInventoryInteraction(content);
+            UpdateInventoryInteraction(content, map);
 
             if (_canMove)
             {
@@ -87,14 +87,27 @@ namespace Little_Might.Modules
                         _graphicsManager.ShowSystemMessage("Picked up " + randomRockItem.ToString());
                 }
             }
+            if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.TREE)
+            {
+                Inventory.ITEMTYPE randomTreeItem = wMap.GetTreeItem();
+
+                if (randomTreeItem != Inventory.ITEMTYPE.NONE)
+                {
+                    if (_playerInventory.AddItem(randomTreeItem, content))
+                        _graphicsManager.ShowSystemMessage("Picked up " + randomTreeItem.ToString());
+                }
+            }
         }
 
-        private void UpdateInventoryInteraction(ContentManager content)
+        private void UpdateInventoryInteraction(ContentManager content, Utils.WorldMap map)
         {
             if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.I))
             {
                 _canMove = !_canMove;
                 _playerInventory.NavigatingInventory = !_playerInventory.NavigatingInventory;
+
+                _craftIndex = 0;
+                Array.Clear(_craftingList, 0, _craftingList.Length);
             }
 
             if (_playerInventory.NavigatingInventory)
@@ -104,7 +117,11 @@ namespace Little_Might.Modules
 
             if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Enter))
             {
-                int _hungerValue = Utils.ItemInfo.GetItemHungerValue(_playerInventory.GetSelectedItem().Type);
+                if (_playerInventory.GetSelectedItem() == null)
+                    return;
+
+                Inventory.ITEMTYPE _itemType = _playerInventory.GetSelectedItem().Type;
+                int _hungerValue = Utils.ItemInfo.GetItemHungerValue(_itemType);
                 _playerInventory.GetSelectedItem().Toggled = !_playerInventory.GetSelectedItem().Toggled;
 
                 if (_hungerValue != 0)
@@ -112,11 +129,28 @@ namespace Little_Might.Modules
                     _stats.Hunger += _hungerValue;
                     _graphicsManager.ShowSystemMessage("Ate " + _playerInventory.GetSelectedItem().Type.ToString() + "\n+" + _hungerValue.ToString() + " HUNGER");
                     _playerInventory.RemoveSelectedItem();
+
+                    return;
                 }
-                else if (_craftIndex < 4)
+                else if (_craftIndex < 4 && _playerInventory.GetSelectedItem().Toggled)
                 {
-                    _craftingList[_craftIndex] = _playerInventory.GetSelectedItem().Type;
+                    _craftingList[_craftIndex] = _itemType;
                     _craftIndex++;
+                }
+                else if (!_playerInventory.GetSelectedItem().Toggled)
+                {
+                    _craftIndex--;
+                    for (int i = 0; i < _craftingList.Length; i++)
+                    {
+                        if (_craftingList[i] == _itemType)
+                        {
+                            _craftingList[i] = Inventory.ITEMTYPE.NONE;
+                            break;
+                        }
+                    }
+
+                    if (_craftIndex < 0)
+                        _craftIndex = 0;
                 }
 
                 Inventory.ITEMTYPE _craftedType = Utils.ItemInfo.CheckCraftables(_craftingList);
@@ -127,7 +161,27 @@ namespace Little_Might.Modules
                     _playerInventory.AddItem(_craftedType, content);
 
                     _craftIndex = 0;
-                    Array.Clear(_craftingList, 0, _craftingList.Length);                    
+                    Array.Clear(_craftingList, 0, _craftingList.Length);
+
+                    _graphicsManager.ShowSystemMessage("Made " + _craftedType + "!");
+                }
+                else if (_playerInventory.GetSelectedItem().IsPlaceable)
+                {
+                    if (_itemType == Inventory.ITEMTYPE.CAMPFIRE)
+                    {
+                        map.ChangeTile(new Vector2(Position.X, Position.Y + Utils.WorldMap.UNITSIZE), Utils.WorldMap.MAPTILETYPE.CAMPFIRE);
+                        _graphicsManager.ChangeWorldObjectVisual(content.Load<Texture2D>("campfire"), 
+                            Utils.GameColors.CampfireMapColor, 
+                            (int)Position.X, 
+                            (int)Position.Y + Utils.WorldMap.UNITSIZE,
+                            _itemType);                        
+                    }
+
+                    _graphicsManager.ShowSystemMessage(_itemType.ToString().ToUpper() + " placed!");
+                    _playerInventory.RemoveSelectedItem();
+
+                    _craftIndex = 0;
+                    Array.Clear(_craftingList, 0, _craftingList.Length);
                 }
             }
         }
@@ -262,7 +316,8 @@ namespace Little_Might.Modules
         {
             if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) != Utils.WorldMap.MAPTILETYPE.WATER &&
                 wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) != Utils.WorldMap.MAPTILETYPE.MOUNTAIN &&
-                wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) != Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS)
+                wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) != Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS &&
+                wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) != Utils.WorldMap.MAPTILETYPE.CAMPFIRE)
                 return true;
             return false;
         }

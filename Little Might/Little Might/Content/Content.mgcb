@@ -97,6 +97,18 @@
 /processorParam:TextureFormat=Color
 /build:flint.png
 
+#begin flint_selected.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:flint_selected.png
+
 #begin fonts/pixelfont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -176,6 +188,18 @@
 /processorParam:TextureFormat=Color
 /build:inventory_ui.png
 
+#begin monster_slime.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:monster_slime.png
+
 #begin rock.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -205,6 +229,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:stone.png
+
+#begin stone_selected.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:stone_selected.png
 
 #begin stone_sword.png
 /importer:TextureImporter
@@ -326,6 +362,18 @@
 /processorParam:TextureFormat=Color
 /build:twig.png
 
+#begin twig_selected.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:twig_selected.png
+
 #begin twine.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -337,4 +385,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:twine.png
+
+#begin twine_selected.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:twine_selected.png
 

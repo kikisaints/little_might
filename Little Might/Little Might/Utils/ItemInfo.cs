@@ -35,6 +35,17 @@ namespace Little_Might.Utils
             }
         }
 
+        public static bool CheckIfPlacable(Modules.Inventory.ITEMTYPE itemType)
+        {
+            switch (itemType)
+            {
+                case Modules.Inventory.ITEMTYPE.CAMPFIRE:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         public static int GetItemHungerValue(Modules.Inventory.ITEMTYPE itemType)
         {
             switch (itemType)
@@ -50,12 +61,14 @@ namespace Little_Might.Utils
 
         public static Modules.Inventory.ITEMTYPE CheckCraftables(Modules.Inventory.ITEMTYPE[] itemCombo)
         {
-            if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] { Modules.Inventory.ITEMTYPE.STICK, Modules.Inventory.ITEMTYPE.FLINT, Modules.Inventory.ITEMTYPE.NONE, Modules.Inventory.ITEMTYPE.NONE }))
+            itemCombo = itemCombo.OrderBy(e => ((int)e)).ToArray();
+
+            if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] { Modules.Inventory.ITEMTYPE.NONE, Modules.Inventory.ITEMTYPE.NONE, Modules.Inventory.ITEMTYPE.FLINT, Modules.Inventory.ITEMTYPE.STICK }))
             {
                 return Modules.Inventory.ITEMTYPE.CAMPFIRE;
             }
 
-            if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] { Modules.Inventory.ITEMTYPE.STONE, Modules.Inventory.ITEMTYPE.STICK, Modules.Inventory.ITEMTYPE.TWINE, Modules.Inventory.ITEMTYPE.NONE }))
+            if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] { Modules.Inventory.ITEMTYPE.NONE, Modules.Inventory.ITEMTYPE.STONE, Modules.Inventory.ITEMTYPE.STICK, Modules.Inventory.ITEMTYPE.TWINE }))
             {
                 return Modules.Inventory.ITEMTYPE.STONESWORD;
             }

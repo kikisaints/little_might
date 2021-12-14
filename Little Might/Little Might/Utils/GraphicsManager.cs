@@ -34,6 +34,7 @@ namespace Little_Might.Utils
         private Texture2D _foodIcon;
         private Texture2D _diseaseIcon;
         private Texture2D _systemPopup;
+        private WorldMap _worldMap;
 
         public GraphicsDeviceManager Graphics
         {
@@ -72,12 +73,14 @@ namespace Little_Might.Utils
             SetupCRTEffect(contentManager);
         }
 
-        public void VisualizeMap(WorldMap map, ContentManager contentManager, int mapWidth)
+        public void VisualizeMap(WorldMap map, ContentManager contentManager)
         {
-            for(int i = 0; i < map.ColorMap.Length; i++)
+            _worldMap = map;
+
+            for (int i = 0; i < map.ColorMap.Length; i++)
             {
-                int mapX = (i % mapWidth) * Utils.WorldMap.UNITSIZE;
-                int mapY = (i / mapWidth) * Utils.WorldMap.UNITSIZE;
+                int mapX = (i % _worldMap.MapWidth) * Utils.WorldMap.UNITSIZE;
+                int mapY = (i / _worldMap.MapWidth) * Utils.WorldMap.UNITSIZE;
 
                 if (map.ColorMap[i] == GameColors.EvergreenForestMapColor)
                 {
@@ -179,12 +182,32 @@ namespace Little_Might.Utils
 
         public void AddWorldObject(Modules.WorldObject worldObject) { _worldObjects.Add(worldObject); }
 
+        public void ChangeWorldObjectVisual(Texture2D newSprite, Color newColor, int x, int y, Modules.Inventory.ITEMTYPE type)
+        {
+            int indexX = x / Utils.WorldMap.UNITSIZE;
+            int indexY = y / Utils.WorldMap.UNITSIZE;
+            int index = Utils.MathHandler.Get1DIndex(indexY, indexX, _worldMap.MapWidth);
+
+            _worldObjects[index].Sprite = newSprite;
+            _worldObjects[index].ObjectColor = newColor;
+
+            if (type == Modules.Inventory.ITEMTYPE.CAMPFIRE)
+            {
+                int[] fireAffectedArea = GetAffectShape(4, new Vector2(x, y), _worldMap.MapWidth);
+
+                foreach (int i in fireAffectedArea)
+                {
+                    _worldObjects[i].ObjectColor = Utils.MathHandler.BlendColor(Utils.GameColors.CampfireMapColor, _worldObjects[i].ObjectColor, 0.5f);
+                }
+            }
+        }
+
         public void AddScreenObject(Modules.ScreenObject screenObject) { _screenObjects.Add(screenObject); }
 
         public void AddCharacterObject(Modules.WorldObject worldObject) { _characters.Add(worldObject); }
         
 
-        private int[] GetFOVShape(int drawRadius, Vector2 centerPoint, int mapWidth)
+        private int[] GetAffectShape(int drawRadius, Vector2 centerPoint, int mapWidth)
         {
             float xCenter = centerPoint.X / Utils.WorldMap.UNITSIZE;
             float yCenter = centerPoint.Y / Utils.WorldMap.UNITSIZE;
@@ -261,7 +284,7 @@ namespace Little_Might.Utils
 
             if (world)
             {
-                int[] drawArray = GetFOVShape(radius, charPos, width);
+                int[] drawArray = GetAffectShape(radius, charPos, width);
 
                 foreach (int i in drawArray)
                 {

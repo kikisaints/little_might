@@ -14,6 +14,7 @@ namespace Little_Might.Modules
         private string _name;
 
         public bool Toggled = false;
+        public readonly bool IsPlaceable = false;
 
         public string Name
         {
@@ -39,6 +40,8 @@ namespace Little_Might.Modules
 
             _discription = Utils.ItemInfo.GetItemInformation(_itemType);
             _name = _itemType.ToString();
+
+            IsPlaceable = Utils.ItemInfo.CheckIfPlacable(invType);
         }
     }
 
@@ -108,7 +111,9 @@ namespace Little_Might.Modules
             for (int i = 0; i < _invItems.Count; i++)
             {
                 if (_invItems[i].Toggled)
-                    _invItems.RemoveAt(i);
+                {
+                    _invItems.Remove(_invItems[i]);
+                }
             }
 
             RefreshInventory();

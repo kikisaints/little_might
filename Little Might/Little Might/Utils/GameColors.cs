@@ -16,6 +16,18 @@ namespace Little_Might.Utils
         static private Color _treeFruitMapColor = new Color(72, 145, 41, 255);
         static private Color _grassMapColor = new Color(145, 212, 63, 255);
         static private Color _waterMapColor = new Color(66, 135, 245, 255);
+        static private Color _campfireMapColor = Color.IndianRed;
+        static private Color _monsterSlimeColor = new Color(3, 132, 256, 255);
+
+        static public Color MonsterSlimeColor
+        {
+            get { return _monsterSlimeColor; }
+        }
+
+        static public Color CampfireMapColor
+        {
+            get { return _campfireMapColor; }
+        }
 
         static public Color MainBackgroundColor
         {

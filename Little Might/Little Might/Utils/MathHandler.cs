@@ -26,5 +26,14 @@ namespace Little_Might.Utils
 
             return false;
         }
+
+        public static Color BlendColor(Color topColor, Color backColor, double amount)
+        {
+            byte r = (byte)((topColor.R * amount) + backColor.R * (1 - amount));
+            byte g = (byte)((topColor.G * amount) + backColor.G * (1 - amount));
+            byte b = (byte)((topColor.B * amount) + backColor.B * (1 - amount));
+
+            return new Color(r, g, b, (byte)255);
+        }
     }
 }

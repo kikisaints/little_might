@@ -39,6 +39,7 @@ namespace Little_Might.Utils
             MOUNTAIN,
             FRUIT,
             CHEST,
+            CAMPFIRE,
             OUTOFBOUNDS
         }
 
@@ -50,6 +51,11 @@ namespace Little_Might.Utils
         public Vector2 StartingPosition
         {
             get { return _startingPosition; }
+        }
+
+        public int MapWidth
+        {
+            get { return _width; }
         }
 
         public WorldMap(int w, int h, ref Texture2D tex, int oct, GraphicsDevice dev)
@@ -207,8 +213,18 @@ namespace Little_Might.Utils
 
             if (type == (int)Modules.Inventory.ITEMTYPE.BERRY)
                 return Modules.Inventory.ITEMTYPE.BERRY;
-            else if (type == (int)Modules.Inventory.ITEMTYPE.TWIG)
-                return Modules.Inventory.ITEMTYPE.TWIG;
+            else if (type == (int)Modules.Inventory.ITEMTYPE.STICK)
+                return Modules.Inventory.ITEMTYPE.STICK;
+
+            return Modules.Inventory.ITEMTYPE.NONE;
+        }
+
+        public Modules.Inventory.ITEMTYPE GetTreeItem()
+        {
+            int type = _tileRandom.Next(0, 20);
+
+            if (type == 5)
+                return Modules.Inventory.ITEMTYPE.TWINE;
 
             return Modules.Inventory.ITEMTYPE.NONE;
         }
@@ -223,6 +239,11 @@ namespace Little_Might.Utils
                 return Modules.Inventory.ITEMTYPE.STONE;
 
             return Modules.Inventory.ITEMTYPE.NONE;
+        }
+
+        public void ChangeTile(Vector2 pos, MAPTILETYPE tileType)
+        {
+            MapTiles[(int)pos.X, (int)pos.Y] = tileType;
         }
 
         public MAPTILETYPE GetTileType(Vector2 pos)

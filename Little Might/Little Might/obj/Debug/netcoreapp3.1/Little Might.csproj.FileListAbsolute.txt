@@ -151,3 +151,10 @@ C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\obj\Debug
 C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\obj\Debug\netcoreapp3.1\Little Might.pdb
 C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\obj\Debug\netcoreapp3.1\Little Might.genruntimeconfig.cache
 C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\campfire.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\stone_sword.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\twine.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\flint_selected.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\stone_selected.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\twig_selected.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\twine_selected.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\monster_slime.xnb

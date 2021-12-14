@@ -11,6 +11,7 @@ namespace Little_Might
     {
         Utils.GraphicsManager _graphicsManager;
         Utils.WorldMap _worldMap;
+        Utils.MonsterManager _monsterManager;
         Modules.Character _character;
 
         private OrthographicCamera _camera;
@@ -37,6 +38,8 @@ namespace Little_Might
             _graphicsManager = new Utils.GraphicsManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = false;
+
+            _monsterManager = new MonsterManager(Content, _graphicsManager);
         }
 
         protected override void Initialize()
@@ -50,7 +53,7 @@ namespace Little_Might
         protected override void LoadContent()
         {
             _graphicsManager.Load(GraphicsDevice, Content, this.Window);
-            ResolutionHandler.ChangeResolution(_graphicsManager.Graphics, 1920, 1080);            
+            ResolutionHandler.ChangeResolution(_graphicsManager.Graphics, 1920, 1080);       
         }
 
         protected override void Update(GameTime gameTime)
@@ -74,6 +77,7 @@ namespace Little_Might
         {
             if (_currentScene == SCENE.GAME)
             {
+                _monsterManager.UpdateMonsters(_character.Position, gTime);
                 _character.UpdateCharacter(gTime, _worldMap, Content);
                 _camera.LookAt(_character.Position);
 
@@ -154,7 +158,7 @@ namespace Little_Might
             _character = new Modules.Character("character_base", Vector2.Zero, Content, _graphicsManager);
             _worldMap = new WorldMap(_mapSize, _mapSize, ref _mapTexture, 11, GraphicsDevice);
 
-            _graphicsManager.VisualizeMap(_worldMap, Content, _mapSize);
+            _graphicsManager.VisualizeMap(_worldMap, Content);
             _graphicsManager.AddCharacterObject(_character);
 
             _character.Position = _worldMap.GetCharacterStartingPoint();
