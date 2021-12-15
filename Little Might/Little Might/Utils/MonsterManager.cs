@@ -13,6 +13,8 @@ namespace Little_Might.Utils
         private ContentManager _content;
         private List<Modules.Monster> _allMonsters;
 
+        private double _timer = 0;
+
         public MonsterManager(ContentManager content, Utils.GraphicsManager gManager, Vector2 playerPos)
         {
             _allMonsters = new List<Modules.Monster>();
@@ -27,7 +29,36 @@ namespace Little_Might.Utils
 
         public void UpdateMonsters(GameTime time, bool overworldActive = true)
         {
+            if (overworldActive)
+            {
+                _timer += time.ElapsedGameTime.TotalSeconds;
 
+                foreach (Modules.Monster monster in _allMonsters)
+                {
+                    if (_timer >= monster.MoveTime)
+                    {
+                        _timer = 0;
+                        int dir = Utils.MathHandler.GetRandomNumber(0, 4);
+
+                        if (dir == 0)
+                        {
+                            monster.Position = new Vector2(monster.Position.X + Utils.WorldMap.UNITSIZE, monster.Position.Y);
+                        }
+                        else if (dir == 1)
+                        {
+                            monster.Position = new Vector2(monster.Position.X, monster.Position.Y + Utils.WorldMap.UNITSIZE);
+                        }
+                        else if (dir == 2)
+                        {
+                            monster.Position = new Vector2(monster.Position.X, monster.Position.Y - Utils.WorldMap.UNITSIZE);
+                        }
+                        else
+                        {
+                            monster.Position = new Vector2(monster.Position.X - Utils.WorldMap.UNITSIZE, monster.Position.Y);
+                        }
+                    }
+                }
+            }
         }
     }
 }

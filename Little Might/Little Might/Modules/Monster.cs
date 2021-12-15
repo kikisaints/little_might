@@ -21,6 +21,9 @@ namespace Little_Might.Modules
         private double _timer = 0;
         private double _turnWaitTime = 1.5;
         private string _monstersTurnAction = "";
+        private Random _movementWaitTime = new Random();
+
+        public double MoveTime = 0;
 
         public Stats Stats
         {
@@ -46,6 +49,8 @@ namespace Little_Might.Modules
             _interactionSprite = contentManager.Load<Texture2D>(intractSpriteName);
             Position = startingPosition;
             ObjectColor = color;
+
+            MoveTime = _movementWaitTime.Next(0, 5) * 0.5;
         }
 
         public void UpdateMonster(GameTime gTime, Game1 game, Utils.GraphicsManager gManager)
@@ -57,7 +62,7 @@ namespace Little_Might.Modules
                 _timer = 0;
                 if (_monstersTurnAction == "")
                 {
-                    _monstersTurnAction = "spit";
+                    _monstersTurnAction = Utils.CombatHandler.GetAttack(_monsterType);
                     gManager.ShowSystemMessage(_monsterType.ToString().ToUpper() + " used " + _monstersTurnAction.ToUpper() + "!");
                 }
                 else

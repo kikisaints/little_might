@@ -7,6 +7,13 @@ namespace Little_Might.Utils
 {
     class MathHandler
     {
+        private static Random _randomNumber = new Random();
+
+        public static int GetRandomNumber(int minValue, int maxValue)
+        {
+            return _randomNumber.Next(minValue, maxValue + 1);
+        }
+
         public static Vector2 Get2DPoint(int index, int size)
         {
             return new Vector2(index % size, index / size);

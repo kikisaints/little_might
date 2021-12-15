@@ -34,12 +34,30 @@ namespace Little_Might.Utils
             return false;
         }
 
+        public static string GetAttack(Modules.Monster.MONSTERTYPE monsterType)
+        {
+            switch (monsterType)
+            {
+                case Modules.Monster.MONSTERTYPE.SLIME:
+                    int type = rand.Next(0, 2);
+                    if (type == 0)
+                        return "poison";
+                    else
+                        return "spit";
+            }
+
+            return "";
+        }
+
         public static int AttackCharacter(ref Modules.Character character, Modules.Monster monster, string attackType)
         {
             switch (attackType.ToLower())
             {
                 case "spit":
                     return (int)((monster.Stats.DEX + monster.Stats.Stamina) - character.Stats.DEFENSE);
+                case "poison":
+                    character.Stats.Illness = Modules.AdvancedStats.ILLNESSES.MOUNTAINFEVER;
+                    break;
             }
 
             return 0;
