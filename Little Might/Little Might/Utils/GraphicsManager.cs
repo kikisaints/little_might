@@ -166,6 +166,14 @@ namespace Little_Might.Utils
 
                     map.MapTiles[mapX, mapY] = WorldMap.MAPTILETYPE.CHEST;
                 }
+                if (map.ColorMap[i] == GameColors.HerbMapColor)
+                {
+                    AddWorldObject(new Modules.WorldObject(contentManager.Load<Texture2D>("tile_herbs"),
+                        new Vector2(mapX, mapY),
+                        GameColors.HerbMapColor));
+
+                    map.MapTiles[mapX, mapY] = WorldMap.MAPTILETYPE.HERBS;
+                }
             }
         }
 

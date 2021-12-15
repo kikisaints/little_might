@@ -75,7 +75,10 @@ namespace Little_Might.Modules
             COIN,
             CAMPFIRE,
             WEAPON,
-            TWINE
+            TWINE,
+            THYME,
+            OREGANO,
+            GARLIC
         }        
 
         private List<InventoryItem> _invItems;
@@ -258,6 +261,12 @@ namespace Little_Might.Modules
                     return contentMgr.Load<Texture2D>("campfire");
                 case ITEMTYPE.TWINE:
                     return contentMgr.Load<Texture2D>("twine");
+                case ITEMTYPE.THYME:
+                    return contentMgr.Load<Texture2D>("thyme");
+                case ITEMTYPE.GARLIC:
+                    return contentMgr.Load<Texture2D>("garlic");
+                case ITEMTYPE.OREGANO:
+                    return contentMgr.Load<Texture2D>("oregano");
             }
 
             return null;

@@ -53,6 +53,34 @@ namespace Little_Might.Modules
             MoveTime = _movementWaitTime.Next(1, 5) * 0.5;
         }
 
+        public void UpdateMovement(GameTime gTime)
+        {
+            _timer += gTime.ElapsedGameTime.TotalSeconds;
+
+            if (_timer >= MoveTime)
+            {
+                _timer = 0;
+                int dir = Utils.MathHandler.GetRandomNumber(0, 4);
+
+                if (dir == 0)
+                {
+                    Position = new Vector2(Position.X + Utils.WorldMap.UNITSIZE, Position.Y);
+                }
+                else if (dir == 1)
+                {
+                    Position = new Vector2(Position.X, Position.Y + Utils.WorldMap.UNITSIZE);
+                }
+                else if (dir == 2)
+                {
+                    Position = new Vector2(Position.X, Position.Y - Utils.WorldMap.UNITSIZE);
+                }
+                else
+                {
+                    Position = new Vector2(Position.X - Utils.WorldMap.UNITSIZE, Position.Y);
+                }
+            }
+        }
+
         public void UpdateMonster(GameTime gTime, Game1 game, Utils.GraphicsManager gManager)
         {
             _timer += gTime.ElapsedGameTime.TotalSeconds;            
@@ -67,6 +95,7 @@ namespace Little_Might.Modules
                 }
                 else
                 {
+                    _timer = 0;
                     game.EndMonsterTurn(_monstersTurnAction);
                     _monstersTurnAction = "";
                 }

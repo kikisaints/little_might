@@ -96,14 +96,27 @@ namespace Little_Might.Modules
             _inputManager.UpdateInput(time);
 
             if (!inInteraction)
-            {                
-                UpdateMovementSpeed(map);
-                UpdateInventoryInteraction(content, map);
+            {
+                UpdateMovementSpeed(map);                
+                UpdateInventoryInteraction(content, map);                
 
                 if (_canMove)
                 {
                     UpdateInput(map, content);
-                }
+
+                    if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Enter))
+                    {
+                        if (WaterTileNearby(map))
+                        {
+                            //run the Cholera chance here...
+                            _stats.Hydration += 25;
+                            _graphicsManager.ShowSystemMessage("+25 HYDRATION");
+
+                            if (Utils.MathHandler.GetRandomNumber(0, 10) == 10)
+                                _stats.Illness = AdvancedStats.ILLNESSES.CHOLERA;
+                        }
+                    }
+                }                
             }
             else
             {
@@ -170,7 +183,6 @@ namespace Little_Might.Modules
                 if (_playerInventory.AddItem(Inventory.ITEMTYPE.FRUIT, content))
                     _graphicsManager.ShowSystemMessage("Picked up " + Inventory.ITEMTYPE.FRUIT.ToString());
             }
-
             if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.BUSH)
             {
                 Inventory.ITEMTYPE randomBushItem = wMap.GetBushItem();
@@ -179,6 +191,16 @@ namespace Little_Might.Modules
                 {
                     if (_playerInventory.AddItem(randomBushItem, content))
                         _graphicsManager.ShowSystemMessage("Picked up " + randomBushItem.ToString());
+                }
+            }
+            if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.HERBS)
+            {
+                Inventory.ITEMTYPE randomHerbItem = wMap.GetHerbItem();
+
+                if (randomHerbItem != Inventory.ITEMTYPE.NONE)
+                {
+                    if (_playerInventory.AddItem(randomHerbItem, content))
+                        _graphicsManager.ShowSystemMessage("Picked up " + randomHerbItem.ToString());
                 }
             }
             if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.ROCK)
@@ -219,7 +241,17 @@ namespace Little_Might.Modules
                             Modules.Inventory.ITEMTYPE.NONE);
                     }
                 }
-            }
+            }            
+        }
+
+        private bool WaterTileNearby(Utils.WorldMap map)
+        {
+            if (map.GetTileType(new Vector2(Position.X + Utils.WorldMap.UNITSIZE, Position.Y)) == Utils.WorldMap.MAPTILETYPE.WATER ||
+                map.GetTileType(new Vector2(Position.X - Utils.WorldMap.UNITSIZE, Position.Y)) == Utils.WorldMap.MAPTILETYPE.WATER ||
+                map.GetTileType(new Vector2(Position.X, Position.Y + Utils.WorldMap.UNITSIZE)) == Utils.WorldMap.MAPTILETYPE.WATER ||
+                map.GetTileType(new Vector2(Position.X, Position.Y - Utils.WorldMap.UNITSIZE)) == Utils.WorldMap.MAPTILETYPE.WATER)
+                return true;
+            return false;
         }
 
         private void UpdateInventoryInteraction(ContentManager content, Utils.WorldMap map)
@@ -238,95 +270,98 @@ namespace Little_Might.Modules
                 _playerInventory.UpdateInventory(_inputManager);
             }
 
-            if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Enter))
+            if (_playerInventory.NavigatingInventory)
             {
-                if (_playerInventory.GetSelectedItem() == null)
-                    return;
-
-                Inventory.ITEMTYPE _itemType = _playerInventory.GetSelectedItem().Type;
-
-                if (_itemType == Inventory.ITEMTYPE.WEAPON)
+                if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Enter))
                 {
-                    if (_weaponSprite == null)
+                    if (_playerInventory.GetSelectedItem() == null)
+                        return;
+
+                    Inventory.ITEMTYPE _itemType = _playerInventory.GetSelectedItem().Type;
+
+                    if (_itemType == Inventory.ITEMTYPE.WEAPON)
                     {
-                        _equippedWeapon = _playerInventory.GetSelectedItem();
-                        _weaponSprite = _playerInventory.GetSelectedItem().Sprite;
-                        _equippedItems[0] = _playerInventory.GetSelectedItem().Name.ToUpper();
-
-                        _fightOptions = Utils.CombatHandler.SetCombatOptions(_playerInventory.GetSelectedItem().Name);
-                    }
-                    else
-                    {
-                        _equippedWeapon = null;
-                        _weaponSprite = null;
-                        _equippedItems[0] = "NO WEAPON";
-                        _fightOptions = Utils.CombatHandler.SetCombatOptions("none");
-                    }
-
-                    return;
-                }
-
-                int _hungerValue = Utils.ItemInfo.GetItemHungerValue(_itemType);
-                _playerInventory.GetSelectedItem().Toggled = !_playerInventory.GetSelectedItem().Toggled;
-
-                if (_hungerValue != 0)
-                {
-                    _stats.Hunger += _hungerValue;
-                    _graphicsManager.ShowSystemMessage("+" + _hungerValue.ToString() + " HUNGER");
-                    _playerInventory.RemoveSelectedItem();
-
-                    return;
-                }
-                else if (_craftIndex < 4 && _playerInventory.GetSelectedItem().Toggled)
-                {
-                    _craftingList[_craftIndex] = _itemType;
-                    _craftIndex++;
-                }
-                else if (!_playerInventory.GetSelectedItem().Toggled)
-                {
-                    _craftIndex--;
-                    for (int i = 0; i < _craftingList.Length; i++)
-                    {
-                        if (_craftingList[i] == _itemType)
+                        if (_weaponSprite == null)
                         {
-                            _craftingList[i] = Inventory.ITEMTYPE.NONE;
-                            break;
+                            _equippedWeapon = _playerInventory.GetSelectedItem();
+                            _weaponSprite = _playerInventory.GetSelectedItem().Sprite;
+                            _equippedItems[0] = _playerInventory.GetSelectedItem().Name.ToUpper();
+
+                            _fightOptions = Utils.CombatHandler.SetCombatOptions(_playerInventory.GetSelectedItem().Name);
                         }
+                        else
+                        {
+                            _equippedWeapon = null;
+                            _weaponSprite = null;
+                            _equippedItems[0] = "NO WEAPON";
+                            _fightOptions = Utils.CombatHandler.SetCombatOptions("none");
+                        }
+
+                        return;
                     }
 
-                    if (_craftIndex < 0)
-                        _craftIndex = 0;
-                }
+                    int _hungerValue = Utils.ItemInfo.GetItemHungerValue(_itemType);
+                    _playerInventory.GetSelectedItem().Toggled = !_playerInventory.GetSelectedItem().Toggled;
 
-                InventoryItem _craftedItem = Utils.ItemInfo.CheckCraftables(_craftingList, _playerInventory, content);
-
-                if (_craftedItem != null)
-                {
-                    _playerInventory.RemoveToggledItems();
-                    _playerInventory.AddItem(_craftedItem);
-
-                    _craftIndex = 0;
-                    Array.Clear(_craftingList, 0, _craftingList.Length);
-
-                    _graphicsManager.ShowSystemMessage("Made " + _craftedItem.Name.ToUpper() + "!");
-                }
-                else if (_playerInventory.GetSelectedItem().IsPlaceable)
-                {
-                    if (_itemType == Inventory.ITEMTYPE.CAMPFIRE)
+                    if (_hungerValue != 0)
                     {
-                        map.ChangeTile(new Vector2(Position.X, Position.Y + Utils.WorldMap.UNITSIZE), Utils.WorldMap.MAPTILETYPE.CAMPFIRE);
-                        _graphicsManager.ChangeWorldObjectVisual(content.Load<Texture2D>("campfire"), 
-                            Utils.GameColors.CampfireMapColor, 
-                            (int)Position.X, 
-                            (int)Position.Y + Utils.WorldMap.UNITSIZE,
-                            _itemType);                        
+                        _stats.Hunger += _hungerValue;
+                        _graphicsManager.ShowSystemMessage("+" + _hungerValue.ToString() + " HUNGER");
+                        _playerInventory.RemoveSelectedItem();
+
+                        return;
+                    }
+                    else if (_craftIndex < 4 && _playerInventory.GetSelectedItem().Toggled)
+                    {
+                        _craftingList[_craftIndex] = _itemType;
+                        _craftIndex++;
+                    }
+                    else if (!_playerInventory.GetSelectedItem().Toggled)
+                    {
+                        _craftIndex--;
+                        for (int i = 0; i < _craftingList.Length; i++)
+                        {
+                            if (_craftingList[i] == _itemType)
+                            {
+                                _craftingList[i] = Inventory.ITEMTYPE.NONE;
+                                break;
+                            }
+                        }
+
+                        if (_craftIndex < 0)
+                            _craftIndex = 0;
                     }
 
-                    _graphicsManager.ShowSystemMessage(_itemType.ToString().ToUpper() + " placed!");
-                    _playerInventory.RemoveSelectedItem();
+                    InventoryItem _craftedItem = Utils.ItemInfo.CheckCraftables(_craftingList, _playerInventory, content);
 
-                    _craftIndex = 0;
-                    Array.Clear(_craftingList, 0, _craftingList.Length);
+                    if (_craftedItem != null)
+                    {
+                        _playerInventory.RemoveToggledItems();
+                        _playerInventory.AddItem(_craftedItem);
+
+                        _craftIndex = 0;
+                        Array.Clear(_craftingList, 0, _craftingList.Length);
+
+                        _graphicsManager.ShowSystemMessage("Made " + _craftedItem.Name.ToUpper() + "!");
+                    }
+                    else if (_playerInventory.GetSelectedItem().IsPlaceable)
+                    {
+                        if (_itemType == Inventory.ITEMTYPE.CAMPFIRE)
+                        {
+                            map.ChangeTile(new Vector2(Position.X, Position.Y + Utils.WorldMap.UNITSIZE), Utils.WorldMap.MAPTILETYPE.CAMPFIRE);
+                            _graphicsManager.ChangeWorldObjectVisual(content.Load<Texture2D>("campfire"),
+                                Utils.GameColors.CampfireMapColor,
+                                (int)Position.X,
+                                (int)Position.Y + Utils.WorldMap.UNITSIZE,
+                                _itemType);
+                        }
+
+                        _graphicsManager.ShowSystemMessage(_itemType.ToString().ToUpper() + " placed!");
+                        _playerInventory.RemoveSelectedItem();
+
+                        _craftIndex = 0;
+                        Array.Clear(_craftingList, 0, _craftingList.Length);
+                    }
                 }
             }
         }

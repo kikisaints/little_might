@@ -35,6 +35,7 @@ namespace Little_Might.Utils
             TREE,
             BUSH,
             ROCK,
+            HERBS,
             EVERGREEN,
             MOUNTAIN,
             FRUIT,
@@ -167,6 +168,10 @@ namespace Little_Might.Utils
                         {
                             col = GameColors.BushMapColor;
                         }
+                        else if (grasslandObj > 3 && grasslandObj <= 5)
+                        {
+                            col = GameColors.HerbMapColor;
+                        }
                     }
                     else
                     {
@@ -198,10 +203,9 @@ namespace Little_Might.Utils
             noiseTexture.Dispose();
         }
 
-        public Vector2 GetCharacterStartingPoint()
+        public Vector2 GetRandomGrassPoint()
         {
-            Random rand = new Random();
-            int arrayIndex = _grassPoints[rand.Next(150, _grassPoints.Count - 1)];
+            int arrayIndex = _grassPoints[Utils.MathHandler.GetRandomNumber(150, _grassPoints.Count - 1)];
             
             _startingPosition = MathHandler.Get2DPoint(arrayIndex, _width) * UNITSIZE;
             return _startingPosition;
@@ -215,6 +219,20 @@ namespace Little_Might.Utils
                 return Modules.Inventory.ITEMTYPE.BERRY;
             else if (type == (int)Modules.Inventory.ITEMTYPE.STICK)
                 return Modules.Inventory.ITEMTYPE.STICK;
+
+            return Modules.Inventory.ITEMTYPE.NONE;
+        }
+
+        public Modules.Inventory.ITEMTYPE GetHerbItem()
+        {
+            int type = Utils.MathHandler.GetRandomNumber(0, 12);
+
+            if (type == (int)Modules.Inventory.ITEMTYPE.GARLIC)
+                return Modules.Inventory.ITEMTYPE.GARLIC;
+            else if (type == (int)Modules.Inventory.ITEMTYPE.THYME)
+                return Modules.Inventory.ITEMTYPE.THYME;
+            else if (type == (int)Modules.Inventory.ITEMTYPE.OREGANO)
+                return Modules.Inventory.ITEMTYPE.OREGANO;
 
             return Modules.Inventory.ITEMTYPE.NONE;
         }

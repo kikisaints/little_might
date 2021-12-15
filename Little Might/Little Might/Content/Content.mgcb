@@ -116,6 +116,18 @@
 /processorParam:TextureFormat=Compressed
 /build:fonts/pixelfont.spritefont
 
+#begin garlic.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:garlic.png
+
 #begin icon_disease.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -199,6 +211,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:monster_slime.png
+
+#begin oregano.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:oregano.png
 
 #begin player_interaction_img.png
 /importer:TextureImporter
@@ -302,6 +326,18 @@
 /processorParam:TextureFormat=Color
 /build:system_notice_ui.png
 
+#begin thyme.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:thyme.png
+
 #begin tile_grass.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -313,6 +349,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:tile_grass.png
+
+#begin tile_herbs.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tile_herbs.png
 
 #begin tile_mountain.png
 /importer:TextureImporter

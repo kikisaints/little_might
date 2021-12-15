@@ -29,6 +29,12 @@ namespace Little_Might.Utils
                     return "Bundle of burning sticks";                
                 case Modules.Inventory.ITEMTYPE.TWINE:
                     return "Strong piece of\nforest string";
+                case Modules.Inventory.ITEMTYPE.THYME:
+                    return "Tasty herb that\nfights infection";
+                case Modules.Inventory.ITEMTYPE.GARLIC:
+                    return "Strongly scented, good\n at fighting bacteria";
+                case Modules.Inventory.ITEMTYPE.OREGANO:
+                    return "A potent herb known\nto help inflamation";
                 default:
                     break;
             }
@@ -63,6 +69,12 @@ namespace Little_Might.Utils
                     return 35;
                 case Modules.Inventory.ITEMTYPE.BERRY:
                     return 15;
+                case Modules.Inventory.ITEMTYPE.GARLIC:
+                    return 5;
+                case Modules.Inventory.ITEMTYPE.OREGANO:
+                    return 1;
+                case Modules.Inventory.ITEMTYPE.THYME:
+                    return 1;
                 default:
                     return 0;
             }

@@ -240,9 +240,9 @@ namespace Little_Might
 
             _graphicsManager.VisualizeMap(_worldMap, Content);
             _graphicsManager.AddCharacterObject(_character);            
-            _character.Position = _worldMap.GetCharacterStartingPoint();
+            _character.Position = _worldMap.GetRandomGrassPoint();
 
-            _monsterManager = new MonsterManager(Content, _graphicsManager, _character.Position);
+            _monsterManager = new MonsterManager(Content, _graphicsManager, _worldMap);
         }
     }
 }

@@ -161,3 +161,7 @@ C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug
 C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\player_interaction_img.xnb
 C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\slime_interaction_img.xnb
 C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\steel_sword.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\garlic.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\oregano.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\thyme.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\tile_herbs.xnb
