@@ -22,6 +22,7 @@ namespace Little_Might
         private SCENE _currentScene = SCENE.MENU;
 
         private bool _inOverworld = true;
+        private bool _isPlayerTurn = true;
 
         public enum SCENE
         {
@@ -92,12 +93,49 @@ namespace Little_Might
             _inOverworld = true;
         }
 
+        public void EndPlayerTurn(string action)
+        {
+            _graphicsManager.DisplayInteractionOptions(false);
+            _isPlayerTurn = false;
+            bool monsterDead = Utils.CombatHandler.AttackMonster(_character, ref _interactor, action);
+
+            _graphicsManager.ShowSystemMessage("You " + action.ToUpper() + " " + _interactor.MonsterType.ToString().ToUpper() + "!");
+
+            if (monsterDead)
+            {
+                _character.EndFight();
+                LeaveInteraction();
+
+                _graphicsManager.DisplayInteractionOptions(true);
+                _graphicsManager.RemoveCharacterObject(_interactor);
+                _isPlayerTurn = true;
+
+                _graphicsManager.ShowSystemMessage("Defeated " + _interactor.MonsterType.ToString().ToUpper() + "!");
+            }
+        }
+
+        public void EndMonsterTurn(string action)
+        {
+            _graphicsManager.DisplayInteractionOptions(true);
+            _isPlayerTurn = true;
+
+            int totalDamage = Utils.CombatHandler.AttackCharacter(ref _character, _interactor, action);
+            _graphicsManager.ShowSystemMessage("Took " + totalDamage.ToString() + " DAMAGE");
+
+            _character.Stats.HP -= totalDamage;
+        }
+
         private void UpdateGame(GameTime gTime)
         {
             if (_currentScene == SCENE.GAME)
             {
-                _monsterManager.UpdateMonsters(gTime);
-                _character.UpdateCharacter(gTime, _worldMap, Content, !_inOverworld);
+                _monsterManager.UpdateMonsters(gTime, _inOverworld);
+
+                if (_isPlayerTurn)
+                    _character.UpdateCharacter(gTime, _worldMap, Content, !_inOverworld);
+                else if (!_isPlayerTurn && !_inOverworld && _interactor != null)
+                    _interactor.UpdateMonster(gTime, this, _graphicsManager);
+
                 _camera.LookAt(_character.Position);
 
                 if (_character.Stats.HP <= 0)

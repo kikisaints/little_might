@@ -50,7 +50,7 @@ namespace Little_Might.Modules
             set { _illness = value; }
         }
 
-        public AdvancedStats(int hp, int sp, int mp, float spd, int intel, int str, int wis, int dex, int charisma, float crit)
+        public AdvancedStats(int hp, int sp, int mp, float spd, int intel, int str, int wis, int dex, int charisma, float def, float crit)
         {
             HP = hp;
             Stamina = sp;
@@ -62,6 +62,7 @@ namespace Little_Might.Modules
             WIS = wis;
             DEX = dex;
             CHARISMA = charisma;
+            DEFENSE = def;
             CRIT = crit;
 
             _hunger = 100;

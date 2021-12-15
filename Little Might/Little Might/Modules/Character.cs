@@ -18,8 +18,11 @@ namespace Little_Might.Modules
         private Texture2D _interactionSprite;
         private int _steps = 0;
         private bool _canMove = true;
+        private bool _fighting = false;
 
+        private string[] _currentOptions;
         private string[] _interactionOptions;
+        private string[] _fightOptions;
         private int _interactIndex = 0;
 
         private int _craftIndex = 0;
@@ -47,15 +50,18 @@ namespace Little_Might.Modules
 
         public String[] InteractionOptions
         {
-            get { return _interactionOptions; }
+            get { return _currentOptions; }
         }
 
         public Character (string spriteName, string interactSpriteName, Vector2 startingPosition, ContentManager contentManager, Utils.GraphicsManager gManager, Game1 gameClass)
         {
             _inputManager = new Utils.InputManager();
-            _stats = new AdvancedStats(50, 10, 0, 1, 10, 10, 10, 10, 10, 0f);
+            _stats = new AdvancedStats(50, 10, 0, 1, 10, 10, 10, 10, 10, 2f, 0f);
             _playerInventory = new Inventory(contentManager);
-            _interactionOptions = new string[] { "Attempt Communication -", "Fight", "Runaway" };
+            _interactionOptions = new string[] { "Communicate -", "Fight", "Run Away" };
+            _fightOptions = new string[] { "Punch -", "Kick", "Yell At" };
+
+            _currentOptions = _interactionOptions;
 
             _game = gameClass;
             _interactionSprite = contentManager.Load<Texture2D>(interactSpriteName);
@@ -83,32 +89,57 @@ namespace Little_Might.Modules
             {
                 if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Down))
                 {
-                    if (_interactIndex + 1 < _interactionOptions.Length)
+                    if (_interactIndex + 1 < _currentOptions.Length)
                     {
-                        _interactionOptions[_interactIndex] = _interactionOptions[_interactIndex].Remove(_interactionOptions[_interactIndex].Length - 2, 2);
+                        _currentOptions[_interactIndex] = _currentOptions[_interactIndex].Remove(_currentOptions[_interactIndex].Length - 2, 2);
                         _interactIndex++;
-                        _interactionOptions[_interactIndex] += " -";
+                        _currentOptions[_interactIndex] += " -";
                     }
                 }
                 else if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Up))
                 {
                     if (_interactIndex - 1 >= 0)
                     {
-                        _interactionOptions[_interactIndex] = _interactionOptions[_interactIndex].Remove(_interactionOptions[_interactIndex].Length - 2, 2);
+                        _currentOptions[_interactIndex] = _currentOptions[_interactIndex].Remove(_currentOptions[_interactIndex].Length - 2, 2);
                         _interactIndex--;
-                        _interactionOptions[_interactIndex] += " -";
+                        _currentOptions[_interactIndex] += " -";
                     }
                 }
 
-                if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Enter) &&
-                    _interactionOptions[_interactIndex] == "Runaway -")
+                if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Enter))
                 {
-                    _interactionOptions[_interactIndex] = _interactionOptions[_interactIndex].Remove(_interactionOptions[_interactIndex].Length - 2, 2);
-                    _interactIndex = 0;
-                    _interactionOptions[_interactIndex] += " -";
-                    _game.LeaveInteraction();
+                    if (_currentOptions[_interactIndex] == "Run Away -")
+                    {
+                        _currentOptions[_interactIndex] = _currentOptions[_interactIndex].Remove(_currentOptions[_interactIndex].Length - 2, 2);
+                        _interactIndex = 0;
+                        _currentOptions[_interactIndex] += " -";
+                        _game.LeaveInteraction();
+
+                        _graphicsManager.ShowSystemMessage("You ran away!");
+                    }
+                    else if (_currentOptions[_interactIndex] == "Fight -")
+                    {
+                        _currentOptions[_interactIndex] = _currentOptions[_interactIndex].Remove(_currentOptions[_interactIndex].Length - 2, 2);
+                        _currentOptions[0] += " -";
+                        _currentOptions = _fightOptions;
+                        _interactIndex = 0;
+                        _graphicsManager.ShowSystemMessage("You Choose to Fight");
+                        _fighting = true;
+                    }
+                    else if (_fighting)
+                    {
+                        _game.EndPlayerTurn(_currentOptions[_interactIndex].Remove(_currentOptions[_interactIndex].Length - 2, 2));
+                    }
                 }
             }
+        }
+
+        public void EndFight()
+        {
+            _currentOptions[_interactIndex] = _currentOptions[_interactIndex].Remove(_currentOptions[_interactIndex].Length - 2, 2);
+            _interactIndex = 0;
+            _currentOptions[_interactIndex] += " -";
+            _currentOptions = _interactionOptions;
         }
 
         private void CheckTileResource(Vector2 movePos, Utils.WorldMap wMap, ContentManager content)
@@ -179,7 +210,7 @@ namespace Little_Might.Modules
                 if (_hungerValue != 0)
                 {
                     _stats.Hunger += _hungerValue;
-                    _graphicsManager.ShowSystemMessage("Ate " + _playerInventory.GetSelectedItem().Type.ToString() + "\n+" + _hungerValue.ToString() + " HUNGER");
+                    _graphicsManager.ShowSystemMessage("+" + _hungerValue.ToString() + " HUNGER");
                     _playerInventory.RemoveSelectedItem();
 
                     return;

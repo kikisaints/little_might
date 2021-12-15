@@ -16,7 +16,8 @@ namespace Little_Might.Modules
         private int _WIS;
         private int _DEX;
         private int _CHAR;
-         
+
+        private float _DEF;         
         private float _CRIT;
 
         public int HP
@@ -73,6 +74,12 @@ namespace Little_Might.Modules
             set { _CHAR = value; }
         }
 
+        public float DEFENSE
+        {
+            get { return _DEF; }
+            set { _DEF = value; }
+        }
+
         public float CRIT
         {
             get { return _CRIT; }
@@ -81,7 +88,7 @@ namespace Little_Might.Modules
 
         public Stats() { }
 
-        public Stats(int hp, int sp, int mp, int spd, int intel, int str, int wis, int dex, int charisma, float crit)
+        public Stats(int hp, int sp, int mp, int spd, int intel, int str, int wis, int dex, int charisma, float def, float crit)
         {
             _health = hp;
             _stamina = sp;
@@ -93,6 +100,7 @@ namespace Little_Might.Modules
             _WIS = wis;
             _DEX = dex;
             _CHAR = charisma;
+            _DEF = def;
             _CRIT = crit;
         }
     }

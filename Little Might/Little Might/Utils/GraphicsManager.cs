@@ -24,8 +24,9 @@ namespace Little_Might.Utils
         private Effect _effect;
 
         private bool _showSystemUI = false;
+        private bool _showInteractionOptions = true;
         private double _showSysMsgTimer = 0f;
-        private double _displayMsgTime = 3;
+        private double _displayMsgTime = 2;
         private string _systemMessage = "";
 
         //UI Icons -- TEMP
@@ -59,6 +60,12 @@ namespace Little_Might.Utils
             _worldObjects.Clear();
             _characters.Clear();
         }
+
+        public void DisplayInteractionOptions(bool value)
+        {
+            _showInteractionOptions = value;
+        }
+
 
         public void Load(GraphicsDevice graphicsDevice, ContentManager contentManager, GameWindow window)
         {
@@ -211,6 +218,7 @@ namespace Little_Might.Utils
 
         public void AddCharacterObject(Modules.WorldObject worldObject) { _characters.Add(worldObject); }
         
+        public void RemoveCharacterObject(Modules.WorldObject worldObject) { _characters.Remove(worldObject); }
 
         private int[] GetAffectShape(int drawRadius, Vector2 centerPoint, int mapWidth)
         {
@@ -305,7 +313,7 @@ namespace Little_Might.Utils
             _spriteBatch.End();
         }
 
-        public void DrawUIString(string[] text, Vector2 offset, float[] scale, bool withSpriteBatch = true)
+        public void DrawUIString(string[] text, Vector2 offset, float[] scale, float spacing = 25, bool withSpriteBatch = true)
         {
             if (withSpriteBatch)
             {
@@ -317,7 +325,10 @@ namespace Little_Might.Utils
             for (int s = 0; s < text.Length; s++)
             {
                 Vector2 FontOrigin = _font.MeasureString(text[s]);
-                _spriteBatch.DrawString(_font, text[s], new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + offset.X, (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + (offset.Y * s)), Color.White, 0, FontOrigin, scale[s], SpriteEffects.None, 0.5f);
+                _spriteBatch.DrawString(_font, text[s], 
+                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + offset.X, 
+                    (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + (offset.Y) + (s * spacing)), 
+                    Color.White, 0, FontOrigin, scale[s], SpriteEffects.None, 0.5f);
             }
 
             if (withSpriteBatch)
@@ -333,37 +344,37 @@ namespace Little_Might.Utils
             //DEBUG COORDINATES
             string output = xCenter.ToString() + ", " + yCenter.ToString();
             Vector2 FontOrigin = _font.MeasureString(output) / 2;
-            _spriteBatch.DrawString(_font, output, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width / 2, 25), Color.White, 0, FontOrigin, 1f, SpriteEffects.None, 0.5f);            
-
-            //DRAW UI OBJECTS            
-            foreach (Modules.ScreenObject screenObj in _screenObjects)
-            {
-                _spriteBatch.Draw(screenObj.Sprite,
-                    screenObj.Position + new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width, 0),
-                    null,
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    screenObj.Scale,
-                    SpriteEffects.None,
-                    0.5f);
-            }
-
-            foreach (Modules.InventoryItem item in character.Inv.Items)
-            {
-                _spriteBatch.Draw(item.Sprite,
-                    item.Position + new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width, 0),
-                    null,
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    item.Scale,
-                    SpriteEffects.None,
-                    0.5f);
-            }
+            _spriteBatch.DrawString(_font, output, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width / 2, 25), Color.White, 0, FontOrigin, 1f, SpriteEffects.None, 0.5f);
 
             if (character.Inv.NavigatingInventory)
             {
+                //DRAW UI OBJECTS            
+                foreach (Modules.ScreenObject screenObj in _screenObjects)
+                {
+                    _spriteBatch.Draw(screenObj.Sprite,
+                        screenObj.Position + new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width, 0),
+                        null,
+                        Color.White,
+                        0f,
+                        Vector2.Zero,
+                        screenObj.Scale,
+                        SpriteEffects.None,
+                        0.5f);
+                }
+
+                foreach (Modules.InventoryItem item in character.Inv.Items)
+                {
+                    _spriteBatch.Draw(item.Sprite,
+                        item.Position + new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width, 0),
+                        null,
+                        Color.White,
+                        0f,
+                        Vector2.Zero,
+                        item.Scale,
+                        SpriteEffects.None,
+                        0.5f);
+                }
+            
                 _spriteBatch.Draw(character.Inv.InventorySelector.Sprite,
                     character.Inv.InventorySelector.Position + new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width, 0),
                     null,
@@ -407,10 +418,11 @@ namespace Little_Might.Utils
         {
             Vector2 screenCenter = new Vector2(Utils.ResolutionHandler.WindowWidth / 2, Utils.ResolutionHandler.WindowHeight / 2);
 
-            _spriteBatch.Draw(character.InteractionSprite, screenCenter + new Vector2(-350, -250), null, character.ObjectColor, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.5f);
-            _spriteBatch.Draw((interactor as Modules.Monster).InteractionSprite, screenCenter + new Vector2(350, -300), null, interactor.ObjectColor, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.5f);
+            _spriteBatch.Draw(character.InteractionSprite, screenCenter + new Vector2(-300, 50), null, character.ObjectColor, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.5f);
+            _spriteBatch.Draw((interactor as Modules.Monster).InteractionSprite, screenCenter + new Vector2(250, -150), null, interactor.ObjectColor, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.5f);
 
-            DrawUIString(character.InteractionOptions, new Vector2(250, 50), new float[] { 1f, 1f, 1f }, false);
+            if (_showInteractionOptions)
+                DrawUIString(character.InteractionOptions, new Vector2(225, 200), new float[] { 1f, 1f, 1f }, 35f, false);
         }
 
         private void ShowStats(Modules.Character character)
@@ -503,7 +515,7 @@ namespace Little_Might.Utils
                 _showSystemUI = false;
                 _showSysMsgTimer += time.ElapsedGameTime.Milliseconds;
 
-                if (_showSysMsgTimer >= 150)
+                if (_showSysMsgTimer >= 100)
                 {
                     _showSysMsgTimer = 0;
                     _showSystemUI = true;
