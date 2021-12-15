@@ -13,6 +13,8 @@ namespace Little_Might.Modules
         private string _discription;
         private string _name;
 
+        private int _damage;
+
         public bool Toggled = false;
         public readonly bool IsPlaceable = false;
 
@@ -26,20 +28,35 @@ namespace Little_Might.Modules
             get { return _discription; }
         }
 
+        public int Damage
+        {
+            get { return _damage; }
+        }
+
         public Inventory.ITEMTYPE Type
         {
             get { return _itemType; }
         }
 
-        public InventoryItem(Texture2D tex, Vector2 pos, float size, Inventory.ITEMTYPE invType)
+        public InventoryItem(Texture2D tex, Vector2 pos, float size, Inventory.ITEMTYPE invType, string name = "")
         {
             Sprite = tex;
             Position = pos;
             Scale = size;
             _itemType = invType;
+            _damage = 0;
 
-            _discription = Utils.ItemInfo.GetItemInformation(_itemType);
-            _name = _itemType.ToString();
+            _discription = Utils.ItemInfo.GetItemInformation(_itemType, name);
+
+            if (invType == Inventory.ITEMTYPE.WEAPON)
+            {
+                _name = name;
+                _damage = Utils.ItemInfo.GetWeaponDamage(_name);
+            }
+            else
+            {
+                _name = _itemType.ToString();
+            }
 
             IsPlaceable = Utils.ItemInfo.CheckIfPlacable(invType);
         }
@@ -57,7 +74,7 @@ namespace Little_Might.Modules
             STICK,
             COIN,
             CAMPFIRE,
-            STONESWORD,
+            WEAPON,
             TWINE
         }        
 
@@ -175,6 +192,20 @@ namespace Little_Might.Modules
             return false;
         }
 
+        public bool AddItem(InventoryItem invItem)
+        {
+            if (invItem != null && _invItems.Count + 1 < _maxInvSlots)
+            {
+                invItem.Position = GetNewInvSlotPosition();
+                _invItems.Add(invItem);
+                _invCols++;
+
+                return true;
+            }
+
+            return false;
+        }
+
         public void RefreshInventory()
         {
             _invRows = 0;
@@ -198,7 +229,18 @@ namespace Little_Might.Modules
             return new Vector2(_startingSlotPos.X + (_spacing.X * _invCols), _startingSlotPos.Y + (_spacing.Y * _invRows));
         }
 
-        private Texture2D GetSpriteTexture(ITEMTYPE type, ContentManager contentMgr)
+        public Texture2D GetSpriteTexture(string itemName, ContentManager contentMgr)
+        {
+            switch (itemName.ToLower())
+            {
+                case "stonesword":
+                    return contentMgr.Load<Texture2D>("stone_sword");
+            }
+
+            return null;
+        }
+
+        public Texture2D GetSpriteTexture(ITEMTYPE type, ContentManager contentMgr)
         {
             switch(type)
             {
@@ -214,8 +256,6 @@ namespace Little_Might.Modules
                     return contentMgr.Load<Texture2D>("berries");
                 case ITEMTYPE.CAMPFIRE:
                     return contentMgr.Load<Texture2D>("campfire");
-                case ITEMTYPE.STONESWORD:
-                    return contentMgr.Load<Texture2D>("stone_sword");
                 case ITEMTYPE.TWINE:
                     return contentMgr.Load<Texture2D>("twine");
             }

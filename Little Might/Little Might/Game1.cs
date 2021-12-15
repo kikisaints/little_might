@@ -23,6 +23,9 @@ namespace Little_Might
 
         private bool _inOverworld = true;
         private bool _isPlayerTurn = true;
+        private bool _interactionEnding = false;
+        private double _timer = 0;
+        private double _waitToEndInteraction = 2;
 
         public enum SCENE
         {
@@ -97,21 +100,27 @@ namespace Little_Might
         {
             _graphicsManager.DisplayInteractionOptions(false);
             _isPlayerTurn = false;
-            bool monsterDead = Utils.CombatHandler.AttackMonster(_character, ref _interactor, action);
+            bool monsterDead = Utils.CombatHandler.AttackMonster(_character, ref _interactor, action, _character.GetWeapon());
 
             _graphicsManager.ShowSystemMessage("You " + action.ToUpper() + " " + _interactor.MonsterType.ToString().ToUpper() + "!");
 
             if (monsterDead)
             {
-                _character.EndFight();
-                LeaveInteraction();
-
-                _graphicsManager.DisplayInteractionOptions(true);
-                _graphicsManager.RemoveCharacterObject(_interactor);
-                _isPlayerTurn = true;
-
-                _graphicsManager.ShowSystemMessage("Defeated " + _interactor.MonsterType.ToString().ToUpper() + "!");
+                _timer = 0;
+                _interactionEnding = true;
             }
+        }
+
+        private void EndInteraction()
+        {
+            _character.EndFight();
+            LeaveInteraction();
+
+            _graphicsManager.DisplayInteractionOptions(true);
+            _graphicsManager.RemoveCharacterObject(_interactor);
+            _isPlayerTurn = true;
+
+            _graphicsManager.ShowSystemMessage("Defeated " + _interactor.MonsterType.ToString().ToUpper() + "!");
         }
 
         public void EndMonsterTurn(string action)
@@ -129,11 +138,23 @@ namespace Little_Might
         {
             if (_currentScene == SCENE.GAME)
             {
+                if (_interactionEnding)
+                {
+                    _timer += gTime.ElapsedGameTime.TotalSeconds;
+
+                    if (_timer >= _waitToEndInteraction)
+                    {
+                        _timer = 0;
+                        _interactionEnding = false;
+                        EndInteraction();
+                    }
+                }
+
                 _monsterManager.UpdateMonsters(gTime, _inOverworld);
 
                 if (_isPlayerTurn)
                     _character.UpdateCharacter(gTime, _worldMap, Content, !_inOverworld);
-                else if (!_isPlayerTurn && !_inOverworld && _interactor != null)
+                else if (!_isPlayerTurn && !_inOverworld && _interactor != null && !_interactionEnding)
                     _interactor.UpdateMonster(gTime, this, _graphicsManager);
 
                 _camera.LookAt(_character.Position);

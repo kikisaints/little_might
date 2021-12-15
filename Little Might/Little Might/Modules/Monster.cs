@@ -50,7 +50,7 @@ namespace Little_Might.Modules
             Position = startingPosition;
             ObjectColor = color;
 
-            MoveTime = _movementWaitTime.Next(0, 5) * 0.5;
+            MoveTime = _movementWaitTime.Next(1, 5) * 0.5;
         }
 
         public void UpdateMonster(GameTime gTime, Game1 game, Utils.GraphicsManager gManager)

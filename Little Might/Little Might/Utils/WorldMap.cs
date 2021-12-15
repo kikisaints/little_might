@@ -219,6 +219,11 @@ namespace Little_Might.Utils
             return Modules.Inventory.ITEMTYPE.NONE;
         }
 
+        public string GetChestItem()
+        {
+            return "steelsword";
+        }
+
         public Modules.Inventory.ITEMTYPE GetTreeItem()
         {
             int type = _tileRandom.Next(0, 20);

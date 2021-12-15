@@ -306,7 +306,12 @@ namespace Little_Might.Utils
 
                 foreach (Modules.WorldObject cobj in _characters)
                 {
-                    _spriteBatch.Draw(cobj.Sprite, cobj.Position, null, cobj.ObjectColor);
+                    if (Utils.MathHandler.IsPointInCircle((int)cobj.Position.X / Utils.WorldMap.UNITSIZE, 
+                        (int)cobj.Position.Y / Utils.WorldMap.UNITSIZE,
+                        (int)charPos.X / Utils.WorldMap.UNITSIZE, 
+                        (int)charPos.Y / Utils.WorldMap.UNITSIZE, 
+                        radius))
+                        _spriteBatch.Draw(cobj.Sprite, cobj.Position, null, cobj.ObjectColor);
                 }
             }
 
@@ -377,6 +382,72 @@ namespace Little_Might.Utils
             
                 _spriteBatch.Draw(character.Inv.InventorySelector.Sprite,
                     character.Inv.InventorySelector.Position + new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width, 0),
+                    null,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    character.Inv.InventorySelector.Scale,
+                    SpriteEffects.None,
+                    0.5f);
+
+                //Equipment slots
+                //WEAPON
+                FontOrigin = _font.MeasureString(character.EquippedItems[0]) / 2;
+                _spriteBatch.DrawString(_font, character.EquippedItems[0], new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 775, 820), Color.White, 0, FontOrigin, 1f, SpriteEffects.None, 0.5f);
+                _spriteBatch.Draw(character.GetWeaponSprite(),
+                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 880, 800),
+                    null,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    character.Inv.InventorySelector.Scale,
+                    SpriteEffects.None,
+                    0.5f);
+
+                //HEADGEAR
+                FontOrigin = _font.MeasureString(character.EquippedItems[1]) / 2;
+                _spriteBatch.DrawString(_font, character.EquippedItems[1], new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 775, 870), Color.White, 0, FontOrigin, 1f, SpriteEffects.None, 0.5f);
+                _spriteBatch.Draw(character.Inv.InventorySelector.Sprite,
+                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 880, 850),
+                    null,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    character.Inv.InventorySelector.Scale,
+                    SpriteEffects.None,
+                    0.5f);
+
+                //BOOTS
+                FontOrigin = _font.MeasureString(character.EquippedItems[2]) / 2;
+                _spriteBatch.DrawString(_font, character.EquippedItems[2], new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 775, 920), Color.White, 0, FontOrigin, 1f, SpriteEffects.None, 0.5f);
+                _spriteBatch.Draw(character.Inv.InventorySelector.Sprite,
+                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 880, 900),
+                    null,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    character.Inv.InventorySelector.Scale,
+                    SpriteEffects.None,
+                    0.5f);
+
+                //ARMOR
+                FontOrigin = _font.MeasureString(character.EquippedItems[3]) / 2;
+                _spriteBatch.DrawString(_font, character.EquippedItems[3], new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 775, 970), Color.White, 0, FontOrigin, 1f, SpriteEffects.None, 0.5f);
+                _spriteBatch.Draw(character.Inv.InventorySelector.Sprite,
+                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 880, 950),
+                    null,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    character.Inv.InventorySelector.Scale,
+                    SpriteEffects.None,
+                    0.5f);
+
+                //TRINKET
+                FontOrigin = _font.MeasureString(character.EquippedItems[4]) / 2;
+                _spriteBatch.DrawString(_font, character.EquippedItems[4], new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 775, 1020), Color.White, 0, FontOrigin, 1f, SpriteEffects.None, 0.5f);
+                _spriteBatch.Draw(character.Inv.InventorySelector.Sprite,
+                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 880, 1000),
                     null,
                     Color.White,
                     0f,

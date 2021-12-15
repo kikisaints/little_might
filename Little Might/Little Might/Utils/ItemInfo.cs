@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace Little_Might.Utils
 {
     class ItemInfo
     {
-        public static string GetItemInformation(Modules.Inventory.ITEMTYPE itemType)
+        public static string GetItemInformation(Modules.Inventory.ITEMTYPE itemType, string name = "")
         {
             switch(itemType)
             {
@@ -25,14 +26,22 @@ namespace Little_Might.Utils
                 case Modules.Inventory.ITEMTYPE.COIN:
                     return "Shiny, some might\ncollect these";
                 case Modules.Inventory.ITEMTYPE.CAMPFIRE:
-                    return "Bundle of burning sticks";
-                case Modules.Inventory.ITEMTYPE.STONESWORD:
-                    return "Rather blunt weapon\nmade from rock";
+                    return "Bundle of burning sticks";                
                 case Modules.Inventory.ITEMTYPE.TWINE:
-                    return "Strong piece of forest string";
+                    return "Strong piece of\nforest string";
                 default:
-                    return "";
+                    break;
             }
+
+            if (name != "")
+            {
+                if (name.ToLower() == "stonesword")
+                    return "A blunt weapon\nmade of rock";
+                if (name.ToLower() == "steelsword")
+                    return "A shiny honed\nweapon of steel";
+            }
+
+            return "";
         }
 
         public static bool CheckIfPlacable(Modules.Inventory.ITEMTYPE itemType)
@@ -59,21 +68,44 @@ namespace Little_Might.Utils
             }
         }
 
-        public static Modules.Inventory.ITEMTYPE CheckCraftables(Modules.Inventory.ITEMTYPE[] itemCombo)
+        public static int GetWeaponDamage(string name)
+        {
+            switch(name.ToLower())
+            {
+                case "stonesword":
+                    return 5;
+                case "steelsword":
+                    return 25;
+            }
+
+            return 0;
+        }
+
+        public static Modules.InventoryItem GetItemByName(string name, ContentManager content)
+        {
+            if (name == "steelsword")
+                return new Modules.InventoryItem(content.Load<Microsoft.Xna.Framework.Graphics.Texture2D>("steel_sword"), Vector2.Zero, 3f, Modules.Inventory.ITEMTYPE.WEAPON, "steelsword");
+            if (name == "stonesword")
+                return new Modules.InventoryItem(content.Load<Microsoft.Xna.Framework.Graphics.Texture2D>("stone_sword"), Vector2.Zero, 3f, Modules.Inventory.ITEMTYPE.WEAPON, "stonesword");
+
+            return null;
+        }
+
+        public static Modules.InventoryItem CheckCraftables(Modules.Inventory.ITEMTYPE[] itemCombo, Modules.Inventory inventory, ContentManager content)
         {
             itemCombo = itemCombo.OrderBy(e => ((int)e)).ToArray();
 
             if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] { Modules.Inventory.ITEMTYPE.NONE, Modules.Inventory.ITEMTYPE.NONE, Modules.Inventory.ITEMTYPE.FLINT, Modules.Inventory.ITEMTYPE.STICK }))
             {
-                return Modules.Inventory.ITEMTYPE.CAMPFIRE;
+                return new Modules.InventoryItem(inventory.GetSpriteTexture(Modules.Inventory.ITEMTYPE.CAMPFIRE, content), Vector2.Zero, 3f, Modules.Inventory.ITEMTYPE.CAMPFIRE);
             }
 
             if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] { Modules.Inventory.ITEMTYPE.NONE, Modules.Inventory.ITEMTYPE.STONE, Modules.Inventory.ITEMTYPE.STICK, Modules.Inventory.ITEMTYPE.TWINE }))
             {
-                return Modules.Inventory.ITEMTYPE.STONESWORD;
+                return new Modules.InventoryItem(inventory.GetSpriteTexture("stonesword", content), Vector2.Zero, 3f, Modules.Inventory.ITEMTYPE.WEAPON, "stonesword");
             }
 
-            return Modules.Inventory.ITEMTYPE.NONE;
+            return null;
         }
     }
 }

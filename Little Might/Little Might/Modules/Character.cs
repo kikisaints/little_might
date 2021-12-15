@@ -25,6 +25,10 @@ namespace Little_Might.Modules
         private string[] _fightOptions;
         private int _interactIndex = 0;
 
+        private string[] _equippedItems;
+        private Texture2D _weaponSprite = null;
+        private Modules.InventoryItem _equippedWeapon = null;
+
         private int _craftIndex = 0;
         private Modules.Inventory.ITEMTYPE[] _craftingList = {
             Modules.Inventory.ITEMTYPE.NONE,
@@ -48,9 +52,24 @@ namespace Little_Might.Modules
             get { return _interactionSprite; }
         }
 
-        public String[] InteractionOptions
+        public string[] InteractionOptions
         {
             get { return _currentOptions; }
+        }
+
+        public string[] EquippedItems
+        {
+            get { return _equippedItems; }
+        }
+
+        public Modules.InventoryItem GetWeapon() { return _equippedWeapon; }
+
+        public Texture2D GetWeaponSprite()
+        {
+            if (_equippedItems[0] == "NO WEAPON")
+                return _playerInventory.InventorySelector.Sprite;
+            else
+                return _weaponSprite;
         }
 
         public Character (string spriteName, string interactSpriteName, Vector2 startingPosition, ContentManager contentManager, Utils.GraphicsManager gManager, Game1 gameClass)
@@ -59,7 +78,8 @@ namespace Little_Might.Modules
             _stats = new AdvancedStats(50, 10, 0, 1, 10, 10, 10, 10, 10, 2f, 0f);
             _playerInventory = new Inventory(contentManager);
             _interactionOptions = new string[] { "Communicate -", "Fight", "Run Away" };
-            _fightOptions = new string[] { "Punch -", "Kick", "Yell At" };
+            _fightOptions = Utils.CombatHandler.SetCombatOptions("none");
+            _equippedItems = new string[] { "NO WEAPON", "HEADGEAR", "FOOTGEAR", "CHESTGEAR", "ACCESSORY" };
 
             _currentOptions = _interactionOptions;
 
@@ -87,6 +107,7 @@ namespace Little_Might.Modules
             }
             else
             {
+                _inputManager.MoveSpeed = 0.15;
                 if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Down))
                 {
                     if (_interactIndex + 1 < _currentOptions.Length)
@@ -180,6 +201,25 @@ namespace Little_Might.Modules
                         _graphicsManager.ShowSystemMessage("Picked up " + randomTreeItem.ToString());
                 }
             }
+            if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.CHEST)
+            {
+                string randomChestItem = wMap.GetChestItem();
+
+                if (randomChestItem != "")
+                {
+                    if (_playerInventory.AddItem(Utils.ItemInfo.GetItemByName(randomChestItem, content)))
+                    {
+                        _graphicsManager.ShowSystemMessage("Picked up " + randomChestItem.ToUpper());
+
+                        wMap.ChangeTile(new Vector2(Position.X, Position.Y), Utils.WorldMap.MAPTILETYPE.GRASS);
+                        _graphicsManager.ChangeWorldObjectVisual(content.Load<Texture2D>("tile_grass"),
+                            Utils.GameColors.GrassMapColor,
+                            (int)Position.X,
+                            (int)Position.Y,
+                            Modules.Inventory.ITEMTYPE.NONE);
+                    }
+                }
+            }
         }
 
         private void UpdateInventoryInteraction(ContentManager content, Utils.WorldMap map)
@@ -204,6 +244,28 @@ namespace Little_Might.Modules
                     return;
 
                 Inventory.ITEMTYPE _itemType = _playerInventory.GetSelectedItem().Type;
+
+                if (_itemType == Inventory.ITEMTYPE.WEAPON)
+                {
+                    if (_weaponSprite == null)
+                    {
+                        _equippedWeapon = _playerInventory.GetSelectedItem();
+                        _weaponSprite = _playerInventory.GetSelectedItem().Sprite;
+                        _equippedItems[0] = _playerInventory.GetSelectedItem().Name.ToUpper();
+
+                        _fightOptions = Utils.CombatHandler.SetCombatOptions(_playerInventory.GetSelectedItem().Name);
+                    }
+                    else
+                    {
+                        _equippedWeapon = null;
+                        _weaponSprite = null;
+                        _equippedItems[0] = "NO WEAPON";
+                        _fightOptions = Utils.CombatHandler.SetCombatOptions("none");
+                    }
+
+                    return;
+                }
+
                 int _hungerValue = Utils.ItemInfo.GetItemHungerValue(_itemType);
                 _playerInventory.GetSelectedItem().Toggled = !_playerInventory.GetSelectedItem().Toggled;
 
@@ -236,17 +298,17 @@ namespace Little_Might.Modules
                         _craftIndex = 0;
                 }
 
-                Inventory.ITEMTYPE _craftedType = Utils.ItemInfo.CheckCraftables(_craftingList);
+                InventoryItem _craftedItem = Utils.ItemInfo.CheckCraftables(_craftingList, _playerInventory, content);
 
-                if (_craftedType != Inventory.ITEMTYPE.NONE)
+                if (_craftedItem != null)
                 {
                     _playerInventory.RemoveToggledItems();
-                    _playerInventory.AddItem(_craftedType, content);
+                    _playerInventory.AddItem(_craftedItem);
 
                     _craftIndex = 0;
                     Array.Clear(_craftingList, 0, _craftingList.Length);
 
-                    _graphicsManager.ShowSystemMessage("Made " + _craftedType + "!");
+                    _graphicsManager.ShowSystemMessage("Made " + _craftedItem.Name.ToUpper() + "!");
                 }
                 else if (_playerInventory.GetSelectedItem().IsPlaceable)
                 {
