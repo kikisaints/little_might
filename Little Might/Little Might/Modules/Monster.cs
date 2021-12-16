@@ -14,6 +14,17 @@ namespace Little_Might.Modules
             SLIME = 0
         }
 
+        public static Inventory.ITEMTYPE GetDrop(MONSTERTYPE type)
+        {
+            switch(type.ToString().ToLower())
+            {
+                case "slime":
+                    return Inventory.ITEMTYPE.GOOP;
+            }
+
+            return Inventory.ITEMTYPE.NONE;
+        }
+
         private Stats _stats;
         private Texture2D _interactionSprite;
         private MONSTERTYPE _monsterType;

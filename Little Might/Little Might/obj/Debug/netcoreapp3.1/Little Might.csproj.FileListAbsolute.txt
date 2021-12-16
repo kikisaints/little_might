@@ -165,3 +165,4 @@ C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug
 C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\oregano.xnb
 C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\thyme.xnb
 C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\tile_herbs.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\drops_slime.xnb

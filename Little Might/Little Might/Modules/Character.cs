@@ -223,29 +223,58 @@ namespace Little_Might.Modules
                         _graphicsManager.ShowSystemMessage("Picked up " + randomTreeItem.ToString());
                 }
             }
+            if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.ITEMDROP)
+            {
+                WorldObject obj = _graphicsManager.GetWorldObject((int)movePos.X, (int)movePos.Y);
+
+                if (obj.ObjectColor == Utils.GameColors.MonsterSlimeColor)
+                {
+                    if (_playerInventory.AddItem(Inventory.ITEMTYPE.GOOP, content))
+                        _graphicsManager.ShowSystemMessage("Picked up " + Inventory.ITEMTYPE.GOOP.ToString());
+                }
+
+                wMap.ChangeTile(new Vector2(Position.X, Position.Y), Utils.WorldMap.MAPTILETYPE.GRASS);
+                _graphicsManager.ChangeWorldObjectVisual(content.Load<Texture2D>("tile_grass"),
+                    Utils.GameColors.GrassMapColor,
+                    (int)Position.X,
+                    (int)Position.Y,
+                    Modules.Inventory.ITEMTYPE.NONE);
+            }
             if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.CHEST)
             {
-                string randomChestItem = wMap.GetChestItem();
+                Inventory.ITEMTYPE randomChestItem = wMap.GetChestItem();
 
-                if (randomChestItem != "")
+                if (randomChestItem == Inventory.ITEMTYPE.WEAPON)
                 {
-                    if (_playerInventory.AddItem(Utils.ItemInfo.GetItemByName(randomChestItem, content)))
+                    int chance = Utils.MathHandler.GetRandomNumber(0, 1);
+                    if (chance == 0)
                     {
-                        _graphicsManager.ShowSystemMessage("Picked up " + randomChestItem.ToUpper());
-
-                        wMap.ChangeTile(new Vector2(Position.X, Position.Y), Utils.WorldMap.MAPTILETYPE.GRASS);
-                        _graphicsManager.ChangeWorldObjectVisual(content.Load<Texture2D>("tile_grass"),
-                            Utils.GameColors.GrassMapColor,
-                            (int)Position.X,
-                            (int)Position.Y,
-                            Modules.Inventory.ITEMTYPE.NONE);
+                        if (_playerInventory.AddItem(Utils.ItemInfo.GetItemByName("steelsword", content)))
+                            _graphicsManager.ShowSystemMessage("Picked up STEELSWORD");                        
+                    }
+                    else if (chance == 1)
+                    {
+                        if (_playerInventory.AddItem(Utils.ItemInfo.GetItemByName("stonesword", content)))
+                            _graphicsManager.ShowSystemMessage("Picked up STONESWORD");
                     }
                 }
+                else
+                {
+                    if (_playerInventory.AddItem(randomChestItem, content))
+                        _graphicsManager.ShowSystemMessage("Picked up " + randomChestItem.ToString());
+                }
+
+                wMap.ChangeTile(new Vector2(Position.X, Position.Y), Utils.WorldMap.MAPTILETYPE.GRASS);
+                _graphicsManager.ChangeWorldObjectVisual(content.Load<Texture2D>("tile_grass"),
+                    Utils.GameColors.GrassMapColor,
+                    (int)Position.X,
+                    (int)Position.Y,
+                    Modules.Inventory.ITEMTYPE.NONE);
             }
             if (_graphicsManager.IsCampfireAffectedTile((int)movePos.X, (int)movePos.Y))
             {
                 if (_stats.HP < _stats.BaseHP)
-                    _stats.HP += 5;
+                    _stats.HP += 1;
 
                 if (_stats.HP > _stats.BaseHP)
                     _stats.HP = _stats.BaseHP;
@@ -280,6 +309,15 @@ namespace Little_Might.Modules
 
             if (_playerInventory.NavigatingInventory)
             {
+                if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.T))
+                {
+                    if (_playerInventory.GetSelectedItem() == null)
+                        return;
+
+                    _graphicsManager.ShowSystemMessage("Trashed " + _playerInventory.GetSelectedItem().Type.ToString().ToUpper() + "!");
+                    _playerInventory.RemoveSelectedItem();
+                }
+
                 if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Enter))
                 {
                     if (_playerInventory.GetSelectedItem() == null)
@@ -317,7 +355,7 @@ namespace Little_Might.Modules
 
                         _stats.Hunger += _hungerValue;
                         _graphicsManager.ShowSystemMessage("+" + _hungerValue.ToString() + " HUNGER");
-                        _playerInventory.RemoveSelectedItem();                        
+                        _playerInventory.RemoveSelectedItem();
 
                         return;
                     }

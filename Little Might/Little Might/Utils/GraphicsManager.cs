@@ -22,6 +22,7 @@ namespace Little_Might.Utils
         private List<Modules.ScreenObject> _screenObjects;
         private SpriteFont _font;
         private Effect _effect;
+        private ContentManager _content;
 
         private bool _showSystemUI = false;
         private bool _showInteractionOptions = true;
@@ -79,9 +80,10 @@ namespace Little_Might.Utils
             _diseaseIcon = contentManager.Load<Texture2D>("icon_disease");
             _systemPopup = contentManager.Load<Texture2D>("system_notice_ui");
 
+            _content = contentManager;
+
             //Game UI Objects
             AddScreenObject(new Modules.ScreenObject(contentManager.Load<Texture2D>("inventory_ui"), new Vector2(-290, 225), 4f));
-
             SetupCRTEffect(contentManager);
         }
 
@@ -202,7 +204,7 @@ namespace Little_Might.Utils
 
         public void AddWorldObject(Modules.WorldObject worldObject) { _worldObjects.Add(worldObject); }
 
-        public void ChangeWorldObjectVisual(Texture2D newSprite, Color newColor, int x, int y, Modules.Inventory.ITEMTYPE type)
+        public void ChangeWorldObjectVisual(Texture2D newSprite, Color newColor, int x, int y, Modules.Inventory.ITEMTYPE type, Utils.WorldMap.MAPTILETYPE mapTile = WorldMap.MAPTILETYPE.OUTOFBOUNDS)
         {
             int indexX = x / Utils.WorldMap.UNITSIZE;
             int indexY = y / Utils.WorldMap.UNITSIZE;
@@ -210,6 +212,9 @@ namespace Little_Might.Utils
 
             _worldObjects[index].Sprite = newSprite;
             _worldObjects[index].ObjectColor = newColor;
+
+            if (mapTile != WorldMap.MAPTILETYPE.OUTOFBOUNDS)
+                _worldMap.MapTiles[x, y] = mapTile;
 
             if (type == Modules.Inventory.ITEMTYPE.CAMPFIRE)
             {
@@ -232,11 +237,35 @@ namespace Little_Might.Utils
             return _worldObjects[index].FireAffected;
         }
 
+        public Modules.WorldObject GetWorldObject(int x, int y)
+        {
+            int indexX = x / Utils.WorldMap.UNITSIZE;
+            int indexY = y / Utils.WorldMap.UNITSIZE;
+            int index = Utils.MathHandler.Get1DIndex(indexY, indexX, _worldMap.MapWidth);
+
+            return _worldObjects[index];
+        }
+
         public void AddScreenObject(Modules.ScreenObject screenObject) { _screenObjects.Add(screenObject); }
 
         public void AddCharacterObject(Modules.WorldObject worldObject) { _characters.Add(worldObject); }
         
-        public void RemoveCharacterObject(Modules.WorldObject worldObject) { _characters.Remove(worldObject); }
+        public void RemoveCharacterObject(Modules.WorldObject worldObject) 
+        {
+            Modules.Monster monster = worldObject as Modules.Monster;
+            
+            if (monster != null)
+            {
+                Modules.Inventory.ITEMTYPE dropType = Modules.Monster.GetDrop(monster.MonsterType);
+
+                if (dropType != Modules.Inventory.ITEMTYPE.NONE)
+                {
+                    ChangeWorldObjectVisual(Utils.ItemInfo.GetSpriteTexture(dropType, _content), monster.ObjectColor, (int)monster.Position.X, (int)monster.Position.Y, dropType, WorldMap.MAPTILETYPE.ITEMDROP);
+                }
+            }
+
+            _characters.Remove(worldObject); 
+        }
 
         private int[] GetAffectShape(int drawRadius, Vector2 centerPoint, int mapWidth)
         {
@@ -491,7 +520,7 @@ namespace Little_Might.Utils
 
                     FontOrigin = _font.MeasureString(_item.Discription) / 2;
                     _spriteBatch.DrawString(_font,
-                        _item.Discription + "\n\n" + "Selected: " + _item.Toggled,
+                        _item.Discription + "\n\n Selected: " + _item.Toggled + "\n\n T - Trash",
                         new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 800, (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 160),
                         Color.White,
                         0,

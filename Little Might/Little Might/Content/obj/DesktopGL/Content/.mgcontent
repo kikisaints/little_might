@@ -10,6 +10,7 @@
     <File>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/campfire.png</File>
     <File>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/character_base.png</File>
     <File>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/chest_little.png</File>
+    <File>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/drops_slime.png</File>
     <File>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/flint.png</File>
     <File>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/flint_selected.png</File>
     <File>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/fonts/pixelfont.spritefont</File>
@@ -46,6 +47,7 @@
     <File>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/twine_selected.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

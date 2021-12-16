@@ -41,6 +41,7 @@ namespace Little_Might.Utils
             FRUIT,
             CHEST,
             CAMPFIRE,
+            ITEMDROP,
             OUTOFBOUNDS
         }
 
@@ -237,9 +238,9 @@ namespace Little_Might.Utils
             return Modules.Inventory.ITEMTYPE.NONE;
         }
 
-        public string GetChestItem()
+        public Modules.Inventory.ITEMTYPE GetChestItem()
         {
-            return "steelsword";
+            return (Modules.Inventory.ITEMTYPE)Utils.MathHandler.GetRandomNumber(0, 11);
         }
 
         public Modules.Inventory.ITEMTYPE GetTreeItem()

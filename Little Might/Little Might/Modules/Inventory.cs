@@ -78,7 +78,8 @@ namespace Little_Might.Modules
             TWINE,
             THYME,
             OREGANO,
-            GARLIC
+            GARLIC,
+            GOOP
         }        
 
         private List<InventoryItem> _invItems;
@@ -182,7 +183,7 @@ namespace Little_Might.Modules
         //Returns true if the item was successfully added to the inventory
         public bool AddItem(ITEMTYPE type, ContentManager content)
         {
-            Texture2D sprite = GetSpriteTexture(type, content);
+            Texture2D sprite = Utils.ItemInfo.GetSpriteTexture(type, content);
 
             if (sprite != null && _invItems.Count + 1 < _maxInvSlots)
             {
@@ -230,46 +231,6 @@ namespace Little_Might.Modules
             }
 
             return new Vector2(_startingSlotPos.X + (_spacing.X * _invCols), _startingSlotPos.Y + (_spacing.Y * _invRows));
-        }
-
-        public Texture2D GetSpriteTexture(string itemName, ContentManager contentMgr)
-        {
-            switch (itemName.ToLower())
-            {
-                case "stonesword":
-                    return contentMgr.Load<Texture2D>("stone_sword");
-            }
-
-            return null;
-        }
-
-        public Texture2D GetSpriteTexture(ITEMTYPE type, ContentManager contentMgr)
-        {
-            switch(type)
-            {
-                case ITEMTYPE.FRUIT:
-                    return contentMgr.Load<Texture2D>("icon_food");
-                case ITEMTYPE.FLINT:
-                    return contentMgr.Load<Texture2D>("flint");
-                case ITEMTYPE.STONE:
-                    return contentMgr.Load<Texture2D>("stone");
-                case ITEMTYPE.STICK:
-                    return contentMgr.Load<Texture2D>("twig");
-                case ITEMTYPE.BERRY:
-                    return contentMgr.Load<Texture2D>("berries");
-                case ITEMTYPE.CAMPFIRE:
-                    return contentMgr.Load<Texture2D>("campfire");
-                case ITEMTYPE.TWINE:
-                    return contentMgr.Load<Texture2D>("twine");
-                case ITEMTYPE.THYME:
-                    return contentMgr.Load<Texture2D>("thyme");
-                case ITEMTYPE.GARLIC:
-                    return contentMgr.Load<Texture2D>("garlic");
-                case ITEMTYPE.OREGANO:
-                    return contentMgr.Load<Texture2D>("oregano");
-            }
-
-            return null;
         }
     }
 }

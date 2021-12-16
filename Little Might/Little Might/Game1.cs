@@ -217,12 +217,15 @@ namespace Little_Might
             {
                 string _deathCause = "";
 
-                if (_character != null)
+                if (_inOverworld)
                 {
-                    _deathCause = _character.GetCauseOfDeath();
+                    if (_character != null)
+                    {
+                        _deathCause = _character.GetCauseOfDeath();
 
-                    if (_deathCause != "")
-                        _deathCause = " of " + _deathCause;
+                        if (_deathCause != "")
+                            _deathCause = " of " + _deathCause;
+                    }
                 }
 
                 _graphicsManager.DrawUIString(Utils.SceneInfo.GetSceneMessage(_currentScene, _deathCause),

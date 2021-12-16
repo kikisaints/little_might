@@ -1,14 +1,58 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static Little_Might.Modules.Inventory;
 
 namespace Little_Might.Utils
 {
     class ItemInfo
     {
+        public static Texture2D GetSpriteTexture(string itemName, ContentManager contentMgr)
+        {
+            switch (itemName.ToLower())
+            {
+                case "stonesword":
+                    return contentMgr.Load<Texture2D>("stone_sword");
+            }
+
+            return null;
+        }
+
+        public static Texture2D GetSpriteTexture(ITEMTYPE type, ContentManager contentMgr)
+        {
+            switch (type)
+            {
+                case ITEMTYPE.FRUIT:
+                    return contentMgr.Load<Texture2D>("icon_food");
+                case ITEMTYPE.FLINT:
+                    return contentMgr.Load<Texture2D>("flint");
+                case ITEMTYPE.STONE:
+                    return contentMgr.Load<Texture2D>("stone");
+                case ITEMTYPE.STICK:
+                    return contentMgr.Load<Texture2D>("twig");
+                case ITEMTYPE.BERRY:
+                    return contentMgr.Load<Texture2D>("berries");
+                case ITEMTYPE.CAMPFIRE:
+                    return contentMgr.Load<Texture2D>("campfire");
+                case ITEMTYPE.TWINE:
+                    return contentMgr.Load<Texture2D>("twine");
+                case ITEMTYPE.THYME:
+                    return contentMgr.Load<Texture2D>("thyme");
+                case ITEMTYPE.GARLIC:
+                    return contentMgr.Load<Texture2D>("garlic");
+                case ITEMTYPE.OREGANO:
+                    return contentMgr.Load<Texture2D>("oregano");
+                case ITEMTYPE.GOOP:
+                    return contentMgr.Load<Texture2D>("drops_slime");
+            }
+
+            return null;
+        }
+
         public static string GetItemInformation(Modules.Inventory.ITEMTYPE itemType, string name = "")
         {
             switch(itemType)
@@ -35,6 +79,8 @@ namespace Little_Might.Utils
                     return "Strongly scented, good\n at fighting bacteria";
                 case Modules.Inventory.ITEMTYPE.OREGANO:
                     return "A potent herb known\nto help inflamation";
+                case Modules.Inventory.ITEMTYPE.GOOP:
+                    return "Piece of a slime\nsticky and toxic";
                 default:
                     break;
             }
@@ -109,12 +155,12 @@ namespace Little_Might.Utils
 
             if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] { Modules.Inventory.ITEMTYPE.NONE, Modules.Inventory.ITEMTYPE.NONE, Modules.Inventory.ITEMTYPE.FLINT, Modules.Inventory.ITEMTYPE.STICK }))
             {
-                return new Modules.InventoryItem(inventory.GetSpriteTexture(Modules.Inventory.ITEMTYPE.CAMPFIRE, content), Vector2.Zero, 3f, Modules.Inventory.ITEMTYPE.CAMPFIRE);
+                return new Modules.InventoryItem(Utils.ItemInfo.GetSpriteTexture(Modules.Inventory.ITEMTYPE.CAMPFIRE, content), Vector2.Zero, 3f, Modules.Inventory.ITEMTYPE.CAMPFIRE);
             }
 
             if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] { Modules.Inventory.ITEMTYPE.NONE, Modules.Inventory.ITEMTYPE.STONE, Modules.Inventory.ITEMTYPE.STICK, Modules.Inventory.ITEMTYPE.TWINE }))
             {
-                return new Modules.InventoryItem(inventory.GetSpriteTexture("stonesword", content), Vector2.Zero, 3f, Modules.Inventory.ITEMTYPE.WEAPON, "stonesword");
+                return new Modules.InventoryItem(Utils.ItemInfo.GetSpriteTexture("stonesword", content), Vector2.Zero, 3f, Modules.Inventory.ITEMTYPE.WEAPON, "stonesword");
             }
 
             return null;
