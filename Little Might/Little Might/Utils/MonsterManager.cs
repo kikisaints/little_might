@@ -43,7 +43,7 @@ namespace Little_Might.Utils
             {
                 foreach (Modules.Monster monster in _allMonsters)
                 {
-                    monster.UpdateMovement(time);
+                    monster.UpdateMovement(time, _map);
                 }
             }
         }

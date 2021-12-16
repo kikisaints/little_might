@@ -22,6 +22,8 @@ namespace Little_Might.Modules
         private int _maxHunger;
         private int _maxHydration;
 
+        private int _baseHP;
+
         public int Hunger
         {
             get { return _hunger; }
@@ -50,9 +52,16 @@ namespace Little_Might.Modules
             set { _illness = value; }
         }
 
+        public int BaseHP
+        {
+            get { return _baseHP; }
+        }
+
         public AdvancedStats(int hp, int sp, int mp, float spd, int intel, int str, int wis, int dex, int charisma, float def, float crit)
         {
-            HP = hp;
+            _baseHP = hp;
+            HP = _baseHP;
+
             Stamina = sp;
             Mana = mp;
             Speed = spd;

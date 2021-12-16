@@ -241,7 +241,15 @@ namespace Little_Might.Modules
                             Modules.Inventory.ITEMTYPE.NONE);
                     }
                 }
-            }            
+            }
+            if (_graphicsManager.IsCampfireAffectedTile((int)movePos.X, (int)movePos.Y))
+            {
+                if (_stats.HP < _stats.BaseHP)
+                    _stats.HP += 5;
+
+                if (_stats.HP > _stats.BaseHP)
+                    _stats.HP = _stats.BaseHP;
+            }
         }
 
         private bool WaterTileNearby(Utils.WorldMap map)
@@ -305,9 +313,11 @@ namespace Little_Might.Modules
 
                     if (_hungerValue != 0)
                     {
+                        SetIngestedIllness(_playerInventory.GetSelectedItem().Type);
+
                         _stats.Hunger += _hungerValue;
                         _graphicsManager.ShowSystemMessage("+" + _hungerValue.ToString() + " HUNGER");
-                        _playerInventory.RemoveSelectedItem();
+                        _playerInventory.RemoveSelectedItem();                        
 
                         return;
                     }
@@ -500,6 +510,26 @@ namespace Little_Might.Modules
                 wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) != Utils.WorldMap.MAPTILETYPE.CAMPFIRE)
                 return true;
             return false;
+        }
+
+        private void SetIngestedIllness(Inventory.ITEMTYPE food)
+        {
+            switch (food.ToString().ToLower())
+            {
+                case "thyme":
+                    break;
+                case "oregano":
+                    if (_stats.Illness == AdvancedStats.ILLNESSES.MOUNTAINFEVER)
+                    {
+                        _stats.Speed = 1;
+                        _stats.Illness = AdvancedStats.ILLNESSES.NONE;
+                    }
+                    break;
+                case "garlic":
+                    if (_stats.Illness == AdvancedStats.ILLNESSES.CHOLERA)
+                        _stats.Illness = AdvancedStats.ILLNESSES.NONE;
+                    break;
+            }
         }
     }
 }

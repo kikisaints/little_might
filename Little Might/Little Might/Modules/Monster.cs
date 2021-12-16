@@ -53,7 +53,7 @@ namespace Little_Might.Modules
             MoveTime = _movementWaitTime.Next(1, 5) * 0.5;
         }
 
-        public void UpdateMovement(GameTime gTime)
+        public void UpdateMovement(GameTime gTime, Utils.WorldMap map)
         {
             _timer += gTime.ElapsedGameTime.TotalSeconds;
 
@@ -61,23 +61,27 @@ namespace Little_Might.Modules
             {
                 _timer = 0;
                 int dir = Utils.MathHandler.GetRandomNumber(0, 4);
+                Vector2 movePosition = Vector2.Zero;
 
                 if (dir == 0)
                 {
-                    Position = new Vector2(Position.X + Utils.WorldMap.UNITSIZE, Position.Y);
+                    movePosition = new Vector2(Position.X + Utils.WorldMap.UNITSIZE, Position.Y);
                 }
                 else if (dir == 1)
                 {
-                    Position = new Vector2(Position.X, Position.Y + Utils.WorldMap.UNITSIZE);
+                    movePosition = new Vector2(Position.X, Position.Y + Utils.WorldMap.UNITSIZE);
                 }
                 else if (dir == 2)
                 {
-                    Position = new Vector2(Position.X, Position.Y - Utils.WorldMap.UNITSIZE);
+                    movePosition = new Vector2(Position.X, Position.Y - Utils.WorldMap.UNITSIZE);
                 }
                 else
                 {
-                    Position = new Vector2(Position.X - Utils.WorldMap.UNITSIZE, Position.Y);
+                    movePosition = new Vector2(Position.X - Utils.WorldMap.UNITSIZE, Position.Y);
                 }
+
+                if (_monsterType == MONSTERTYPE.SLIME && map.GetTileType(movePosition) == Utils.WorldMap.MAPTILETYPE.GRASS)
+                    Position = movePosition;
             }
         }
 

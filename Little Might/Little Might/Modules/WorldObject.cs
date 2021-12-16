@@ -11,6 +11,13 @@ namespace Little_Might.Modules
         private Texture2D _sprite;
         private Vector2 _position;
         private Color _color;
+        private bool _fireAffected;
+
+        public bool FireAffected
+        {
+            get { return _fireAffected; }
+            set { _fireAffected = value; }
+        }
 
         public Color ObjectColor
         {
@@ -37,6 +44,8 @@ namespace Little_Might.Modules
             _sprite = sprite;
             _position = position;
             _color = color;
+
+            _fireAffected = false;
         }
     }
 }

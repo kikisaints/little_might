@@ -218,8 +218,18 @@ namespace Little_Might.Utils
                 foreach (int i in fireAffectedArea)
                 {
                     _worldObjects[i].ObjectColor = Utils.MathHandler.BlendColor(Utils.GameColors.CampfireMapColor, _worldObjects[i].ObjectColor, 0.5f);
+                    _worldObjects[i].FireAffected = true;
                 }
             }
+        }
+
+        public bool IsCampfireAffectedTile(int x, int y)
+        {
+            int indexX = x / Utils.WorldMap.UNITSIZE;
+            int indexY = y / Utils.WorldMap.UNITSIZE;
+            int index = Utils.MathHandler.Get1DIndex(indexY, indexX, _worldMap.MapWidth);
+
+            return _worldObjects[index].FireAffected;
         }
 
         public void AddScreenObject(Modules.ScreenObject screenObject) { _screenObjects.Add(screenObject); }
