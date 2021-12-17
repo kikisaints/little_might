@@ -358,7 +358,7 @@ namespace Little_Might.Utils
                         (int)charPos.X / Utils.WorldMap.UNITSIZE, 
                         (int)charPos.Y / Utils.WorldMap.UNITSIZE, 
                         radius))
-                        _spriteBatch.Draw(cobj.Sprite, cobj.Position, null, cobj.ObjectColor);
+                        _spriteBatch.Draw(cobj.Sprite, cobj.Position, null, cobj.ObjectColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 }
             }
 

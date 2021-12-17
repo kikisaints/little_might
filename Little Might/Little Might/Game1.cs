@@ -111,27 +111,39 @@ namespace Little_Might
             }
         }
 
-        private void EndInteraction()
+        private void EndInteraction(bool escape = false)
         {
             _character.EndFight();
             LeaveInteraction();
 
             _graphicsManager.DisplayInteractionOptions(true);
-            _graphicsManager.RemoveCharacterObject(_interactor);
+
+            if (!escape)
+                _graphicsManager.RemoveCharacterObject(_interactor);
+
             _isPlayerTurn = true;
 
-            _graphicsManager.ShowSystemMessage("Defeated " + _interactor.MonsterType.ToString().ToUpper() + "!");
+            if (!escape)
+                _graphicsManager.ShowSystemMessage("Defeated " + _interactor.MonsterType.ToString().ToUpper() + "!");
+            else
+                _graphicsManager.ShowSystemMessage(_interactor.MonsterType.ToString().ToUpper() + " got away!");
         }
 
         public void EndMonsterTurn(string action)
         {
+            if (action == "runaway")
+            {
+                EndInteraction(true);
+                return;
+            }
+
             _graphicsManager.DisplayInteractionOptions(true);
             _isPlayerTurn = true;
 
             int totalDamage = Utils.CombatHandler.AttackCharacter(ref _character, _interactor, action);
             _graphicsManager.ShowSystemMessage("Took " + totalDamage.ToString() + " DAMAGE");
 
-            _character.Stats.HP -= totalDamage;
+            _character.Stats.HP -= totalDamage;            
         }
 
         private void UpdateGame(GameTime gTime)

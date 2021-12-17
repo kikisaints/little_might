@@ -51,6 +51,10 @@ namespace Little_Might.Utils
                         return "poison";
                     else
                         return "spit";
+                case Modules.Monster.MONSTERTYPE.RABBIT:
+                    return "runaway";
+                case Modules.Monster.MONSTERTYPE.DEER:
+                    return "runaway";
             }
 
             return "";

@@ -19,6 +19,24 @@ namespace Little_Might.Utils
         static private Color _waterMapColor = new Color(66, 135, 245, 255);
         static private Color _campfireMapColor = Color.IndianRed;
         static private Color _monsterSlimeColor = new Color(3, 132, 256, 255);
+        static private Color _monsterDeerColor = new Color(235, 172, 101, 255);
+        static private Color _monsterRabbitColor = new Color(255, 204, 232, 255);
+        static private Color _monsterCelestialHorrorColor = Color.Red;
+
+        static public Color MonsterDeerColor
+        {
+            get { return _monsterDeerColor; }
+        }
+
+        static public Color MonsterRabbitColor
+        {
+            get { return _monsterRabbitColor; }
+        }
+
+        static public Color MonsterCelestialHorrorColor
+        {
+            get { return _monsterCelestialHorrorColor; }
+        }
 
         static public Color MonsterSlimeColor
         {

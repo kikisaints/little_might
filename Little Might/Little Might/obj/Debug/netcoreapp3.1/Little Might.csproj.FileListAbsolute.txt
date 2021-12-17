@@ -166,3 +166,13 @@ C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug
 C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\thyme.xnb
 C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\tile_herbs.xnb
 C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\drops_slime.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\building_house.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\building_hut.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\building_shop.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\building_well.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\celestialhorror.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\deer.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\monster_celestialhorror.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\monster_deer.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\monster_rabbit.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\rabbit.xnb

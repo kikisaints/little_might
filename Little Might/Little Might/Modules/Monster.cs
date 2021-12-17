@@ -11,7 +11,10 @@ namespace Little_Might.Modules
     {
         public enum MONSTERTYPE
         {
-            SLIME = 0
+            SLIME = 0,
+            DEER,
+            RABBIT,
+            CELESTIALHORROR
         }
 
         public static Inventory.ITEMTYPE GetDrop(MONSTERTYPE type)
@@ -53,7 +56,13 @@ namespace Little_Might.Modules
 
         public Monster(string spriteName, string intractSpriteName, Vector2 startingPosition, ContentManager contentManager, Color color, MONSTERTYPE type)
         {
-            _stats = new AdvancedStats(25, 10, 0, 1, 1, 1, 1, 1, 1, 2f, 0.05f);
+            //need better way to set these stats...
+            if (type == MONSTERTYPE.SLIME)
+                _stats = new AdvancedStats(25, 10, 0, 1, 1, 1, 1, 1, 1, 2f, 0.05f);
+            if (type == MONSTERTYPE.DEER)
+                _stats = new AdvancedStats(50, 20, 0, 1, 1, 1, 1, 1, 1, 5f, 0.05f);
+            if (type == MONSTERTYPE.RABBIT)
+                _stats = new AdvancedStats(15, 10, 0, 1, 1, 1, 1, 1, 1, 0f, 0.05f);
 
             _monsterType = type;
             Sprite = contentManager.Load<Texture2D>(spriteName);
@@ -91,7 +100,12 @@ namespace Little_Might.Modules
                     movePosition = new Vector2(Position.X - Utils.WorldMap.UNITSIZE, Position.Y);
                 }
 
-                if (_monsterType == MONSTERTYPE.SLIME && map.GetTileType(movePosition) == Utils.WorldMap.MAPTILETYPE.GRASS)
+                if (_monsterType == MONSTERTYPE.SLIME && 
+                    map.GetTileType(movePosition) == Utils.WorldMap.MAPTILETYPE.GRASS)
+                    Position = movePosition;
+                else if ((_monsterType == MONSTERTYPE.DEER || _monsterType == MONSTERTYPE.RABBIT) && 
+                    map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.EVERGREEN &&
+                    map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.WATER)
                     Position = movePosition;
             }
         }
