@@ -55,6 +55,8 @@ namespace Little_Might.Utils
                     return "runaway";
                 case Modules.Monster.MONSTERTYPE.DEER:
                     return "runaway";
+                case Modules.Monster.MONSTERTYPE.CELESTIALHORROR:
+                    return "dark strand";
             }
 
             return "";
@@ -79,6 +81,8 @@ namespace Little_Might.Utils
                 case "poison":
                     character.Stats.Illness = Modules.AdvancedStats.ILLNESSES.MOUNTAINFEVER;
                     break;
+                case "dark strand":
+                    return (int)((monster.Stats.INT + monster.Stats.Speed) - character.Stats.DEFENSE);
             }
 
             return 0;

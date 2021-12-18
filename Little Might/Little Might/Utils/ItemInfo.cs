@@ -48,6 +48,10 @@ namespace Little_Might.Utils
                     return contentMgr.Load<Texture2D>("oregano");
                 case ITEMTYPE.GOOP:
                     return contentMgr.Load<Texture2D>("drops_slime");
+                case ITEMTYPE.HARELEG:
+                    return contentMgr.Load<Texture2D>("drop_hareleg");
+                case ITEMTYPE.VEAL:
+                    return contentMgr.Load<Texture2D>("drop_veal");
             }
 
             return null;
@@ -81,6 +85,10 @@ namespace Little_Might.Utils
                     return "A potent herb known\nto help inflamation";
                 case Modules.Inventory.ITEMTYPE.GOOP:
                     return "Piece of a slime\nsticky and toxic";
+                case Modules.Inventory.ITEMTYPE.VEAL:
+                    return "Uncooked thick cut\nof deer meat";
+                case Modules.Inventory.ITEMTYPE.HARELEG:
+                    return "Uncooked leg of\n a wild rabbit";
                 default:
                     break;
             }
@@ -112,15 +120,19 @@ namespace Little_Might.Utils
             switch (itemType)
             {
                 case Modules.Inventory.ITEMTYPE.FRUIT:
-                    return 35;
+                    return 20;
                 case Modules.Inventory.ITEMTYPE.BERRY:
-                    return 15;
+                    return 10;
                 case Modules.Inventory.ITEMTYPE.GARLIC:
                     return 5;
                 case Modules.Inventory.ITEMTYPE.OREGANO:
                     return 1;
                 case Modules.Inventory.ITEMTYPE.THYME:
                     return 1;
+                case Modules.Inventory.ITEMTYPE.VEAL:
+                    return 50;
+                case Modules.Inventory.ITEMTYPE.HARELEG:
+                    return 35;
                 default:
                     return 0;
             }

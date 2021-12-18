@@ -212,6 +212,14 @@ namespace Little_Might.Utils
             return _startingPosition;
         }
 
+        public Vector2 GetRandomForestPoint()
+        {
+            int arrayIndex = _treePoints[Utils.MathHandler.GetRandomNumber(150, _treePoints.Count - 1)];
+
+            _startingPosition = MathHandler.Get2DPoint(arrayIndex, _width) * UNITSIZE;
+            return _startingPosition;
+        }
+
         public Modules.Inventory.ITEMTYPE GetBushItem()
         {
             int type = _tileRandom.Next(2, 6);

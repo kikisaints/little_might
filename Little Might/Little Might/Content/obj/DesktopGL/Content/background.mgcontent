@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/background.png</SourceFile>
-  <SourceTime>2021-12-06T07:50:42.3389733-08:00</SourceTime>
-  <DestFile>C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/bin/DesktopGL/Content/background.xnb</DestFile>
-  <DestTime>2021-12-13T06:25:10.0822798-08:00</DestTime>
+  <SourceFile>C:/Users/Kiki/Documents/GitHub/little_might/Little Might/Little Might/Content/background.png</SourceFile>
+  <SourceTime>2021-12-11T08:50:55.5800757-08:00</SourceTime>
+  <DestFile>C:/Users/Kiki/Documents/GitHub/little_might/Little Might/Little Might/Content/bin/DesktopGL/Content/background.xnb</DestFile>
+  <DestTime>2021-12-17T11:40:37.3690993-08:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T09:17:54-07:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

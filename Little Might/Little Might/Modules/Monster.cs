@@ -23,6 +23,10 @@ namespace Little_Might.Modules
             {
                 case "slime":
                     return Inventory.ITEMTYPE.GOOP;
+                case "rabbit":
+                    return Inventory.ITEMTYPE.HARELEG;
+                case "deer":
+                    return Inventory.ITEMTYPE.VEAL;
             }
 
             return Inventory.ITEMTYPE.NONE;
@@ -58,11 +62,13 @@ namespace Little_Might.Modules
         {
             //need better way to set these stats...
             if (type == MONSTERTYPE.SLIME)
-                _stats = new AdvancedStats(25, 10, 0, 1, 1, 1, 1, 1, 1, 2f, 0.05f);
+                _stats = new AdvancedStats(25, 10, 0, 1, 1, 1, 1, 1, 1, 2f, 0f);
             if (type == MONSTERTYPE.DEER)
-                _stats = new AdvancedStats(50, 20, 0, 1, 1, 1, 1, 1, 1, 5f, 0.05f);
+                _stats = new AdvancedStats(50, 20, 0, 1, 1, 1, 1, 1, 1, 5f, 0f);
             if (type == MONSTERTYPE.RABBIT)
-                _stats = new AdvancedStats(15, 10, 0, 1, 1, 1, 1, 1, 1, 0f, 0.05f);
+                _stats = new AdvancedStats(15, 10, 0, 1, 1, 1, 1, 1, 1, 0f, 0f);
+            if (type == MONSTERTYPE.CELESTIALHORROR)
+                _stats = new AdvancedStats(1000, 100, 450, 10, 100, 100, 100, 100, 100, 50f, 50f);
 
             _monsterType = type;
             Sprite = contentManager.Load<Texture2D>(spriteName);
@@ -101,11 +107,13 @@ namespace Little_Might.Modules
                 }
 
                 if (_monsterType == MONSTERTYPE.SLIME && 
-                    map.GetTileType(movePosition) == Utils.WorldMap.MAPTILETYPE.GRASS)
+                    map.GetTileType(movePosition) == Utils.WorldMap.MAPTILETYPE.GRASS &&
+                    map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS)
                     Position = movePosition;
                 else if ((_monsterType == MONSTERTYPE.DEER || _monsterType == MONSTERTYPE.RABBIT) && 
                     map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.EVERGREEN &&
-                    map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.WATER)
+                    map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.WATER &&
+                    map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS)
                     Position = movePosition;
             }
         }
@@ -120,7 +128,11 @@ namespace Little_Might.Modules
                 if (_monstersTurnAction == "")
                 {
                     _monstersTurnAction = Utils.CombatHandler.GetAttack(_monsterType);
-                    gManager.ShowSystemMessage(_monsterType.ToString().ToUpper() + " used " + _monstersTurnAction.ToUpper() + "!");
+
+                    if (_monsterType.ToString().ToUpper() != "CELESTIALHORROR")
+                        gManager.ShowSystemMessage(_monsterType.ToString().ToUpper() + " used " + _monstersTurnAction.ToUpper() + "!");
+                    else
+                        gManager.ShowSystemMessage("??? used ????!");
                 }
                 else
                 {

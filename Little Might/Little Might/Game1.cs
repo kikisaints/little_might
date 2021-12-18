@@ -84,7 +84,12 @@ namespace Little_Might
                     _inOverworld = false;
                     _interactor = _graphicsManager.Characters[i] as Modules.Monster;
 
-                    _graphicsManager.ShowSystemMessage("Encountered " + _interactor.MonsterType.ToString().ToUpper() + "!");
+                    string monsterName = _interactor.MonsterType.ToString().ToUpper();
+
+                    if (monsterName == "CELESTIALHORROR")
+                        monsterName = "???";
+
+                    _graphicsManager.ShowSystemMessage("Encountered " + monsterName + "!");
                     return;
                 }
             }
@@ -223,7 +228,7 @@ namespace Little_Might
         {
             if (_currentScene == SCENE.GAME)
             {
-                _graphicsManager.DrawUpdate(_camera.GetViewMatrix(), 10, _character.Position, _mapSize, _character, gameTime, _inOverworld, _interactor);
+                _graphicsManager.DrawUpdate(_camera.GetViewMatrix(), _character.FieldOfView, _character.Position, _mapSize, _character, gameTime, _inOverworld, _interactor);
             }
             else
             {

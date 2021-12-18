@@ -29,6 +29,7 @@ namespace Little_Might.Utils
             SetupMonsters(_maxSlimeCount, "monster_slime", "slime_interaction_img", Modules.Monster.MONSTERTYPE.SLIME, GameColors.MonsterSlimeColor);
             SetupMonsters(_maxDeerCount, "deer", "monster_deer", Modules.Monster.MONSTERTYPE.DEER, GameColors.MonsterDeerColor);
             SetupMonsters(_maxRabbitCount, "rabbit", "monster_rabbit", Modules.Monster.MONSTERTYPE.RABBIT, GameColors.MonsterRabbitColor);
+            SetupMonsters(1, "celestialhorror", "monster_celestialhorror", Modules.Monster.MONSTERTYPE.CELESTIALHORROR, GameColors.MonsterCelestialHorrorColor);
         }
 
         private void SetupMonsters(int count, string worldName, string interactionName, Modules.Monster.MONSTERTYPE type, Color monsterColor)
@@ -36,6 +37,12 @@ namespace Little_Might.Utils
             for (int i = 0; i < count; i++)
             {
                 Modules.Monster testMonster = new Modules.Monster(worldName, interactionName, _map.GetRandomGrassPoint(), _content, monsterColor, type);
+                if (type == Modules.Monster.MONSTERTYPE.CELESTIALHORROR)
+                {
+                    testMonster.Position = _map.GetRandomForestPoint();
+                    testMonster.MoveTime = 0;
+                }
+
                 _graphicsManager.AddCharacterObject(testMonster);
 
                 _allMonsters.Add(testMonster);

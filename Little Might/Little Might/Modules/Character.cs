@@ -19,6 +19,7 @@ namespace Little_Might.Modules
         private int _steps = 0;
         private bool _canMove = true;
         private bool _fighting = false;
+        private int _fieldOfView = 10;
 
         private string[] _currentOptions;
         private string[] _interactionOptions;
@@ -36,6 +37,11 @@ namespace Little_Might.Modules
             Modules.Inventory.ITEMTYPE.NONE,
             Modules.Inventory.ITEMTYPE.NONE
         };
+
+        public int FieldOfView
+        {
+            get { return _fieldOfView; }
+        }
 
         public Inventory Inv
         {
@@ -97,7 +103,7 @@ namespace Little_Might.Modules
 
             if (!inInteraction)
             {
-                UpdateMovementSpeed(map);                
+                UpdateMovement(map);                
                 UpdateInventoryInteraction(content, map);                
 
                 if (_canMove)
@@ -232,6 +238,16 @@ namespace Little_Might.Modules
                     if (_playerInventory.AddItem(Inventory.ITEMTYPE.GOOP, content))
                         _graphicsManager.ShowSystemMessage("Picked up " + Inventory.ITEMTYPE.GOOP.ToString());
                 }
+                if (obj.ObjectColor == Utils.GameColors.MonsterRabbitColor)
+                {
+                    if (_playerInventory.AddItem(Inventory.ITEMTYPE.HARELEG, content))
+                        _graphicsManager.ShowSystemMessage("Picked up " + Inventory.ITEMTYPE.HARELEG.ToString());
+                }
+                if (obj.ObjectColor == Utils.GameColors.MonsterDeerColor)
+                {
+                    if (_playerInventory.AddItem(Inventory.ITEMTYPE.VEAL, content))
+                        _graphicsManager.ShowSystemMessage("Picked up " + Inventory.ITEMTYPE.VEAL.ToString());
+                }
 
                 wMap.ChangeTile(new Vector2(Position.X, Position.Y), Utils.WorldMap.MAPTILETYPE.GRASS);
                 _graphicsManager.ChangeWorldObjectVisual(content.Load<Texture2D>("tile_grass"),
@@ -314,8 +330,15 @@ namespace Little_Might.Modules
                     if (_playerInventory.GetSelectedItem() == null)
                         return;
 
-                    _graphicsManager.ShowSystemMessage("Trashed " + _playerInventory.GetSelectedItem().Type.ToString().ToUpper() + "!");
-                    _playerInventory.RemoveSelectedItem();
+                    if (_equippedItems[0].ToLower() != _playerInventory.GetSelectedItem().Name.ToLower())
+                    {
+                        _graphicsManager.ShowSystemMessage("Trashed " + _playerInventory.GetSelectedItem().Type.ToString().ToUpper() + "!");
+                        _playerInventory.RemoveSelectedItem();
+                    }
+                    else
+                    {
+                        _graphicsManager.ShowSystemMessage("Can't trash item!");
+                    }
                 }
 
                 if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Enter))
@@ -384,8 +407,8 @@ namespace Little_Might.Modules
 
                     if (_craftedItem != null)
                     {
-                        _playerInventory.RemoveToggledItems();
                         _playerInventory.AddItem(_craftedItem);
+                        _playerInventory.RemoveToggledItems();                        
 
                         _craftIndex = 0;
                         Array.Clear(_craftingList, 0, _craftingList.Length);
@@ -517,21 +540,24 @@ namespace Little_Might.Modules
                 _stats.HP -= 2;
         }
 
-        private void UpdateMovementSpeed(Utils.WorldMap wMap)
+        private void UpdateMovement(Utils.WorldMap wMap)
         {
             if (_canMove)
             {
                 if (wMap.GetTileType(new Vector2(Position.X, Position.Y)) == Utils.WorldMap.MAPTILETYPE.TREE)
                 {
                     _inputManager.MoveSpeed = 0.5 * _stats.Speed;
+                    _fieldOfView = 7;
                 }
                 else if (wMap.GetTileType(new Vector2(Position.X, Position.Y)) == Utils.WorldMap.MAPTILETYPE.EVERGREEN)
                 {
                     _inputManager.MoveSpeed = 1.5 * _stats.Speed;
+                    _fieldOfView = 5;
                 }
                 else
                 {
                     _inputManager.MoveSpeed = 0.15 * _stats.Speed;
+                    _fieldOfView = 10;
                 }
             }
             else

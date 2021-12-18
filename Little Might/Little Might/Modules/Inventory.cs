@@ -79,7 +79,9 @@ namespace Little_Might.Modules
             THYME,
             OREGANO,
             GARLIC,
-            GOOP
+            GOOP,
+            HARELEG,
+            VEAL
         }        
 
         private List<InventoryItem> _invItems;
@@ -129,12 +131,18 @@ namespace Little_Might.Modules
 
         public void RemoveToggledItems()
         {
+            List<InventoryItem> toRemove = new List<InventoryItem>();
             for (int i = 0; i < _invItems.Count; i++)
             {
                 if (_invItems[i].Toggled)
                 {
-                    _invItems.Remove(_invItems[i]);
+                    toRemove.Add(_invItems[i]);
                 }
+            }
+
+            foreach (InventoryItem iItem in toRemove)
+            {
+                _invItems.Remove(iItem);
             }
 
             RefreshInventory();
