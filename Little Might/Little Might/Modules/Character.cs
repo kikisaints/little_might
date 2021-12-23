@@ -186,66 +186,66 @@ namespace Little_Might.Modules
         {
             if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.FRUIT)
             {
-                if (_playerInventory.AddItem(Inventory.ITEMTYPE.FRUIT, content))
+                if (_playerInventory.AddItem(Inventory.ITEMTYPE.FRUIT))
                     _graphicsManager.ShowSystemMessage("Picked up " + Inventory.ITEMTYPE.FRUIT.ToString());
             }
-            if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.BUSH)
+            else if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.BUSH)
             {
                 Inventory.ITEMTYPE randomBushItem = wMap.GetBushItem();
 
                 if (randomBushItem != Inventory.ITEMTYPE.NONE)
                 {
-                    if (_playerInventory.AddItem(randomBushItem, content))
+                    if (_playerInventory.AddItem(randomBushItem))
                         _graphicsManager.ShowSystemMessage("Picked up " + randomBushItem.ToString());
                 }
             }
-            if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.HERBS)
+            else if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.HERBS)
             {
                 Inventory.ITEMTYPE randomHerbItem = wMap.GetHerbItem();
 
                 if (randomHerbItem != Inventory.ITEMTYPE.NONE)
                 {
-                    if (_playerInventory.AddItem(randomHerbItem, content))
+                    if (_playerInventory.AddItem(randomHerbItem))
                         _graphicsManager.ShowSystemMessage("Picked up " + randomHerbItem.ToString());
                 }
             }
-            if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.ROCK)
+            else if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.ROCK)
             {
                 Inventory.ITEMTYPE randomRockItem = wMap.GetStoneItem();
 
                 if (randomRockItem != Inventory.ITEMTYPE.NONE)
                 {
-                    if (_playerInventory.AddItem(randomRockItem, content))
+                    if (_playerInventory.AddItem(randomRockItem))
                         _graphicsManager.ShowSystemMessage("Picked up " + randomRockItem.ToString());
                 }
             }
-            if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.TREE)
+            else if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.TREE)
             {
                 Inventory.ITEMTYPE randomTreeItem = wMap.GetTreeItem();
 
                 if (randomTreeItem != Inventory.ITEMTYPE.NONE)
                 {
-                    if (_playerInventory.AddItem(randomTreeItem, content))
+                    if (_playerInventory.AddItem(randomTreeItem))
                         _graphicsManager.ShowSystemMessage("Picked up " + randomTreeItem.ToString());
                 }
             }
-            if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.ITEMDROP)
+            else if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.ITEMDROP)
             {
                 WorldObject obj = _graphicsManager.GetWorldObject((int)movePos.X, (int)movePos.Y);
 
                 if (obj.ObjectColor == Utils.GameColors.MonsterSlimeColor)
                 {
-                    if (_playerInventory.AddItem(Inventory.ITEMTYPE.GOOP, content))
+                    if (_playerInventory.AddItem(Inventory.ITEMTYPE.GOOP))
                         _graphicsManager.ShowSystemMessage("Picked up " + Inventory.ITEMTYPE.GOOP.ToString());
                 }
                 if (obj.ObjectColor == Utils.GameColors.MonsterRabbitColor)
                 {
-                    if (_playerInventory.AddItem(Inventory.ITEMTYPE.HARELEG, content))
+                    if (_playerInventory.AddItem(Inventory.ITEMTYPE.HARELEG))
                         _graphicsManager.ShowSystemMessage("Picked up " + Inventory.ITEMTYPE.HARELEG.ToString());
                 }
                 if (obj.ObjectColor == Utils.GameColors.MonsterDeerColor)
                 {
-                    if (_playerInventory.AddItem(Inventory.ITEMTYPE.VEAL, content))
+                    if (_playerInventory.AddItem(Inventory.ITEMTYPE.VEAL))
                         _graphicsManager.ShowSystemMessage("Picked up " + Inventory.ITEMTYPE.VEAL.ToString());
                 }
 
@@ -256,7 +256,7 @@ namespace Little_Might.Modules
                     (int)Position.Y,
                     Modules.Inventory.ITEMTYPE.NONE);
             }
-            if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.CHEST)
+            else if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.CHEST)
             {
                 Inventory.ITEMTYPE randomChestItem = wMap.GetChestItem();
 
@@ -265,18 +265,18 @@ namespace Little_Might.Modules
                     int chance = Utils.MathHandler.GetRandomNumber(0, 1);
                     if (chance == 0)
                     {
-                        if (_playerInventory.AddItem(Utils.ItemInfo.GetItemByName("steelsword", content)))
+                        if (_playerInventory.AddItem("steel sword"))
                             _graphicsManager.ShowSystemMessage("Picked up STEELSWORD");                        
                     }
                     else if (chance == 1)
                     {
-                        if (_playerInventory.AddItem(Utils.ItemInfo.GetItemByName("stonesword", content)))
+                        if (_playerInventory.AddItem("stone sword"))
                             _graphicsManager.ShowSystemMessage("Picked up STONESWORD");
                     }
                 }
                 else
                 {
-                    if (_playerInventory.AddItem(randomChestItem, content))
+                    if (_playerInventory.AddItem(randomChestItem))
                         _graphicsManager.ShowSystemMessage("Picked up " + randomChestItem.ToString());
                 }
 
@@ -287,6 +287,7 @@ namespace Little_Might.Modules
                     (int)Position.Y,
                     Modules.Inventory.ITEMTYPE.NONE);
             }
+
             if (_graphicsManager.IsCampfireAffectedTile((int)movePos.X, (int)movePos.Y))
             {
                 if (_stats.HP < _stats.BaseHP)
@@ -332,7 +333,7 @@ namespace Little_Might.Modules
 
                     if (_equippedItems[0].ToLower() != _playerInventory.GetSelectedItem().Name.ToLower())
                     {
-                        _graphicsManager.ShowSystemMessage("Trashed " + _playerInventory.GetSelectedItem().ItemType.ToString().ToUpper() + "!");
+                        _graphicsManager.ShowSystemMessage("Trashed " + _playerInventory.GetSelectedItem().Name.ToUpper() + "!");
                         _playerInventory.RemoveSelectedItem();
                     }
                     else
@@ -369,7 +370,7 @@ namespace Little_Might.Modules
                         return;
                     }
 
-                    int _hungerValue = Utils.ItemInfo.GetItemHungerValue(_itemType);
+                    int _hungerValue = _playerInventory.GetSelectedItem().Hunger;
                     _playerInventory.GetSelectedItem().Toggled = !_playerInventory.GetSelectedItem().Toggled;
 
                     if (_hungerValue != 0)
@@ -403,17 +404,13 @@ namespace Little_Might.Modules
                             _craftIndex = 0;
                     }
 
-                    InventoryItem _craftedItem = Utils.ItemInfo.CheckCraftables(_craftingList, _playerInventory, content);
 
-                    if (_craftedItem != null)
+                    if (Utils.ItemInfo.CheckCraftables(_craftingList, ref _playerInventory, _graphicsManager))
                     {
-                        _playerInventory.AddItem(_craftedItem);
                         _playerInventory.RemoveToggledItems();                        
 
                         _craftIndex = 0;
                         Array.Clear(_craftingList, 0, _craftingList.Length);
-
-                        _graphicsManager.ShowSystemMessage("Made " + _craftedItem.Name.ToUpper() + "!");
                     }
                     else if (_playerInventory.GetSelectedItem().IsPlaceable)
                     {
@@ -578,18 +575,18 @@ namespace Little_Might.Modules
 
         private void SetIngestedIllness(Inventory.ITEMTYPE food)
         {
-            switch (food.ToString().ToLower())
+            switch (food)
             {
-                case "thyme":
+                case Inventory.ITEMTYPE.THYME:
                     break;
-                case "oregano":
+                case Inventory.ITEMTYPE.OREGANO:
                     if (_stats.Illness == AdvancedStats.ILLNESSES.MOUNTAINFEVER)
                     {
                         _stats.Speed = 1;
                         _stats.Illness = AdvancedStats.ILLNESSES.NONE;
                     }
                     break;
-                case "garlic":
+                case Inventory.ITEMTYPE.GARLIC:
                     if (_stats.Illness == AdvancedStats.ILLNESSES.CHOLERA)
                         _stats.Illness = AdvancedStats.ILLNESSES.NONE;
                     break;

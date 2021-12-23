@@ -260,7 +260,7 @@ namespace Little_Might.Utils
 
                 if (dropType != Modules.Inventory.ITEMTYPE.NONE)
                 {
-                    ChangeWorldObjectVisual(Utils.ItemInfo.GetSpriteTexture(dropType, _content), monster.ObjectColor, (int)monster.Position.X, (int)monster.Position.Y, dropType, WorldMap.MAPTILETYPE.ITEMDROP);
+                    ChangeWorldObjectVisual(ItemInfo.GetSpriteTexture(dropType), monster.ObjectColor, (int)monster.Position.X, (int)monster.Position.Y, dropType, WorldMap.MAPTILETYPE.ITEMDROP);
                 }
             }
 

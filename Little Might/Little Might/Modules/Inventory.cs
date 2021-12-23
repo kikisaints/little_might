@@ -8,6 +8,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Web;
 using System.Xml;
+using System.Text.RegularExpressions;
 
 namespace Little_Might.Modules
 {
@@ -20,11 +21,12 @@ namespace Little_Might.Modules
         private int _hunger;
 
         public bool Toggled = false;
-        public readonly bool IsPlaceable = false;
+        public bool IsPlaceable = false;
 
         public string Name
         {
             get { return _name; }
+            set { _name = value; }
         }
 
         public string Description
@@ -36,39 +38,37 @@ namespace Little_Might.Modules
         public int Damage
         {
             get { return _damage; }
+            set { _damage = value; }
         }
 
         public Inventory.ITEMTYPE ItemType
         {
             get { return _itemType; }
+            set { _itemType = value; }
         }
 
         public int Hunger
         {
             get { return _hunger; }
+            set { _hunger = value; }
         }
 
-        public InventoryItem(Texture2D tex, Vector2 pos, float size, Inventory.ITEMTYPE invType, string name = "")
+        public InventoryItem(InventoryItem copy, Vector2 position)
         {
-            Sprite = tex;
-            Position = pos;
-            Scale = size;
-            _itemType = invType;
-            _damage = 0;
+            _itemType = copy.ItemType;
+            _name = copy.Name;
+            _description = copy.Description;
+            _damage = copy.Damage;
+            _hunger = copy.Hunger;
+            Sprite = copy.Sprite;
+            Scale = copy.Scale;
+            IsPlaceable = copy.IsPlaceable;
+            Position = position;
+        }
 
-            _description = Utils.ItemInfo.GetItemInformation(_itemType, name);
-
-            if (invType == Inventory.ITEMTYPE.WEAPON)
-            {
-                _name = name;
-                _damage = Utils.ItemInfo.GetWeaponDamage(_name);
-            }
-            else
-            {
-                _name = _itemType.ToString();
-            }
-
-            IsPlaceable = Utils.ItemInfo.CheckIfPlacable(invType);
+        public InventoryItem() 
+        {
+            Scale = 3f;
         }
     }
 
@@ -94,7 +94,6 @@ namespace Little_Might.Modules
         }        
 
         private List<InventoryItem> _invItems;
-        private List<InventoryItem> _allItems;
         private Vector2 _startingSlotPos;
         private Vector2 _startingInvSelectorPos;
         private Vector2 _spacing;
@@ -125,7 +124,6 @@ namespace Little_Might.Modules
         public Inventory(ContentManager content)
         {
             _invItems = new List<InventoryItem>();
-            _allItems = new List<InventoryItem>();
 
             _startingSlotPos = new Vector2(-282, 233);
             _startingInvSelectorPos = new Vector2(-288, 227);
@@ -134,24 +132,7 @@ namespace Little_Might.Modules
                 _startingInvSelectorPos, 
                 4f);
 
-            LoadAllItems();
-        }
-
-        private void LoadAllItems()
-        {
-            XmlDocument allItemsList = new XmlDocument(); 
-            allItemsList.Load(@"..\netcoreapp3.1\Content\data\ItemData.xml");
-
-            XmlNodeList nodes = allItemsList.SelectNodes("//Items/Item");
-
-            foreach (XmlNode node in nodes)
-            {
-                foreach (XmlNode childNode in node.ChildNodes)
-                {
-                    string itemAttribute = childNode.Name;
-                    string itemName = childNode.InnerText;
-                }
-            }
+            Utils.ItemInfo.LoadAllItems(content);
         }
 
         public void RemoveSelectedItem()
@@ -220,16 +201,33 @@ namespace Little_Might.Modules
         }
 
         //Returns true if the item was successfully added to the inventory
-        public bool AddItem(ITEMTYPE type, ContentManager content)
+        public bool AddItem(ITEMTYPE type)
         {
-            Texture2D sprite = Utils.ItemInfo.GetSpriteTexture(type, content);
-
-            if (sprite != null && _invItems.Count + 1 < _maxInvSlots)
+            foreach (InventoryItem item in Utils.ItemInfo.AllItems)
             {
-                _invItems.Add(new InventoryItem(sprite, GetNewInvSlotPosition(), 3f, type));
-                _invCols++;
+                if (item.ItemType == type)
+                {
+                    _invItems.Add(new InventoryItem(item, GetNewInvSlotPosition()));
+                    _invCols++;
 
-                return true;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool AddItem(string itemName)
+        {
+            foreach (InventoryItem item in Utils.ItemInfo.AllItems)
+            {
+                if (item.Name.ToLower() == itemName.ToLower())
+                {
+                    _invItems.Add(new InventoryItem(item, GetNewInvSlotPosition()));
+                    _invCols++;
+
+                    return true;
+                }
             }
 
             return false;
