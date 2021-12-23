@@ -332,7 +332,7 @@ namespace Little_Might.Modules
 
                     if (_equippedItems[0].ToLower() != _playerInventory.GetSelectedItem().Name.ToLower())
                     {
-                        _graphicsManager.ShowSystemMessage("Trashed " + _playerInventory.GetSelectedItem().Type.ToString().ToUpper() + "!");
+                        _graphicsManager.ShowSystemMessage("Trashed " + _playerInventory.GetSelectedItem().ItemType.ToString().ToUpper() + "!");
                         _playerInventory.RemoveSelectedItem();
                     }
                     else
@@ -346,7 +346,7 @@ namespace Little_Might.Modules
                     if (_playerInventory.GetSelectedItem() == null)
                         return;
 
-                    Inventory.ITEMTYPE _itemType = _playerInventory.GetSelectedItem().Type;
+                    Inventory.ITEMTYPE _itemType = _playerInventory.GetSelectedItem().ItemType;
 
                     if (_itemType == Inventory.ITEMTYPE.WEAPON)
                     {
@@ -374,7 +374,7 @@ namespace Little_Might.Modules
 
                     if (_hungerValue != 0)
                     {
-                        SetIngestedIllness(_playerInventory.GetSelectedItem().Type);
+                        SetIngestedIllness(_playerInventory.GetSelectedItem().ItemType);
 
                         _stats.Hunger += _hungerValue;
                         _graphicsManager.ShowSystemMessage("+" + _hungerValue.ToString() + " HUNGER");

@@ -3,17 +3,21 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Xml.Linq;
+using System.Web;
+using System.Xml;
 
 namespace Little_Might.Modules
 {
     class InventoryItem : ScreenObject
     {
         private Inventory.ITEMTYPE _itemType;
-        private string _discription;
+        private string _description;
         private string _name;
-
         private int _damage;
+        private int _hunger;
 
         public bool Toggled = false;
         public readonly bool IsPlaceable = false;
@@ -23,9 +27,10 @@ namespace Little_Might.Modules
             get { return _name; }
         }
 
-        public string Discription
+        public string Description
         {
-            get { return _discription; }
+            get { return _description; }
+            set { _description = value; }
         }
 
         public int Damage
@@ -33,9 +38,14 @@ namespace Little_Might.Modules
             get { return _damage; }
         }
 
-        public Inventory.ITEMTYPE Type
+        public Inventory.ITEMTYPE ItemType
         {
             get { return _itemType; }
+        }
+
+        public int Hunger
+        {
+            get { return _hunger; }
         }
 
         public InventoryItem(Texture2D tex, Vector2 pos, float size, Inventory.ITEMTYPE invType, string name = "")
@@ -46,7 +56,7 @@ namespace Little_Might.Modules
             _itemType = invType;
             _damage = 0;
 
-            _discription = Utils.ItemInfo.GetItemInformation(_itemType, name);
+            _description = Utils.ItemInfo.GetItemInformation(_itemType, name);
 
             if (invType == Inventory.ITEMTYPE.WEAPON)
             {
@@ -72,7 +82,6 @@ namespace Little_Might.Modules
             FLINT,
             STONE,
             STICK,
-            COIN,
             CAMPFIRE,
             WEAPON,
             TWINE,
@@ -85,6 +94,7 @@ namespace Little_Might.Modules
         }        
 
         private List<InventoryItem> _invItems;
+        private List<InventoryItem> _allItems;
         private Vector2 _startingSlotPos;
         private Vector2 _startingInvSelectorPos;
         private Vector2 _spacing;
@@ -115,12 +125,33 @@ namespace Little_Might.Modules
         public Inventory(ContentManager content)
         {
             _invItems = new List<InventoryItem>();
+            _allItems = new List<InventoryItem>();
+
             _startingSlotPos = new Vector2(-282, 233);
             _startingInvSelectorPos = new Vector2(-288, 227);
             _spacing = new Vector2(35, 35);
             _invSelector = new ScreenObject(content.Load<Texture2D>("inventory_selector"), 
                 _startingInvSelectorPos, 
                 4f);
+
+            LoadAllItems();
+        }
+
+        private void LoadAllItems()
+        {
+            XmlDocument allItemsList = new XmlDocument(); 
+            allItemsList.Load(@"..\netcoreapp3.1\Content\data\ItemData.xml");
+
+            XmlNodeList nodes = allItemsList.SelectNodes("//Items/Item");
+
+            foreach (XmlNode node in nodes)
+            {
+                foreach (XmlNode childNode in node.ChildNodes)
+                {
+                    string itemAttribute = childNode.Name;
+                    string itemName = childNode.InnerText;
+                }
+            }
         }
 
         public void RemoveSelectedItem()

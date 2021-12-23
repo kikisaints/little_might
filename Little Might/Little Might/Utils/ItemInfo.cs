@@ -68,11 +68,9 @@ namespace Little_Might.Utils
                 case Modules.Inventory.ITEMTYPE.STICK:
                     return "Brittle and dry, it\nmight burn well";
                 case Modules.Inventory.ITEMTYPE.STONE:
-                    return "A smooth, round pebble";
+                    return "A smooth, round\npiece of rock";
                 case Modules.Inventory.ITEMTYPE.FLINT:
                     return "A sharp shard of\nblack flint";
-                case Modules.Inventory.ITEMTYPE.COIN:
-                    return "Shiny, some might\ncollect these";
                 case Modules.Inventory.ITEMTYPE.CAMPFIRE:
                     return "Bundle of burning sticks";                
                 case Modules.Inventory.ITEMTYPE.TWINE:

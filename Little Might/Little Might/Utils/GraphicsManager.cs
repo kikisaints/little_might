@@ -518,9 +518,9 @@ namespace Little_Might.Utils
                         SpriteEffects.None,
                         1f);
 
-                    FontOrigin = _font.MeasureString(_item.Discription) / 2;
+                    FontOrigin = _font.MeasureString(_item.Description) / 2;
                     _spriteBatch.DrawString(_font,
-                        _item.Discription + "\n\n Selected: " + _item.Toggled + "\n\n T - Trash",
+                        _item.Description + "\n\n Selected: " + _item.Toggled + "\n\n T - Trash",
                         new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 800, (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 160),
                         Color.White,
                         0,

@@ -204,3 +204,6 @@ C:\Users\Kiki\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\
 C:\Users\Kiki\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\twine_selected.xnb
 C:\Users\Kiki\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\drop_hareleg.xnb
 C:\Users\Kiki\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\drop_veal.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\drop_hareleg.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\drop_veal.xnb
+C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\data\ItemData.xnb
