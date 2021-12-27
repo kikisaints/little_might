@@ -22,6 +22,12 @@ namespace Little_Might.Utils
         static private Color _monsterDeerColor = new Color(235, 172, 101, 255);
         static private Color _monsterRabbitColor = new Color(255, 204, 232, 255);
         static private Color _monsterCelestialHorrorColor = Color.Red;
+        static private Color _furnaceMapColor = Color.Orange;
+
+        static public Color FurnaceMapColor
+        {
+            get { return _furnaceMapColor; }
+        }
 
         static public Color MonsterDeerColor
         {

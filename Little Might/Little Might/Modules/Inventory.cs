@@ -90,7 +90,8 @@ namespace Little_Might.Modules
             GARLIC,
             GOOP,
             HARELEG,
-            VEAL
+            VEAL,
+            FURNACE
         }        
 
         private List<InventoryItem> _invItems;

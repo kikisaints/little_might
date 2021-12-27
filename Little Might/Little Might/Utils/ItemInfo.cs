@@ -117,11 +117,15 @@ namespace Little_Might.Utils
             {
                 case Modules.Inventory.ITEMTYPE.CAMPFIRE:
                     return true;
+                case Modules.Inventory.ITEMTYPE.FURNACE:
+                    return true;
                 default:
                     return false;
             }
         }
 
+        //Tthis list is -- ORDERED --, meaning that the if checks must check for the order of largest enum value to smallest.
+        // It doesn't matter the order the player has selected for crafting pieces, only the final if check order
         public static bool CheckCraftables(Modules.Inventory.ITEMTYPE[] itemCombo, ref Modules.Inventory inventory, GraphicsManager graphicsManager)
         {
             itemCombo = itemCombo.OrderBy(e => ((int)e)).ToArray();
@@ -136,6 +140,12 @@ namespace Little_Might.Utils
             {
                 inventory.AddItem("stone sword");
                 graphicsManager.ShowSystemMessage("Made STONE SWORD!");
+                return true;
+            }
+            else if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] { Modules.Inventory.ITEMTYPE.STONE, Modules.Inventory.ITEMTYPE.STONE, Modules.Inventory.ITEMTYPE.CAMPFIRE, Modules.Inventory.ITEMTYPE.GOOP }))
+            {
+                inventory.AddItem("furnace");
+                graphicsManager.ShowSystemMessage("Made FURNACE!");
                 return true;
             }
 

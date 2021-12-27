@@ -120,4 +120,12 @@
 		<Description>A shiny honed\nweapon of steel</Description>
 		<Damage>25</Damage>
 	</Item>
+	<Item>
+		<Name>Furnace</Name>
+		<ItemType>furnace</ItemType>
+		<Sprite>furnace</Sprite>
+		<Hunger>0</Hunger>
+		<Description>Encapsulated campfire\nIt burns hot</Description>
+		<Damage>0</Damage>
+	</Item>
 </Items>

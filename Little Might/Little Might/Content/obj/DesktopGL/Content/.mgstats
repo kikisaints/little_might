@@ -1,2 +1,3 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/furnace.png","C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/bin/DesktopGL/Content/furnace.xnb","TextureProcessor","Texture2DContent",125,409,0.2155427
 "C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/shaders/crt_lottes_mg.fx","C:/Users/matri/Documents/GitHub/little_might/Little Might/Little Might/Content/bin/DesktopGL/Content/shaders/crt_lottes_mg.xnb","EffectProcessor","CompiledEffectContent",9957,44384,4.0613637

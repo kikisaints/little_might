@@ -224,6 +224,18 @@
 /processorParam:TextureFormat=Compressed
 /build:fonts/pixelfont.spritefont
 
+#begin furnace.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:furnace.png
+
 #begin garlic.png
 /importer:TextureImporter
 /processor:TextureProcessor

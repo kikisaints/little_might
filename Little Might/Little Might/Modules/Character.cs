@@ -412,13 +412,31 @@ namespace Little_Might.Modules
                         _craftIndex = 0;
                         Array.Clear(_craftingList, 0, _craftingList.Length);
                     }
-                    else if (_playerInventory.GetSelectedItem().IsPlaceable)
+                }
+
+                if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.P))
+                {
+                    if (_playerInventory.GetSelectedItem() == null)
+                        return;
+
+                    Inventory.ITEMTYPE _itemType = _playerInventory.GetSelectedItem().ItemType;
+
+                    if (_playerInventory.GetSelectedItem().IsPlaceable)
                     {
                         if (_itemType == Inventory.ITEMTYPE.CAMPFIRE)
                         {
                             map.ChangeTile(new Vector2(Position.X, Position.Y + Utils.WorldMap.UNITSIZE), Utils.WorldMap.MAPTILETYPE.CAMPFIRE);
-                            _graphicsManager.ChangeWorldObjectVisual(content.Load<Texture2D>("campfire"),
+                            _graphicsManager.ChangeWorldObjectVisual(_playerInventory.GetSelectedItem().Sprite,
                                 Utils.GameColors.CampfireMapColor,
+                                (int)Position.X,
+                                (int)Position.Y + Utils.WorldMap.UNITSIZE,
+                                _itemType);
+                        }
+                        else if (_itemType == Inventory.ITEMTYPE.FURNACE)
+                        {
+                            map.ChangeTile(new Vector2(Position.X, Position.Y + Utils.WorldMap.UNITSIZE), Utils.WorldMap.MAPTILETYPE.FURNACE);
+                            _graphicsManager.ChangeWorldObjectVisual(_playerInventory.GetSelectedItem().Sprite,
+                                Utils.GameColors.FurnaceMapColor,
                                 (int)Position.X,
                                 (int)Position.Y + Utils.WorldMap.UNITSIZE,
                                 _itemType);
@@ -569,7 +587,22 @@ namespace Little_Might.Modules
                 wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) != Utils.WorldMap.MAPTILETYPE.MOUNTAIN &&
                 wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) != Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS &&
                 wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) != Utils.WorldMap.MAPTILETYPE.CAMPFIRE)
+            {
                 return true;
+            }
+            else if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS)
+            {
+                if (movePos.X < 0)
+                    Position = new Vector2(wMap.MapWidth * Utils.WorldMap.UNITSIZE, Position.Y);
+                else if (movePos.Y < 0)
+                    Position = new Vector2(Position.X, wMap.MapWidth * Utils.WorldMap.UNITSIZE);
+                else if (movePos.Y >= (wMap.MapWidth * Utils.WorldMap.UNITSIZE))
+                    Position = new Vector2(Position.X, 0 - Utils.WorldMap.UNITSIZE);
+                else if (movePos.X >= (wMap.MapWidth * Utils.WorldMap.UNITSIZE))
+                    Position = new Vector2(0 - Utils.WorldMap.UNITSIZE, Position.Y);
+                return true;
+            }
+
             return false;
         }
 
