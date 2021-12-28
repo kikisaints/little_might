@@ -216,7 +216,7 @@ namespace Little_Might.Utils
             if (mapTile != WorldMap.MAPTILETYPE.OUTOFBOUNDS)
                 _worldMap.MapTiles[x, y] = mapTile;
 
-            if (type == Modules.Inventory.ITEMTYPE.CAMPFIRE)
+            if (type == Modules.Inventory.ITEMTYPE.CAMPFIRE || type == Modules.Inventory.ITEMTYPE.FURNACE)
             {
                 int[] fireAffectedArea = GetAffectShape(4, new Vector2(x, y), _worldMap.MapWidth);
 

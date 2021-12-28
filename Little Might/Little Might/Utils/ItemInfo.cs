@@ -84,6 +84,8 @@ namespace Little_Might.Utils
                     return ITEMTYPE.WEAPON;
                 case "veal":
                     return ITEMTYPE.VEAL;
+                case "furnace":
+                    return ITEMTYPE.FURNACE;
                 default:
                     return ITEMTYPE.NONE;
             }
