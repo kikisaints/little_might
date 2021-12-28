@@ -32,11 +32,15 @@ namespace Little_Might.Utils
                 foreach (XmlNode childNode in node.ChildNodes)
                 {
                     string itemAttribute = childNode.Name;
+                    ITEMTYPE checkType;
 
                     if (itemAttribute == "Name")
                         item.Name = childNode.InnerText;
                     else if (itemAttribute == "ItemType")
-                        item.ItemType = Utils.ItemInfo.GetTypeFromString(childNode.InnerText);
+                    {
+                        if (Enum.TryParse(childNode.InnerText.ToUpper(), out checkType))
+                            item.ItemType = checkType;
+                    }
                     else if (itemAttribute == "Sprite")
                         item.Sprite = content.Load<Texture2D>(childNode.InnerText);
                     else if (itemAttribute == "Hunger")
@@ -45,49 +49,12 @@ namespace Little_Might.Utils
                         item.Description = Regex.Unescape(childNode.InnerText);
                     else if (itemAttribute == "Damage")
                         item.Damage = Int32.Parse(childNode.InnerText);
+                    else if (itemAttribute == "Placable")
+                        if (childNode.InnerText == "yes")
+                            item.IsPlaceable = true;
                 }
 
-                item.IsPlaceable = CheckIfPlacable(item.ItemType);
                 AllItems.Add(item);
-            }
-        }
-
-        public static Modules.Inventory.ITEMTYPE GetTypeFromString(string type)
-        {
-            switch (type)
-            {
-                case "fruit":
-                    return ITEMTYPE.FRUIT;
-                case "berry":
-                    return ITEMTYPE.BERRY;
-                case "stick":
-                    return ITEMTYPE.STICK;
-                case "stone":
-                    return ITEMTYPE.STONE;
-                case "flint":
-                    return ITEMTYPE.FLINT;
-                case "campfire":
-                    return ITEMTYPE.CAMPFIRE;
-                case "twine":
-                    return ITEMTYPE.TWINE;
-                case "thyme":
-                    return ITEMTYPE.THYME;
-                case "garlic":
-                    return ITEMTYPE.GARLIC;
-                case "oregano":
-                    return ITEMTYPE.OREGANO;
-                case "goop":
-                    return ITEMTYPE.GOOP;
-                case "hareleg":
-                    return ITEMTYPE.HARELEG;
-                case "weapon":
-                    return ITEMTYPE.WEAPON;
-                case "veal":
-                    return ITEMTYPE.VEAL;
-                case "furnace":
-                    return ITEMTYPE.FURNACE;
-                default:
-                    return ITEMTYPE.NONE;
             }
         }
 
@@ -111,19 +78,6 @@ namespace Little_Might.Utils
             }
 
             return null;
-        }
-
-        public static bool CheckIfPlacable(Modules.Inventory.ITEMTYPE itemType)
-        {
-            switch (itemType)
-            {
-                case Modules.Inventory.ITEMTYPE.CAMPFIRE:
-                    return true;
-                case Modules.Inventory.ITEMTYPE.FURNACE:
-                    return true;
-                default:
-                    return false;
-            }
         }
 
         //Tthis list is -- ORDERED --, meaning that the if checks must check for the order of largest enum value to smallest.

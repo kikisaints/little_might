@@ -74,6 +74,7 @@ namespace Little_Might.Modules
 
     class Inventory
     {
+        [Flags]
         public enum ITEMTYPE
         {
             NONE = 0,

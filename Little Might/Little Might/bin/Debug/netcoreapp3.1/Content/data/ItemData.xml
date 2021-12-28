@@ -7,6 +7,7 @@
 		<Hunger>20</Hunger>
 		<Description>A satiating fruit from\na fruit tree</Description>
 		<Damage>0</Damage>
+		<Placable>no</Placable>
 	</Item>
 	<Item>
 		<Name>Berry</Name>
@@ -15,6 +16,7 @@
 		<Hunger>10</Hunger>
 		<Description>Small tasty morsel from\n a bush</Description>
 		<Damage>0</Damage>
+		<Placable>no</Placable>
 	</Item>
 	<Item>
 		<Name>Stick</Name>
@@ -23,6 +25,7 @@
 		<Hunger>0</Hunger>
 		<Description>Brittle and dry, it\nmight burn well</Description>
 		<Damage>0</Damage>
+		<Placable>no</Placable>
 	</Item>
 	<Item>
 		<Name>Stone</Name>
@@ -31,6 +34,7 @@
 		<Hunger>0</Hunger>
 		<Description>A smooth, round\npiece of rock</Description>
 		<Damage>0</Damage>
+		<Placable>no</Placable>
 	</Item>
 	<Item>
 		<Name>Flint</Name>
@@ -39,6 +43,7 @@
 		<Hunger>0</Hunger>
 		<Description>A sharp shard of\nblack flint</Description>
 		<Damage>0</Damage>
+		<Placable>no</Placable>
 	</Item>
 	<Item>
 		<Name>Campfire</Name>
@@ -47,6 +52,7 @@
 		<Hunger>0</Hunger>
 		<Description>Bundle of burning sticks</Description>
 		<Damage>0</Damage>
+		<Placable>yes</Placable>
 	</Item>
 	<Item>
 		<Name>Twine</Name>
@@ -55,6 +61,7 @@
 		<Hunger>0</Hunger>
 		<Description>Strong piece of\nforest string</Description>
 		<Damage>0</Damage>
+		<Placable>no</Placable>
 	</Item>
 	<Item>
 		<Name>Thyme</Name>
@@ -63,6 +70,7 @@
 		<Hunger>1</Hunger>
 		<Description>Tasty herb that\nfights infection</Description>
 		<Damage>0</Damage>
+		<Placable>no</Placable>
 	</Item>
 	<Item>
 		<Name>Garlic</Name>
@@ -71,6 +79,7 @@
 		<Hunger>5</Hunger>
 		<Description>Strongly scented, good\n at fighting bacteria</Description>
 		<Damage>0</Damage>
+		<Placable>no</Placable>
 	</Item>
 	<Item>
 		<Name>Oregano</Name>
@@ -79,6 +88,7 @@
 		<Hunger>1</Hunger>
 		<Description>A potent herb known\nto help inflamation</Description>
 		<Damage>0</Damage>
+		<Placable>no</Placable>
 	</Item>
 	<Item>
 		<Name>Goop</Name>
@@ -87,6 +97,7 @@
 		<Hunger>0</Hunger>
 		<Description>Piece of a slime\nsticky and toxic</Description>
 		<Damage>0</Damage>
+		<Placable>no</Placable>
 	</Item>
 	<Item>
 		<Name>Veal</Name>
@@ -95,6 +106,7 @@
 		<Hunger>35</Hunger>
 		<Description>Uncooked thick cut\nof deer meat</Description>
 		<Damage>0</Damage>
+		<Placable>no</Placable>
 	</Item>
 	<Item>
 		<Name>Hare Leg</Name>
@@ -103,6 +115,7 @@
 		<Hunger>50</Hunger>
 		<Description>Uncooked leg of\n a wild rabbit</Description>
 		<Damage>0</Damage>
+		<Placable>no</Placable>
 	</Item>
 	<Item>
 		<Name>Stone Sword</Name>
@@ -111,6 +124,7 @@
 		<Hunger>0</Hunger>
 		<Description>A blunt weapon\nmade of rock</Description>
 		<Damage>5</Damage>
+		<Placable>no</Placable>
 	</Item>
 	<Item>
 		<Name>Steel Sword</Name>
@@ -119,6 +133,7 @@
 		<Hunger>0</Hunger>
 		<Description>A shiny honed\nweapon of steel</Description>
 		<Damage>25</Damage>
+		<Placable>no</Placable>
 	</Item>
 	<Item>
 		<Name>Furnace</Name>
@@ -127,5 +142,6 @@
 		<Hunger>0</Hunger>
 		<Description>Encapsulated campfire\nIt burns hot</Description>
 		<Damage>0</Damage>
+		<Placable>yes</Placable>
 	</Item>
 </Items>
