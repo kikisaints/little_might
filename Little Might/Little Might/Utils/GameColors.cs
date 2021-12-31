@@ -24,6 +24,23 @@ namespace Little_Might.Utils
         static private Color _monsterCelestialHorrorColor = Color.Red;
         static private Color _furnaceMapColor = Color.Orange;
 
+        public static Color GetColorByStringName(string name)
+        {
+            switch (name)
+            {
+                case "MonsterSlimeColor":
+                    return _monsterSlimeColor;
+                case "MonsterRabbitColor":
+                    return _monsterRabbitColor;
+                case "MonsterDeerColor":
+                    return _monsterDeerColor;
+                case "MonsterCelestialHorrorColor":
+                    return _monsterCelestialHorrorColor;
+                default:
+                    return _mainBackgroundColor;
+            }
+        }
+
         static public Color FurnaceMapColor
         {
             get { return _furnaceMapColor; }

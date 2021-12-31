@@ -46,7 +46,7 @@ namespace Little_Might.Utils
             switch (monsterType)
             {
                 case Modules.Monster.MONSTERTYPE.SLIME:
-                    int type = Utils.MathHandler.GetRandomNumber(0, 1);
+                    int type = Utils.MathHandler.GetRandomNumber(0, 3);
                     if (type == 0)
                         return "poison";
                     else
