@@ -59,19 +59,19 @@ namespace Little_Might.Utils
                     else if (itemAttribute == "SP")
                         monsterStats.Stamina = int.Parse(childNode.InnerText);
                     else if (itemAttribute == "MP")
-                        monsterStats.HP = int.Parse(childNode.InnerText);
+                        monsterStats.Mana = int.Parse(childNode.InnerText);
                     else if (itemAttribute == "SPEED")
-                        monsterStats.HP = int.Parse(childNode.InnerText);
+                        monsterStats.Speed = int.Parse(childNode.InnerText);
                     else if (itemAttribute == "INT")
-                        monsterStats.HP = int.Parse(childNode.InnerText);
+                        monsterStats.INT = int.Parse(childNode.InnerText);
                     else if (itemAttribute == "STR")
-                        monsterStats.HP = int.Parse(childNode.InnerText);
+                        monsterStats.STR = int.Parse(childNode.InnerText);
                     else if (itemAttribute == "WIS")
-                        monsterStats.HP = int.Parse(childNode.InnerText);
+                        monsterStats.WIS = int.Parse(childNode.InnerText);
                     else if (itemAttribute == "DEX")
-                        monsterStats.HP = int.Parse(childNode.InnerText);
+                        monsterStats.DEX = int.Parse(childNode.InnerText);
                     else if (itemAttribute == "CHAR")
-                        monsterStats.HP = int.Parse(childNode.InnerText);
+                        monsterStats.CHARISMA = int.Parse(childNode.InnerText);
                     else if (itemAttribute == "DEF")
                         monsterStats.DEFENSE = float.Parse(childNode.InnerText);
                     else if (itemAttribute == "CRIT")
@@ -85,6 +85,45 @@ namespace Little_Might.Utils
             }
         }
 
+        public void AddMonsterToWorld(int numberOfMonsters, string monsterName)
+        {
+            for (int i = 0; i < numberOfMonsters; i++)
+            {
+                Monster ListMonster = AllMonsters.Find(monster => monster.Name.Equals(monsterName));
+                Monster newMonster = new Monster()
+                {
+                    Sprite = ListMonster.Sprite,
+                    InteractionSprite = ListMonster.InteractionSprite,
+                    Stats = new Stats(ListMonster.Stats.HP,
+                        ListMonster.Stats.Stamina,
+                        ListMonster.Stats.Mana,
+                        ListMonster.Stats.Speed,
+                        ListMonster.Stats.INT,
+                        ListMonster.Stats.STR,
+                        ListMonster.Stats.WIS,
+                        ListMonster.Stats.DEX,
+                        ListMonster.Stats.CHARISMA,
+                        ListMonster.Stats.DEFENSE,
+                        ListMonster.Stats.CRIT
+                        ),
+                    Position = _map.GetRandomGrassPoint(),
+                    ObjectColor = ListMonster.ObjectColor,
+                    MonsterType = ListMonster.MonsterType,
+                    ItemDrop = ListMonster.ItemDrop,
+                    Name = ListMonster.Name
+                };
+
+                if (newMonster.MonsterType == Modules.Monster.MONSTERTYPE.CELESTIALHORROR)
+                {
+                    newMonster.Position = _map.GetRandomForestPoint();
+                    newMonster.MoveTime = 0;
+                }
+
+                _graphicsManager.AddCharacterObject(newMonster);
+                _worldMonsters.Add(newMonster);
+            }
+        }
+
         public MonsterManager(ContentManager content, Utils.GraphicsManager gManager, Utils.WorldMap wMap)
         {
             LoadAllMonsters(content);
@@ -94,27 +133,10 @@ namespace Little_Might.Utils
             _content = content;
             _map = wMap;
 
-            SetupMonsters(_maxSlimeCount, "monster_slime", "slime_interaction_img", Modules.Monster.MONSTERTYPE.SLIME, GameColors.MonsterSlimeColor, new Stats(25, 10, 0, 1, 1, 1, 1, 1, 1, 2f, 0f));
-            SetupMonsters(_maxDeerCount, "deer", "monster_deer", Modules.Monster.MONSTERTYPE.DEER, GameColors.MonsterDeerColor, new Stats(50, 20, 0, 1, 1, 1, 1, 1, 1, 5f, 0f));
-            SetupMonsters(_maxRabbitCount, "rabbit", "monster_rabbit", Modules.Monster.MONSTERTYPE.RABBIT, GameColors.MonsterRabbitColor, new Stats(15, 10, 0, 1, 1, 1, 1, 1, 1, 0f, 0f));
-            SetupMonsters(1, "celestialhorror", "monster_celestialhorror", Modules.Monster.MONSTERTYPE.CELESTIALHORROR, GameColors.MonsterCelestialHorrorColor, new Stats(1000, 100, 450, 10, 100, 100, 100, 100, 100, 50f, 50f));
-        }
-
-        private void SetupMonsters(int count, string worldName, string interactionName, Modules.Monster.MONSTERTYPE type, Color monsterColor, Stats stats)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                Modules.Monster testMonster = new Modules.Monster(worldName, interactionName, _map.GetRandomGrassPoint(), _content, monsterColor, type, stats);
-                if (type == Modules.Monster.MONSTERTYPE.CELESTIALHORROR)
-                {
-                    testMonster.Position = _map.GetRandomForestPoint();
-                    testMonster.MoveTime = 0;
-                }
-
-                _graphicsManager.AddCharacterObject(testMonster);
-
-                _worldMonsters.Add(testMonster);
-            }
+            AddMonsterToWorld(_maxSlimeCount, "Slime");
+            AddMonsterToWorld(_maxDeerCount, "Deer");
+            AddMonsterToWorld(_maxRabbitCount, "Rabbit");
+            AddMonsterToWorld(1, "Celestial Horror");
         }
 
         public void UpdateMonsters(GameTime time, bool overworldActive = true)

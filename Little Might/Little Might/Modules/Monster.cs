@@ -89,7 +89,10 @@ namespace Little_Might.Modules
             set { _monsterType = value; }
         }
 
-        public Monster() { }
+        public Monster() 
+        {
+            MoveTime = _movementWaitTime.Next(1, 5) * 0.5;
+        }
 
         public Monster(string spriteName, string intractSpriteName, Vector2 startingPosition, ContentManager contentManager, Color color, MONSTERTYPE type, Stats monsterStats)
         {

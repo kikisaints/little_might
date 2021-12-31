@@ -57,7 +57,7 @@ namespace Little_Might.Modules
             get { return _baseHP; }
         }
 
-        public AdvancedStats(int hp, int sp, int mp, float spd, int intel, int str, int wis, int dex, int charisma, float def, float crit)
+        public AdvancedStats(int hp, int sp, int mp, int spd, int intel, int str, int wis, int dex, int charisma, float def, float crit)
         {
             _baseHP = hp;
             HP = _baseHP;
