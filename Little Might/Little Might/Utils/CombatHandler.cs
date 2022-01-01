@@ -46,7 +46,7 @@ namespace Little_Might.Utils
             switch (monsterType)
             {
                 case Modules.Monster.MONSTERTYPE.SLIME:
-                    int type = Utils.MathHandler.GetRandomNumber(0, 1);
+                    int type = Utils.MathHandler.GetRandomNumber(0, 3);
                     if (type == 0)
                         return "poison";
                     else
@@ -66,7 +66,7 @@ namespace Little_Might.Utils
         {
             string name = weaponName.ToLower();
 
-            if (name == "stonesword" || name == "steelsword")
+            if (name == "stone sword" || name == "steel sword")
                 return new string[] { "Slash -", "Stab" };
 
             return new string[] { "Punch -", "Kick", "Yell At" };

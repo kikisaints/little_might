@@ -177,7 +177,13 @@ namespace Little_Might
                 _camera.LookAt(_character.Position);
 
                 if (_character.Stats.HP <= 0)
+                {
+                    _timer = 0;
+                    _interactionEnding = false;
+                    EndInteraction(true);
+
                     _currentScene = SCENE.DEATH;
+                }
 
                 if (_inOverworld)
                     CheckCharacterInteractions();

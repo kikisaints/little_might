@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Items>
+	<Item>
+		<Name>Apple</Name>
+		<ItemType>fruit</ItemType>
+		<Sprite>icon_food</Sprite>
+		<Hunger>20</Hunger>
+		<Description>A satiating fruit from\na fruit tree</Description>
+		<Damage>0</Damage>
+		<Placable>no</Placable>
+	</Item>
+	<Item>
+		<Name>Berry</Name>
+		<ItemType>berry</ItemType>
+		<Sprite>berries</Sprite>
+		<Hunger>10</Hunger>
+		<Description>Small tasty morsel from\n a bush</Description>
+		<Damage>0</Damage>
+		<Placable>no</Placable>
+	</Item>
+	<Item>
+		<Name>Stick</Name>
+		<ItemType>stick</ItemType>
+		<Sprite>twig</Sprite>
+		<Hunger>0</Hunger>
+		<Description>Brittle and dry, it\nmight burn well</Description>
+		<Damage>0</Damage>
+		<Placable>no</Placable>
+	</Item>
+	<Item>
+		<Name>Stone</Name>
+		<ItemType>stone</ItemType>
+		<Sprite>stone</Sprite>
+		<Hunger>0</Hunger>
+		<Description>A smooth, round\npiece of rock</Description>
+		<Damage>0</Damage>
+		<Placable>no</Placable>
+	</Item>
+	<Item>
+		<Name>Flint</Name>
+		<ItemType>flint</ItemType>
+		<Sprite>flint</Sprite>
+		<Hunger>0</Hunger>
+		<Description>A sharp shard of\nblack flint</Description>
+		<Damage>0</Damage>
+		<Placable>no</Placable>
+	</Item>
+	<Item>
+		<Name>Campfire</Name>
+		<ItemType>campfire</ItemType>
+		<Sprite>campfire</Sprite>
+		<Hunger>0</Hunger>
+		<Description>Bundle of burning sticks</Description>
+		<Damage>0</Damage>
+		<Placable>yes</Placable>
+	</Item>
+	<Item>
+		<Name>Twine</Name>
+		<ItemType>twine</ItemType>
+		<Sprite>twine</Sprite>
+		<Hunger>0</Hunger>
+		<Description>Strong piece of\nforest string</Description>
+		<Damage>0</Damage>
+		<Placable>no</Placable>
+	</Item>
+	<Item>
+		<Name>Thyme</Name>
+		<ItemType>thyme</ItemType>
+		<Sprite>thyme</Sprite>
+		<Hunger>1</Hunger>
+		<Description>Tasty herb that\nfights infection</Description>
+		<Damage>0</Damage>
+		<Placable>no</Placable>
+	</Item>
+	<Item>
+		<Name>Garlic</Name>
+		<ItemType>garlic</ItemType>
+		<Sprite>garlic</Sprite>
+		<Hunger>5</Hunger>
+		<Description>Strongly scented, good\n at fighting bacteria</Description>
+		<Damage>0</Damage>
+		<Placable>no</Placable>
+	</Item>
+	<Item>
+		<Name>Oregano</Name>
+		<ItemType>oregano</ItemType>
+		<Sprite>oregano</Sprite>
+		<Hunger>1</Hunger>
+		<Description>A potent herb known\nto help inflamation</Description>
+		<Damage>0</Damage>
+		<Placable>no</Placable>
+	</Item>
+	<Item>
+		<Name>Goop</Name>
+		<ItemType>goop</ItemType>
+		<Sprite>drops_slime</Sprite>
+		<Hunger>0</Hunger>
+		<Description>Piece of a slime\nsticky and toxic</Description>
+		<Damage>0</Damage>
+		<Placable>no</Placable>
+	</Item>
+	<Item>
+		<Name>Veal</Name>
+		<ItemType>veal</ItemType>
+		<Sprite>drop_veal</Sprite>
+		<Hunger>35</Hunger>
+		<Description>Uncooked thick cut\nof deer meat</Description>
+		<Damage>0</Damage>
+		<Placable>no</Placable>
+	</Item>
+	<Item>
+		<Name>Hare Leg</Name>
+		<ItemType>hareleg</ItemType>
+		<Sprite>drop_hareleg</Sprite>
+		<Hunger>50</Hunger>
+		<Description>Uncooked leg of\n a wild rabbit</Description>
+		<Damage>0</Damage>
+		<Placable>no</Placable>
+	</Item>
+	<Item>
+		<Name>Stone Sword</Name>
+		<ItemType>weapon</ItemType>
+		<Sprite>stone_sword</Sprite>
+		<Hunger>0</Hunger>
+		<Description>A blunt weapon\nmade of rock</Description>
+		<Damage>5</Damage>
+		<Placable>no</Placable>
+	</Item>
+	<Item>
+		<Name>Steel Sword</Name>
+		<ItemType>weapon</ItemType>
+		<Sprite>steel_sword</Sprite>
+		<Hunger>0</Hunger>
+		<Description>A shiny honed\nweapon of steel</Description>
+		<Damage>25</Damage>
+		<Placable>no</Placable>
+	</Item>
+	<Item>
+		<Name>Furnace</Name>
+		<ItemType>furnace</ItemType>
+		<Sprite>furnace</Sprite>
+		<Hunger>0</Hunger>
+		<Description>Encapsulated campfire\nIt burns hot</Description>
+		<Damage>0</Damage>
+		<Placable>yes</Placable>
+	</Item>
+</Items>

@@ -3,67 +3,78 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Xml.Linq;
+using System.Web;
+using System.Xml;
+using System.Text.RegularExpressions;
 
 namespace Little_Might.Modules
 {
     class InventoryItem : ScreenObject
     {
         private Inventory.ITEMTYPE _itemType;
-        private string _discription;
+        private string _description;
         private string _name;
-
         private int _damage;
+        private int _hunger;
 
         public bool Toggled = false;
-        public readonly bool IsPlaceable = false;
+        public bool IsPlaceable = false;
 
         public string Name
         {
             get { return _name; }
+            set { _name = value; }
         }
 
-        public string Discription
+        public string Description
         {
-            get { return _discription; }
+            get { return _description; }
+            set { _description = value; }
         }
 
         public int Damage
         {
             get { return _damage; }
+            set { _damage = value; }
         }
 
-        public Inventory.ITEMTYPE Type
+        public Inventory.ITEMTYPE ItemType
         {
             get { return _itemType; }
+            set { _itemType = value; }
         }
 
-        public InventoryItem(Texture2D tex, Vector2 pos, float size, Inventory.ITEMTYPE invType, string name = "")
+        public int Hunger
         {
-            Sprite = tex;
-            Position = pos;
-            Scale = size;
-            _itemType = invType;
-            _damage = 0;
+            get { return _hunger; }
+            set { _hunger = value; }
+        }
 
-            _discription = Utils.ItemInfo.GetItemInformation(_itemType, name);
+        public InventoryItem(InventoryItem copy, Vector2 position)
+        {
+            _itemType = copy.ItemType;
+            _name = copy.Name;
+            _description = copy.Description;
+            _damage = copy.Damage;
+            _hunger = copy.Hunger;
+            Sprite = copy.Sprite;
+            Scale = copy.Scale;
+            IsPlaceable = copy.IsPlaceable;
+            Position = position;
+        }
 
-            if (invType == Inventory.ITEMTYPE.WEAPON)
-            {
-                _name = name;
-                _damage = Utils.ItemInfo.GetWeaponDamage(_name);
-            }
-            else
-            {
-                _name = _itemType.ToString();
-            }
-
-            IsPlaceable = Utils.ItemInfo.CheckIfPlacable(invType);
+        public InventoryItem() 
+        {
+            Scale = 3f;
         }
     }
 
     class Inventory
     {
+        [Flags]
         public enum ITEMTYPE
         {
             NONE = 0,
@@ -72,7 +83,6 @@ namespace Little_Might.Modules
             FLINT,
             STONE,
             STICK,
-            COIN,
             CAMPFIRE,
             WEAPON,
             TWINE,
@@ -81,7 +91,8 @@ namespace Little_Might.Modules
             GARLIC,
             GOOP,
             HARELEG,
-            VEAL
+            VEAL,
+            FURNACE
         }        
 
         private List<InventoryItem> _invItems;
@@ -115,12 +126,15 @@ namespace Little_Might.Modules
         public Inventory(ContentManager content)
         {
             _invItems = new List<InventoryItem>();
+
             _startingSlotPos = new Vector2(-282, 233);
             _startingInvSelectorPos = new Vector2(-288, 227);
             _spacing = new Vector2(35, 35);
             _invSelector = new ScreenObject(content.Load<Texture2D>("inventory_selector"), 
                 _startingInvSelectorPos, 
                 4f);
+
+            Utils.ItemInfo.LoadAllItems(content);
         }
 
         public void RemoveSelectedItem()
@@ -189,16 +203,33 @@ namespace Little_Might.Modules
         }
 
         //Returns true if the item was successfully added to the inventory
-        public bool AddItem(ITEMTYPE type, ContentManager content)
+        public bool AddItem(ITEMTYPE type)
         {
-            Texture2D sprite = Utils.ItemInfo.GetSpriteTexture(type, content);
-
-            if (sprite != null && _invItems.Count + 1 < _maxInvSlots)
+            foreach (InventoryItem item in Utils.ItemInfo.AllItems)
             {
-                _invItems.Add(new InventoryItem(sprite, GetNewInvSlotPosition(), 3f, type));
-                _invCols++;
+                if (item.ItemType == type)
+                {
+                    _invItems.Add(new InventoryItem(item, GetNewInvSlotPosition()));
+                    _invCols++;
 
-                return true;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool AddItem(string itemName)
+        {
+            foreach (InventoryItem item in Utils.ItemInfo.AllItems)
+            {
+                if (item.Name.ToLower() == itemName.ToLower())
+                {
+                    _invItems.Add(new InventoryItem(item, GetNewInvSlotPosition()));
+                    _invCols++;
+
+                    return true;
+                }
             }
 
             return false;

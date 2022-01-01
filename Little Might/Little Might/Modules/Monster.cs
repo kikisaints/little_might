@@ -35,6 +35,10 @@ namespace Little_Might.Modules
         private Stats _stats;
         private Texture2D _interactionSprite;
         private MONSTERTYPE _monsterType;
+        private string _name;
+        private Color _monsterColor;
+        private string _itemDrop;
+        private string[] _attacks;
 
         private double _timer = 0;
         private double _turnWaitTime = 1.5;
@@ -43,33 +47,56 @@ namespace Little_Might.Modules
 
         public double MoveTime = 0;
 
+        public string[] Attacks
+        {
+            get { return _attacks; }
+            set { _attacks = value; }
+        }
+
+        public string ItemDrop
+        {
+            get { return _itemDrop; }
+            set { _itemDrop = value; }
+        }
+
+        public Color MonsterColor
+        {
+            get { return _monsterColor; }
+            set { _monsterColor = value; }
+        }
+
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+
         public Stats Stats
         {
             get { return _stats; }
+            set { _stats = value; }
         }
 
         public Texture2D InteractionSprite
         {
             get { return _interactionSprite; }
+            set { _interactionSprite = value; }
         }
 
         public MONSTERTYPE MonsterType
         {
             get { return _monsterType; }
+            set { _monsterType = value; }
         }
 
-        public Monster(string spriteName, string intractSpriteName, Vector2 startingPosition, ContentManager contentManager, Color color, MONSTERTYPE type)
+        public Monster() 
         {
-            //need better way to set these stats...
-            if (type == MONSTERTYPE.SLIME)
-                _stats = new AdvancedStats(25, 10, 0, 1, 1, 1, 1, 1, 1, 2f, 0f);
-            if (type == MONSTERTYPE.DEER)
-                _stats = new AdvancedStats(50, 20, 0, 1, 1, 1, 1, 1, 1, 5f, 0f);
-            if (type == MONSTERTYPE.RABBIT)
-                _stats = new AdvancedStats(15, 10, 0, 1, 1, 1, 1, 1, 1, 0f, 0f);
-            if (type == MONSTERTYPE.CELESTIALHORROR)
-                _stats = new AdvancedStats(1000, 100, 450, 10, 100, 100, 100, 100, 100, 50f, 50f);
+            MoveTime = _movementWaitTime.Next(1, 5) * 0.5;
+        }
 
+        public Monster(string spriteName, string intractSpriteName, Vector2 startingPosition, ContentManager contentManager, Color color, MONSTERTYPE type, Stats monsterStats)
+        {
+            _stats = monsterStats;
             _monsterType = type;
             Sprite = contentManager.Load<Texture2D>(spriteName);
             _interactionSprite = contentManager.Load<Texture2D>(intractSpriteName);
@@ -106,11 +133,11 @@ namespace Little_Might.Modules
                     movePosition = new Vector2(Position.X - Utils.WorldMap.UNITSIZE, Position.Y);
                 }
 
-                if (_monsterType == MONSTERTYPE.SLIME && 
+                if ((_monsterType == MONSTERTYPE.SLIME || _monsterType == MONSTERTYPE.RABBIT) && 
                     map.GetTileType(movePosition) == Utils.WorldMap.MAPTILETYPE.GRASS &&
                     map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS)
                     Position = movePosition;
-                else if ((_monsterType == MONSTERTYPE.DEER || _monsterType == MONSTERTYPE.RABBIT) && 
+                else if ((_monsterType == MONSTERTYPE.DEER) && 
                     map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.EVERGREEN &&
                     map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.WATER &&
                     map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS)

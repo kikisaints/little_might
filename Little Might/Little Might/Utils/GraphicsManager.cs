@@ -216,7 +216,7 @@ namespace Little_Might.Utils
             if (mapTile != WorldMap.MAPTILETYPE.OUTOFBOUNDS)
                 _worldMap.MapTiles[x, y] = mapTile;
 
-            if (type == Modules.Inventory.ITEMTYPE.CAMPFIRE)
+            if (type == Modules.Inventory.ITEMTYPE.CAMPFIRE || type == Modules.Inventory.ITEMTYPE.FURNACE)
             {
                 int[] fireAffectedArea = GetAffectShape(4, new Vector2(x, y), _worldMap.MapWidth);
 
@@ -260,7 +260,7 @@ namespace Little_Might.Utils
 
                 if (dropType != Modules.Inventory.ITEMTYPE.NONE)
                 {
-                    ChangeWorldObjectVisual(Utils.ItemInfo.GetSpriteTexture(dropType, _content), monster.ObjectColor, (int)monster.Position.X, (int)monster.Position.Y, dropType, WorldMap.MAPTILETYPE.ITEMDROP);
+                    ChangeWorldObjectVisual(ItemInfo.GetSpriteTexture(dropType), monster.ObjectColor, (int)monster.Position.X, (int)monster.Position.Y, dropType, WorldMap.MAPTILETYPE.ITEMDROP);
                 }
             }
 
@@ -518,9 +518,9 @@ namespace Little_Might.Utils
                         SpriteEffects.None,
                         1f);
 
-                    FontOrigin = _font.MeasureString(_item.Discription) / 2;
+                    FontOrigin = _font.MeasureString(_item.Description) / 2;
                     _spriteBatch.DrawString(_font,
-                        _item.Discription + "\n\n Selected: " + _item.Toggled + "\n\n T - Trash",
+                        _item.Description + "\n\n Selected: " + _item.Toggled + "\n\n T - Trash",
                         new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 800, (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 160),
                         Color.White,
                         0,

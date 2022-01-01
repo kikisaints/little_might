@@ -88,7 +88,7 @@ namespace Little_Might.Modules
 
         public Stats() { }
 
-        public Stats(int hp, int sp, int mp, int spd, int intel, int str, int wis, int dex, int charisma, float def, float crit)
+        public Stats(int hp, int sp, int mp, float spd, int intel, int str, int wis, int dex, int charisma, float def, float crit)
         {
             _health = hp;
             _stamina = sp;

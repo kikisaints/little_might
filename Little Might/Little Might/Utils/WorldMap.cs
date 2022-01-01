@@ -42,6 +42,7 @@ namespace Little_Might.Utils
             CHEST,
             CAMPFIRE,
             ITEMDROP,
+            FURNACE,
             OUTOFBOUNDS
         }
 
