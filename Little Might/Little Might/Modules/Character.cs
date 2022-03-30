@@ -28,6 +28,11 @@ namespace Little_Might.Modules
 
         private string[] _equippedItems;
         private Texture2D _weaponSprite = null;
+        private Texture2D _headgearSprite = null;
+        private Texture2D _chestgearSprite = null;
+        private Texture2D _footgearSprite = null;
+        private Texture2D _accessorySprite = null;
+
         private Modules.InventoryItem _equippedWeapon = null;
 
         private int _craftIndex = 0;
@@ -78,6 +83,38 @@ namespace Little_Might.Modules
                 return _weaponSprite;
         }
 
+        public Texture2D GetHeadgearSprite()
+        {
+            if (_equippedItems[1] == "NO HEADGEAR")
+                return _playerInventory.InventorySelector.Sprite;
+            else
+                return _headgearSprite;
+        }
+
+        public Texture2D GetChestgearSprite()
+        {
+            if (_equippedItems[3] == "NO CHESTGEAR")
+                return _playerInventory.InventorySelector.Sprite;
+            else
+                return _chestgearSprite;
+        }
+
+        public Texture2D GetFootgearSprite()
+        {
+            if (_equippedItems[2] == "NO FOOTGEAR")
+                return _playerInventory.InventorySelector.Sprite;
+            else
+                return _footgearSprite;
+        }
+
+        public Texture2D GetAccessorySprite()
+        {
+            if (_equippedItems[4] == "NO ACCESSORY")
+                return _playerInventory.InventorySelector.Sprite;
+            else
+                return _accessorySprite;
+        }
+
         public Character (string spriteName, string interactSpriteName, Vector2 startingPosition, ContentManager contentManager, Utils.GraphicsManager gManager, Game1 gameClass)
         {
             _inputManager = new Utils.InputManager();
@@ -85,7 +122,7 @@ namespace Little_Might.Modules
             _playerInventory = new Inventory(contentManager);
             _interactionOptions = new string[] { "Communicate -", "Fight", "Run Away" };
             _fightOptions = Utils.CombatHandler.SetCombatOptions("none");
-            _equippedItems = new string[] { "NO WEAPON", "HEADGEAR", "FOOTGEAR", "CHESTGEAR", "ACCESSORY" };
+            _equippedItems = new string[] { "NO WEAPON", "NO HEADGEAR", "NO FOOTGEAR", "NO CHESTGEAR", "NO ACCESSORY" };
 
             _currentOptions = _interactionOptions;
 
@@ -232,22 +269,10 @@ namespace Little_Might.Modules
             else if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.ITEMDROP)
             {
                 WorldObject obj = _graphicsManager.GetWorldObject((int)movePos.X, (int)movePos.Y);
+                Inventory.ITEMTYPE monsterDropType = Utils.MonsterManager.GetMonsterDrop(obj.ObjectColor);
 
-                if (obj.ObjectColor == Utils.GameColors.MonsterSlimeColor)
-                {
-                    if (_playerInventory.AddItem(Inventory.ITEMTYPE.GOOP))
-                        _graphicsManager.ShowSystemMessage("Picked up " + Inventory.ITEMTYPE.GOOP.ToString());
-                }
-                if (obj.ObjectColor == Utils.GameColors.MonsterRabbitColor)
-                {
-                    if (_playerInventory.AddItem(Inventory.ITEMTYPE.HARELEG))
-                        _graphicsManager.ShowSystemMessage("Picked up " + Inventory.ITEMTYPE.HARELEG.ToString());
-                }
-                if (obj.ObjectColor == Utils.GameColors.MonsterDeerColor)
-                {
-                    if (_playerInventory.AddItem(Inventory.ITEMTYPE.VEAL))
-                        _graphicsManager.ShowSystemMessage("Picked up " + Inventory.ITEMTYPE.VEAL.ToString());
-                }
+                if (_playerInventory.AddItem(monsterDropType))
+                    _graphicsManager.ShowSystemMessage("Picked up " + monsterDropType.ToString());
 
                 wMap.ChangeTile(new Vector2(Position.X, Position.Y), Utils.WorldMap.MAPTILETYPE.GRASS);
                 _graphicsManager.ChangeWorldObjectVisual(content.Load<Texture2D>("tile_grass"),
@@ -280,12 +305,13 @@ namespace Little_Might.Modules
                         _graphicsManager.ShowSystemMessage("Picked up " + randomChestItem.ToString());
                 }
 
-                wMap.ChangeTile(new Vector2(Position.X, Position.Y), Utils.WorldMap.MAPTILETYPE.GRASS);
+                //wMap.ChangeTile(new Vector2(Position.X, Position.Y), Utils.WorldMap.MAPTILETYPE.GRASS);
                 _graphicsManager.ChangeWorldObjectVisual(content.Load<Texture2D>("tile_grass"),
                     Utils.GameColors.GrassMapColor,
                     (int)Position.X,
                     (int)Position.Y,
-                    Modules.Inventory.ITEMTYPE.NONE);
+                    Modules.Inventory.ITEMTYPE.NONE,
+                    Utils.WorldMap.MAPTILETYPE.GRASS);
             }
 
             if (_graphicsManager.IsCampfireAffectedTile((int)movePos.X, (int)movePos.Y))
@@ -347,26 +373,31 @@ namespace Little_Might.Modules
                     if (_playerInventory.GetSelectedItem() == null)
                         return;
 
-                    Inventory.ITEMTYPE _itemType = _playerInventory.GetSelectedItem().ItemType;
+                    Inventory.ITEMTYPE _itemType = _playerInventory.GetSelectedItem().ItemType;                    
 
                     if (_itemType == Inventory.ITEMTYPE.WEAPON)
                     {
-                        if (_weaponSprite == null)
-                        {
-                            _equippedWeapon = _playerInventory.GetSelectedItem();
-                            _weaponSprite = _playerInventory.GetSelectedItem().Sprite;
-                            _equippedItems[0] = _playerInventory.GetSelectedItem().Name.ToUpper();
-
-                            _fightOptions = Utils.CombatHandler.SetCombatOptions(_playerInventory.GetSelectedItem().Name);
-                        }
-                        else
-                        {
-                            _equippedWeapon = null;
-                            _weaponSprite = null;
-                            _equippedItems[0] = "NO WEAPON";
-                            _fightOptions = Utils.CombatHandler.SetCombatOptions("none");
-                        }
-
+                        EquipItem(ref _weaponSprite, 0, _itemType);
+                        return;
+                    }
+                    else if (_itemType == Inventory.ITEMTYPE.HEADGEAR)
+                    {
+                        EquipItem(ref _headgearSprite, 1, _itemType);
+                        return;
+                    }
+                    else if (_itemType == Inventory.ITEMTYPE.CHESTGEAR)
+                    {
+                        EquipItem(ref _chestgearSprite, 3, _itemType);
+                        return;
+                    }
+                    else if (_itemType == Inventory.ITEMTYPE.FOOTGEAR)
+                    {
+                        EquipItem(ref _footgearSprite, 2, _itemType);
+                        return;
+                    }
+                    else if (_itemType == Inventory.ITEMTYPE.ACCESSORY)
+                    {
+                        EquipItem(ref _accessorySprite, 4, _itemType);
                         return;
                     }
 
@@ -378,8 +409,19 @@ namespace Little_Might.Modules
                         SetIngestedIllness(_playerInventory.GetSelectedItem().ItemType);
 
                         _stats.Hunger += _hungerValue;
-                        _graphicsManager.ShowSystemMessage("+" + _hungerValue.ToString() + " HUNGER");
-                        _playerInventory.RemoveSelectedItem();
+
+                        if (_playerInventory.GetSelectedItem().ItemType == Inventory.ITEMTYPE.FRUIT)
+                        {
+                            _stats.Hydration += (int)(_hungerValue / 4);
+
+                            _graphicsManager.ShowSystemMessage("+" + _hungerValue.ToString() + " HUNGER and\n+" + ((int)(_hungerValue / 4)).ToString() + " THIRST");
+                            _playerInventory.RemoveSelectedItem();
+                        }
+                        else
+                        {
+                            _graphicsManager.ShowSystemMessage("+" + _hungerValue.ToString() + " HUNGER");
+                            _playerInventory.RemoveSelectedItem();
+                        }
 
                         return;
                     }
@@ -448,6 +490,51 @@ namespace Little_Might.Modules
                         _craftIndex = 0;
                         Array.Clear(_craftingList, 0, _craftingList.Length);
                     }
+                }
+            }
+        }
+
+        public int GetDamageDefenseModifier()
+        {
+            int headgearDef = 0;
+            int footgearDef = 0;
+            int chestgearDef = 0;
+            int accessoryDef = 0;
+
+            if (_equippedItems[1] != "NO HEADGEAR")
+                headgearDef = Utils.ItemInfo.GetItemFromString(_equippedItems[1]).Damage;
+            if (_equippedItems[2] != "NO FOOTGEAR")
+                footgearDef = Utils.ItemInfo.GetItemFromString(_equippedItems[2]).Damage;
+            if (_equippedItems[3] != "NO CHESTGEAR")
+                chestgearDef = Utils.ItemInfo.GetItemFromString(_equippedItems[3]).Damage;
+            if (_equippedItems[4] != "NO ACCESSORY")
+                accessoryDef = Utils.ItemInfo.GetItemFromString(_equippedItems[4]).Damage;
+
+            return headgearDef + footgearDef + chestgearDef + accessoryDef;
+        }
+
+        private void EquipItem(ref Texture2D equipItemSprite, int equipItemIndex, Inventory.ITEMTYPE equipItemType)
+        {
+            if (equipItemSprite == null)
+            {
+                _equippedItems[equipItemIndex] = _playerInventory.GetSelectedItem().Name.ToUpper();
+                equipItemSprite = _playerInventory.GetSelectedItem().Sprite;
+
+                if (equipItemType == Inventory.ITEMTYPE.WEAPON)
+                {
+                    _equippedWeapon = _playerInventory.GetSelectedItem();                    
+                    _fightOptions = Utils.CombatHandler.SetCombatOptions(_playerInventory.GetSelectedItem().Name);
+                }
+            }
+            else
+            {
+                equipItemSprite = null;
+                _equippedItems[equipItemIndex] = "NO " + equipItemType.ToString().ToUpper();
+
+                if (equipItemType == Inventory.ITEMTYPE.WEAPON)
+                {
+                    _equippedWeapon = null;                    
+                    _fightOptions = Utils.CombatHandler.SetCombatOptions("none");
                 }
             }
         }
@@ -539,12 +626,12 @@ namespace Little_Might.Modules
                     _stats.HP -= 5;
             }
 
-            if (_steps % _stats.Stamina == 0)
+            if (_steps % _stats.Stamina == 0 && !_graphicsManager.IsCampfireAffectedTile((int)Position.X, (int)Position.Y))
             {
                 _stats.Hydration -= 1;
                 _steps = 0;
             }
-            if (_steps % (_stats.Stamina / 2) == 0)
+            if (_steps % (_stats.Stamina / 2) == 0 && !_graphicsManager.IsCampfireAffectedTile((int)Position.X, (int)Position.Y))
             {
                 _stats.Hunger -= 1;
             }

@@ -109,6 +109,15 @@
 		<Placable>no</Placable>
 	</Item>
 	<Item>
+		<Name>Pelt</Name>
+		<ItemType>pelt</ItemType>
+		<Sprite>drop_pelt</Sprite>
+		<Hunger>0</Hunger>
+		<Description>Raw hide of an animal</Description>
+		<Damage>0</Damage>
+		<Placable>no</Placable>
+	</Item>
+	<Item>
 		<Name>Hare Leg</Name>
 		<ItemType>hareleg</ItemType>
 		<Sprite>drop_hareleg</Sprite>
@@ -143,5 +152,32 @@
 		<Description>Encapsulated campfire\nIt burns hot</Description>
 		<Damage>0</Damage>
 		<Placable>yes</Placable>
+	</Item>
+	<Item>
+		<Name>Leather Cap</Name>
+		<ItemType>headgear</ItemType>
+		<Sprite>item_leathercap</Sprite>
+		<Hunger>0</Hunger>
+		<Description>Tight-fitted cap made\nof leather</Description>
+		<Damage>1</Damage>
+		<Placable>no</Placable>
+	</Item>
+	<Item>
+		<Name>Leather Shoes</Name>
+		<ItemType>footgear</ItemType>
+		<Sprite>item_leathershoes</Sprite>
+		<Hunger>0</Hunger>
+		<Description>Crudely cut leather booties</Description>
+		<Damage>1</Damage>
+		<Placable>no</Placable>
+	</Item>
+	<Item>
+		<Name>Leather shirt</Name>
+		<ItemType>chestgear</ItemType>
+		<Sprite>item_leathershirt</Sprite>
+		<Hunger>0</Hunger>
+		<Description>A fuzzy and cozy\nchest garment</Description>
+		<Damage>2</Damage>
+		<Placable>no</Placable>
 	</Item>
 </Items>

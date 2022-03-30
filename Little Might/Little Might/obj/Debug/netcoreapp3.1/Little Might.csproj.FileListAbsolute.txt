@@ -208,3 +208,10 @@ C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\obj\Debug
 C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\obj\Debug\netcoreapp3.1\Little Might.pdb
 C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\obj\Debug\netcoreapp3.1\Little Might.genruntimeconfig.cache
 C:\Users\matri\Documents\GitHub\little_might\Little Might\Little Might\obj\Debug\netcoreapp3.1\Little Might.csproj.AssemblyReference.cache
+C:\Users\Kiki\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\data\ItemData.xnb
+C:\Users\Kiki\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\furnace.xnb
+C:\Users\Kiki\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\drop_pelt.xnb
+C:\Users\Kiki\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\item_leathercap.xnb
+C:\Users\Kiki\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\item_leathershirt.xnb
+C:\Users\Kiki\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\item_leathershoes.xnb
+C:\Users\Kiki\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\dungeon_entrance_1.xnb

@@ -11,6 +11,34 @@ namespace Little_Might.Utils
 {
     class WorldMap
     {
+        public struct Teleportal
+        {
+            public Teleportal (Vector2 portalEnter, Vector2 portalExit)
+            {
+                PortalEnter = portalEnter;
+                PortalExit = portalExit;
+            }
+
+            public Vector2 PortalEnter;
+            public Vector2 PortalExit;
+        }
+
+        public struct DungeonMaps
+        {
+            public DungeonMaps (Vector2 door, int maxSize)
+            {
+                DungeonDoor = door;
+                DungeonColorMap = new Color[maxSize];
+                DungeonTiles = new MAPTILETYPE[maxSize * UNITSIZE, maxSize * UNITSIZE];
+
+                DungeonColorMap[0] = GameColors.PrarieDungeonMapColor;
+            }
+
+            public Vector2 DungeonDoor;
+            public Color[] DungeonColorMap;
+            public MAPTILETYPE[,] DungeonTiles;
+        }
+
         public static int UNITSIZE = 9;
 
         private Color[] _colorMap;
@@ -22,11 +50,15 @@ namespace Little_Might.Utils
         private List<int> _waterPoints;
         private List<int> _mountainPoints;
         private List<int> _chestPoints;
+        private List<Teleportal> _dungeonPoints;
+        private List<DungeonMaps> _dungeonColorMaps;
 
         private int _width;
         private Random _tileRandom;
 
         public MAPTILETYPE[,] MapTiles;
+
+        private int[] _chestItems = { 7, 17, 18, 19 };
 
         public enum MAPTILETYPE
         {
@@ -43,7 +75,14 @@ namespace Little_Might.Utils
             CAMPFIRE,
             ITEMDROP,
             FURNACE,
-            OUTOFBOUNDS
+            OUTOFBOUNDS,
+            PRARIEDUNGEON,
+            STONE
+        }
+
+        public List<DungeonMaps> DungeonColorMaps
+        {
+            get { return _dungeonColorMaps; }
         }
 
         public Color[] ColorMap
@@ -72,6 +111,8 @@ namespace Little_Might.Utils
             _mountainPoints = new List<int>();
             _chestPoints = new List<int>();
             _tileRandom = new Random();
+            _dungeonPoints = new List<Teleportal>();
+            _dungeonColorMaps = new List<DungeonMaps>();
 
             MapTiles = new MAPTILETYPE[(w * UNITSIZE),(w * UNITSIZE)];
 
@@ -195,14 +236,30 @@ namespace Little_Might.Utils
                 _chestPoints.Add(chest);
             }
 
+            for (int i = 0; i < 5; i++)
+            {
+                int dungeonIndex = _grassPoints[Utils.MathHandler.GetRandomNumber(150, _grassPoints.Count - 1)];
+                colors[dungeonIndex] = GameColors.PrarieDungeonMapColor;
+
+                Vector2 worldPoint = Utils.MathHandler.Get2DPoint(dungeonIndex, _width);
+                Vector2 dungeonDoor = new Vector2(worldPoint.X * 5000, (worldPoint.Y * 5000) + UNITSIZE);
+                _dungeonPoints.Add(new Teleportal(new Vector2(worldPoint.X, worldPoint.Y + UNITSIZE), dungeonDoor));
+                _dungeonColorMaps.Add(new DungeonMaps(dungeonDoor, 300));
+            }
+
             _colorMap = colors;
             noiseTexture.SetData(colors);
 
             //Export to a file for DEBUG purposes
-            Stream stream = File.Create("noisefile.png");
+            Stream stream = File.Create("worldmap_file.png");
             noiseTexture.SaveAsPng(stream, noiseTexture.Width, noiseTexture.Height);
             stream.Dispose();
             noiseTexture.Dispose();
+        }
+
+        private void PlacePrarieDungeons(int max, ref Color[] colorMap)
+        {
+            
         }
 
         public Vector2 GetRandomGrassPoint()

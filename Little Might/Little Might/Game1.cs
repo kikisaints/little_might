@@ -145,7 +145,7 @@ namespace Little_Might
             _graphicsManager.DisplayInteractionOptions(true);
             _isPlayerTurn = true;
 
-            int totalDamage = Utils.CombatHandler.AttackCharacter(ref _character, _interactor, action);
+            int totalDamage = Utils.CombatHandler.AttackCharacter(ref _character, _interactor, action) - (_character.GetDamageDefenseModifier());
             _graphicsManager.ShowSystemMessage("Took " + totalDamage.ToString() + " DAMAGE");
 
             _character.Stats.HP -= totalDamage;            
@@ -264,7 +264,7 @@ namespace Little_Might
             _mapTexture = new Texture2D(GraphicsDevice, _mapSize, _mapSize);            
             _worldMap = new WorldMap(_mapSize, _mapSize, ref _mapTexture, 11, GraphicsDevice);            
 
-            _graphicsManager.VisualizeMap(_worldMap, Content);
+            _graphicsManager.VisualizeWorld(_worldMap, Content);
             _graphicsManager.AddCharacterObject(_character);            
             _character.Position = _worldMap.GetRandomGrassPoint();
 

@@ -92,7 +92,12 @@ namespace Little_Might.Modules
             GOOP,
             HARELEG,
             VEAL,
-            FURNACE
+            FURNACE,
+            PELT,
+            HEADGEAR,
+            CHESTGEAR,
+            FOOTGEAR,
+            ACCESSORY
         }        
 
         private List<InventoryItem> _invItems;

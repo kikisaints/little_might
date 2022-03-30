@@ -86,22 +86,46 @@ namespace Little_Might.Utils
         {
             itemCombo = itemCombo.OrderBy(e => ((int)e)).ToArray();
 
-            if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] { Modules.Inventory.ITEMTYPE.NONE, Modules.Inventory.ITEMTYPE.NONE, Modules.Inventory.ITEMTYPE.FLINT, Modules.Inventory.ITEMTYPE.STICK }))
+            if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] { 
+                Modules.Inventory.ITEMTYPE.NONE, 
+                Modules.Inventory.ITEMTYPE.NONE, 
+                Modules.Inventory.ITEMTYPE.FLINT, 
+                Modules.Inventory.ITEMTYPE.STICK }))
             {
                 inventory.AddItem(ITEMTYPE.CAMPFIRE);
                 graphicsManager.ShowSystemMessage("Made " + ITEMTYPE.CAMPFIRE.ToString().ToUpper() + "!");
                 return true;
             }
-            else if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] { Modules.Inventory.ITEMTYPE.NONE, Modules.Inventory.ITEMTYPE.STONE, Modules.Inventory.ITEMTYPE.STICK, Modules.Inventory.ITEMTYPE.TWINE }))
+            else if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] { 
+                Modules.Inventory.ITEMTYPE.NONE, 
+                Modules.Inventory.ITEMTYPE.STONE, 
+                Modules.Inventory.ITEMTYPE.STICK, 
+                Modules.Inventory.ITEMTYPE.TWINE }))
             {
                 inventory.AddItem("stone sword");
                 graphicsManager.ShowSystemMessage("Made STONE SWORD!");
                 return true;
             }
-            else if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] { Modules.Inventory.ITEMTYPE.STONE, Modules.Inventory.ITEMTYPE.STONE, Modules.Inventory.ITEMTYPE.CAMPFIRE, Modules.Inventory.ITEMTYPE.GOOP }))
+            else if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] { 
+                Modules.Inventory.ITEMTYPE.STONE, 
+                Modules.Inventory.ITEMTYPE.STONE, 
+                Modules.Inventory.ITEMTYPE.CAMPFIRE, 
+                Modules.Inventory.ITEMTYPE.GOOP }))
             {
                 inventory.AddItem("furnace");
                 graphicsManager.ShowSystemMessage("Made FURNACE!");
+                return true;
+            }
+            else if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] { 
+                Modules.Inventory.ITEMTYPE.NONE, 
+                Modules.Inventory.ITEMTYPE.NONE, 
+                Modules.Inventory.ITEMTYPE.FLINT, 
+                Modules.Inventory.ITEMTYPE.PELT }))
+            {
+                inventory.AddItem("leather cap");
+                inventory.AddItem("leather shirt");
+                inventory.AddItem("leather shoes");
+                graphicsManager.ShowSystemMessage("Made LEATHER SET!");
                 return true;
             }
 

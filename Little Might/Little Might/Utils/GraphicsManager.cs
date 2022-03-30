@@ -87,9 +87,9 @@ namespace Little_Might.Utils
             SetupCRTEffect(contentManager);
         }
 
-        public void VisualizeMap(WorldMap map, ContentManager contentManager)
+        public void VisualizeWorld(WorldMap map, ContentManager contentManager)
         {
-            _worldMap = map;
+            _worldMap = map;            
 
             for (int i = 0; i < map.ColorMap.Length; i++)
             {
@@ -164,7 +164,7 @@ namespace Little_Might.Utils
                 {
                     AddWorldObject(new Modules.WorldObject(contentManager.Load<Texture2D>("chest_little"),
                         new Vector2(mapX, mapY),
-                        Color.Gold));
+                        GameColors.ChestMapColor));
 
                     map.MapTiles[mapX, mapY] = WorldMap.MAPTILETYPE.CHEST;
                 }
@@ -175,6 +175,30 @@ namespace Little_Might.Utils
                         GameColors.HerbMapColor));
 
                     map.MapTiles[mapX, mapY] = WorldMap.MAPTILETYPE.HERBS;
+                }
+                if (map.ColorMap[i] == GameColors.PrarieDungeonMapColor)
+                {
+                    AddWorldObject(new Modules.WorldObject(contentManager.Load<Texture2D>("dungeon_entrance_1"),
+                        new Vector2(mapX, mapY),
+                        GameColors.PrarieDungeonMapColor));
+
+                    map.MapTiles[mapX, mapY] = WorldMap.MAPTILETYPE.PRARIEDUNGEON;
+                }
+            }
+
+            foreach (WorldMap.DungeonMaps dMap in map.DungeonColorMaps)
+            {
+                Vector2 startPos = dMap.DungeonDoor;
+                for (int j = 0; j < dMap.DungeonColorMap.Length; j++)
+                {
+                    if (dMap.DungeonColorMap[j] == GameColors.PrarieDungeonMapColor)
+                    {
+                        AddWorldObject(new Modules.WorldObject(contentManager.Load<Texture2D>("dungeon_entrance_1"),
+                        new Vector2(startPos.X, startPos.Y),
+                        GameColors.PrarieDungeonMapColor));
+
+                        dMap.DungeonTiles[0, 0] = WorldMap.MAPTILETYPE.PRARIEDUNGEON;
+                    }
                 }
             }
         }
@@ -256,7 +280,8 @@ namespace Little_Might.Utils
             
             if (monster != null)
             {
-                Modules.Inventory.ITEMTYPE dropType = Modules.Monster.GetDrop(monster.MonsterType);
+                Modules.Inventory.ITEMTYPE dropType;
+                Enum.TryParse(monster.ItemDrop.ToUpper(), out dropType);
 
                 if (dropType != Modules.Inventory.ITEMTYPE.NONE)
                 {
@@ -398,6 +423,77 @@ namespace Little_Might.Utils
             Vector2 FontOrigin = _font.MeasureString(output) / 2;
             _spriteBatch.DrawString(_font, output, new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width / 2, 25), Color.White, 0, FontOrigin, 1f, SpriteEffects.None, 0.5f);
 
+            if (character.Inv.NavigatingInventory || (character.GetWeaponSprite() != character.Inv.InventorySelector.Sprite))
+            {
+                //Equipment slots
+                //WEAPON
+                _spriteBatch.Draw(character.GetWeaponSprite(),
+                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 880, 800),
+                    null,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    character.Inv.InventorySelector.Scale,
+                    SpriteEffects.None,
+                    0.5f);
+            }
+
+            if (character.Inv.NavigatingInventory || (character.GetHeadgearSprite() != character.Inv.InventorySelector.Sprite))
+            {
+                //HEADGEAR
+                _spriteBatch.Draw(character.GetHeadgearSprite(),
+                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 880, 850),
+                    null,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    character.Inv.InventorySelector.Scale,
+                    SpriteEffects.None,
+                    0.5f);
+            }
+
+            if (character.Inv.NavigatingInventory || (character.GetFootgearSprite() != character.Inv.InventorySelector.Sprite))
+            {
+                //BOOTS
+                _spriteBatch.Draw(character.GetFootgearSprite(),
+                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 880, 900),
+                    null,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    character.Inv.InventorySelector.Scale,
+                    SpriteEffects.None,
+                    0.5f);
+            }
+
+            if (character.Inv.NavigatingInventory || (character.GetChestgearSprite() != character.Inv.InventorySelector.Sprite))
+            {
+                //ARMOR
+                _spriteBatch.Draw(character.GetChestgearSprite(),
+                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 880, 950),
+                    null,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    character.Inv.InventorySelector.Scale,
+                    SpriteEffects.None,
+                    0.5f);
+            }
+
+            if (character.Inv.NavigatingInventory || (character.GetAccessorySprite() != character.Inv.InventorySelector.Sprite))
+            {
+                //TRINKET
+                _spriteBatch.Draw(character.GetAccessorySprite(),
+                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 880, 1000),
+                    null,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    character.Inv.InventorySelector.Scale,
+                    SpriteEffects.None,
+                    0.5f);
+            }
+
             if (character.Inv.NavigatingInventory)
             {
                 //DRAW UI OBJECTS            
@@ -426,7 +522,22 @@ namespace Little_Might.Utils
                         SpriteEffects.None,
                         0.5f);
                 }
-            
+
+                FontOrigin = _font.MeasureString(character.EquippedItems[0]) / 2;
+                _spriteBatch.DrawString(_font, character.EquippedItems[0], new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 775, 820), Color.White, 0, FontOrigin, 1f, SpriteEffects.None, 0.5f);
+
+                FontOrigin = _font.MeasureString(character.EquippedItems[1]) / 2;
+                _spriteBatch.DrawString(_font, character.EquippedItems[1], new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 775, 870), Color.White, 0, FontOrigin, 1f, SpriteEffects.None, 0.5f);
+
+                FontOrigin = _font.MeasureString(character.EquippedItems[2]) / 2;
+                _spriteBatch.DrawString(_font, character.EquippedItems[2], new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 775, 920), Color.White, 0, FontOrigin, 1f, SpriteEffects.None, 0.5f);
+
+                FontOrigin = _font.MeasureString(character.EquippedItems[3]) / 2;
+                _spriteBatch.DrawString(_font, character.EquippedItems[3], new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 775, 970), Color.White, 0, FontOrigin, 1f, SpriteEffects.None, 0.5f);
+
+                FontOrigin = _font.MeasureString(character.EquippedItems[4]) / 2;
+                _spriteBatch.DrawString(_font, character.EquippedItems[4], new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 775, 1020), Color.White, 0, FontOrigin, 1f, SpriteEffects.None, 0.5f);
+
                 _spriteBatch.Draw(character.Inv.InventorySelector.Sprite,
                     character.Inv.InventorySelector.Position + new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width, 0),
                     null,
@@ -435,73 +546,7 @@ namespace Little_Might.Utils
                     Vector2.Zero,
                     character.Inv.InventorySelector.Scale,
                     SpriteEffects.None,
-                    0.5f);
-
-                //Equipment slots
-                //WEAPON
-                FontOrigin = _font.MeasureString(character.EquippedItems[0]) / 2;
-                _spriteBatch.DrawString(_font, character.EquippedItems[0], new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 775, 820), Color.White, 0, FontOrigin, 1f, SpriteEffects.None, 0.5f);
-                _spriteBatch.Draw(character.GetWeaponSprite(),
-                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 880, 800),
-                    null,
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    character.Inv.InventorySelector.Scale,
-                    SpriteEffects.None,
-                    0.5f);
-
-                //HEADGEAR
-                FontOrigin = _font.MeasureString(character.EquippedItems[1]) / 2;
-                _spriteBatch.DrawString(_font, character.EquippedItems[1], new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 775, 870), Color.White, 0, FontOrigin, 1f, SpriteEffects.None, 0.5f);
-                _spriteBatch.Draw(character.Inv.InventorySelector.Sprite,
-                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 880, 850),
-                    null,
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    character.Inv.InventorySelector.Scale,
-                    SpriteEffects.None,
-                    0.5f);
-
-                //BOOTS
-                FontOrigin = _font.MeasureString(character.EquippedItems[2]) / 2;
-                _spriteBatch.DrawString(_font, character.EquippedItems[2], new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 775, 920), Color.White, 0, FontOrigin, 1f, SpriteEffects.None, 0.5f);
-                _spriteBatch.Draw(character.Inv.InventorySelector.Sprite,
-                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 880, 900),
-                    null,
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    character.Inv.InventorySelector.Scale,
-                    SpriteEffects.None,
-                    0.5f);
-
-                //ARMOR
-                FontOrigin = _font.MeasureString(character.EquippedItems[3]) / 2;
-                _spriteBatch.DrawString(_font, character.EquippedItems[3], new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 775, 970), Color.White, 0, FontOrigin, 1f, SpriteEffects.None, 0.5f);
-                _spriteBatch.Draw(character.Inv.InventorySelector.Sprite,
-                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 880, 950),
-                    null,
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    character.Inv.InventorySelector.Scale,
-                    SpriteEffects.None,
-                    0.5f);
-
-                //TRINKET
-                FontOrigin = _font.MeasureString(character.EquippedItems[4]) / 2;
-                _spriteBatch.DrawString(_font, character.EquippedItems[4], new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 775, 1020), Color.White, 0, FontOrigin, 1f, SpriteEffects.None, 0.5f);
-                _spriteBatch.Draw(character.Inv.InventorySelector.Sprite,
-                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 880, 1000),
-                    null,
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    character.Inv.InventorySelector.Scale,
-                    SpriteEffects.None,
-                    0.5f);
+                    0.5f);                               
 
                 //Display item info here
                 Modules.InventoryItem _item = character.Inv.GetSelectedItem();

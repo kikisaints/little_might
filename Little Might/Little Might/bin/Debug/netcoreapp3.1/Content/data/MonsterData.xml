@@ -59,7 +59,7 @@
 		<CHAR>1</CHAR>
 		<DEF>5</DEF>
 		<CRIT>0</CRIT>
-		<Drop>veal</Drop>
+		<Drop>pelt</Drop>
 		<Attack1>runaway</Attack1>
 		<Attack2 />
 	</Monster>

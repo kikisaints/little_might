@@ -85,6 +85,20 @@ namespace Little_Might.Utils
             }
         }
 
+        public static Inventory.ITEMTYPE GetMonsterDrop(Color monsterColor)
+        {
+            Inventory.ITEMTYPE itemType;
+            Enum.TryParse(AllMonsters.Find(monster => monster.ObjectColor == monsterColor).ItemDrop, out itemType);
+
+            foreach (Monster m in AllMonsters)
+            {
+                if (m.ObjectColor == monsterColor)
+                    Enum.TryParse(m.ItemDrop.ToUpper(), out itemType);
+            }
+
+            return itemType;
+        }
+
         public void AddMonsterToWorld(int numberOfMonsters, string monsterName)
         {
             for (int i = 0; i < numberOfMonsters; i++)

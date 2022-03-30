@@ -17,26 +17,10 @@ namespace Little_Might.Modules
             CELESTIALHORROR
         }
 
-        public static Inventory.ITEMTYPE GetDrop(MONSTERTYPE type)
-        {
-            switch(type.ToString().ToLower())
-            {
-                case "slime":
-                    return Inventory.ITEMTYPE.GOOP;
-                case "rabbit":
-                    return Inventory.ITEMTYPE.HARELEG;
-                case "deer":
-                    return Inventory.ITEMTYPE.VEAL;
-            }
-
-            return Inventory.ITEMTYPE.NONE;
-        }
-
         private Stats _stats;
         private Texture2D _interactionSprite;
         private MONSTERTYPE _monsterType;
         private string _name;
-        private Color _monsterColor;
         private string _itemDrop;
         private string[] _attacks;
 
@@ -57,12 +41,6 @@ namespace Little_Might.Modules
         {
             get { return _itemDrop; }
             set { _itemDrop = value; }
-        }
-
-        public Color MonsterColor
-        {
-            get { return _monsterColor; }
-            set { _monsterColor = value; }
         }
 
         public string Name

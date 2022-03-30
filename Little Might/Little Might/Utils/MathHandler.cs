@@ -21,7 +21,7 @@ namespace Little_Might.Utils
 
         public static int Get1DIndex(int x, int y, int size)
         {
-            return (int)((x) * size + (y));
+            return (int)((x * size) + y);
         }
 
         public static bool IsPointInCircle(int x, int y, int centerX, int centerY, int radius)
