@@ -54,6 +54,7 @@
     <File>C:/Users/Kiki/Documents/GitHub/little_might/Little Might/Little Might/Content/tile_grass.png</File>
     <File>C:/Users/Kiki/Documents/GitHub/little_might/Little Might/Little Might/Content/tile_herbs.png</File>
     <File>C:/Users/Kiki/Documents/GitHub/little_might/Little Might/Little Might/Content/tile_mountain.png</File>
+    <File>C:/Users/Kiki/Documents/GitHub/little_might/Little Might/Little Might/Content/tile_stone.png</File>
     <File>C:/Users/Kiki/Documents/GitHub/little_might/Little Might/Little Might/Content/tile_water.png</File>
     <File>C:/Users/Kiki/Documents/GitHub/little_might/Little Might/Little Might/Content/tile_water_top.png</File>
     <File>C:/Users/Kiki/Documents/GitHub/little_might/Little Might/Little Might/Content/tree_evergreen.png</File>
@@ -65,6 +66,7 @@
     <File>C:/Users/Kiki/Documents/GitHub/little_might/Little Might/Little Might/Content/twine_selected.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

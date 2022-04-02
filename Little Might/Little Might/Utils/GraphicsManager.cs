@@ -30,6 +30,8 @@ namespace Little_Might.Utils
         private double _displayMsgTime = 2;
         private string _systemMessage = "";
 
+        private int _activeDrawLayer = 0;
+
         //UI Icons -- TEMP
         private Texture2D _hpIcon;
         private Texture2D _waterIcon;
@@ -37,6 +39,8 @@ namespace Little_Might.Utils
         private Texture2D _diseaseIcon;
         private Texture2D _systemPopup;
         private WorldMap _worldMap;
+
+        public void SetDrawLayer(int newLayer) { _activeDrawLayer = newLayer; }
 
         public GraphicsDeviceManager Graphics
         {
@@ -186,18 +190,28 @@ namespace Little_Might.Utils
                 }
             }
 
-            foreach (WorldMap.DungeonMaps dMap in map.DungeonColorMaps)
+            foreach (WorldMap.DungeonMap dMap in map.DungeonMaps)
             {
                 Vector2 startPos = dMap.DungeonDoor;
-                for (int j = 0; j < dMap.DungeonColorMap.Length; j++)
+                startPos.X = (startPos.X - 3) * Utils.WorldMap.UNITSIZE;
+                startPos.Y = (startPos.Y - 5) * Utils.WorldMap.UNITSIZE;
+
+                for (int j = 0; j < dMap.Map.Length; j++)
                 {
-                    if (dMap.DungeonColorMap[j] == GameColors.PrarieDungeonMapColor)
+                    int dMapX = (j % dMap.MapWidth) * Utils.WorldMap.UNITSIZE;
+                    int dMapY = (j / dMap.MapWidth) * Utils.WorldMap.UNITSIZE;
+
+                    if (dMap.Map[j] == 1)
+                    {
+                        AddWorldObject(new Modules.WorldObject(contentManager.Load<Texture2D>("tile_stone"),
+                        new Vector2(startPos.X + dMapX, startPos.Y + dMapY),
+                        GameColors.StoneMapColor, 1));
+                    }
+                    if (dMap.Map[j] == 8)
                     {
                         AddWorldObject(new Modules.WorldObject(contentManager.Load<Texture2D>("dungeon_entrance_1"),
-                        new Vector2(startPos.X, startPos.Y),
-                        GameColors.PrarieDungeonMapColor));
-
-                        dMap.DungeonTiles[0, 0] = WorldMap.MAPTILETYPE.PRARIEDUNGEON;
+                        new Vector2(dMap.DungeonDoor.X * Utils.WorldMap.UNITSIZE, dMap.DungeonDoor.Y * Utils.WorldMap.UNITSIZE),
+                        GameColors.PrarieDungeonMapColor, 1));
                     }
                 }
             }
@@ -257,6 +271,9 @@ namespace Little_Might.Utils
             int indexX = x / Utils.WorldMap.UNITSIZE;
             int indexY = y / Utils.WorldMap.UNITSIZE;
             int index = Utils.MathHandler.Get1DIndex(indexY, indexX, _worldMap.MapWidth);
+
+            if (index >= _worldObjects.Count || index < 0)
+                return false;
 
             return _worldObjects[index].FireAffected;
         }
@@ -369,20 +386,34 @@ namespace Little_Might.Utils
 
             if (world)
             {
-                int[] drawArray = GetAffectShape(radius, charPos, width);
-
-                foreach (int i in drawArray)
+                if (_activeDrawLayer == 0)
                 {
-                    _spriteBatch.Draw(_worldObjects[i].Sprite, _worldObjects[i].Position, null, _worldObjects[i].ObjectColor);
+                    int[] drawArray = GetAffectShape(radius, charPos, width);
+
+                    foreach (int i in drawArray)
+                    {
+                        if (_worldObjects[i].DrawLayer == _activeDrawLayer)
+                            _spriteBatch.Draw(_worldObjects[i].Sprite, _worldObjects[i].Position, null, _worldObjects[i].ObjectColor);
+                    }
+                }
+                else
+                {
+                    foreach (Modules.WorldObject wo in _worldObjects)
+                    {
+                        if (wo.DrawLayer == _activeDrawLayer)
+                        {
+                            _spriteBatch.Draw(wo.Sprite, wo.Position, null, wo.ObjectColor);
+                        }
+                    }
                 }
 
                 foreach (Modules.WorldObject cobj in _characters)
                 {
-                    if (Utils.MathHandler.IsPointInCircle((int)cobj.Position.X / Utils.WorldMap.UNITSIZE, 
+                    if (Utils.MathHandler.IsPointInCircle((int)cobj.Position.X / Utils.WorldMap.UNITSIZE,
                         (int)cobj.Position.Y / Utils.WorldMap.UNITSIZE,
-                        (int)charPos.X / Utils.WorldMap.UNITSIZE, 
-                        (int)charPos.Y / Utils.WorldMap.UNITSIZE, 
-                        radius))
+                        (int)charPos.X / Utils.WorldMap.UNITSIZE,
+                        (int)charPos.Y / Utils.WorldMap.UNITSIZE,
+                        radius) && cobj.DrawLayer == _activeDrawLayer)
                         _spriteBatch.Draw(cobj.Sprite, cobj.Position, null, cobj.ObjectColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 }
             }

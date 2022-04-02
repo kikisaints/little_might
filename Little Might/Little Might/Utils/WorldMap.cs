@@ -13,30 +13,47 @@ namespace Little_Might.Utils
     {
         public struct Teleportal
         {
-            public Teleportal (Vector2 portalEnter, Vector2 portalExit)
+            public Teleportal (Vector2 portalEnter, Vector2 portalExit, string name, int enterLayer, int exitLayer)
             {
+                PortalName = name;
                 PortalEnter = portalEnter;
                 PortalExit = portalExit;
+
+                PortalEnterLayer = enterLayer;
+                PortalExitLayer = exitLayer;
             }
 
+            public string PortalName;
             public Vector2 PortalEnter;
             public Vector2 PortalExit;
+
+            public int PortalEnterLayer;
+            public int PortalExitLayer;
         }
 
-        public struct DungeonMaps
+        public struct DungeonMap
         {
-            public DungeonMaps (Vector2 door, int maxSize)
+            public DungeonMap (Vector2 door)
             {
                 DungeonDoor = door;
-                DungeonColorMap = new Color[maxSize];
-                DungeonTiles = new MAPTILETYPE[maxSize * UNITSIZE, maxSize * UNITSIZE];
+                MapWidth = 7;
+                MapHeight = 7;
 
-                DungeonColorMap[0] = GameColors.PrarieDungeonMapColor;
+                //7x7 map in a 1d array
+                Map = new int[]
+                {0, 0, 1, 1, 1, 0, 0,
+                 0, 0, 1, 1, 1, 1, 1,
+                 1, 1, 1, 1, 1, 0, 1,
+                 1, 1, 0, 1, 0, 1, 1,
+                 1, 0, 0, 1, 0, 1, 1,
+                 1, 1, 1, 8, 1, 1, 0,
+                 0, 0, 0, 0, 0, 0, 0};
             }
 
+            public int MapWidth;
+            public int MapHeight;
             public Vector2 DungeonDoor;
-            public Color[] DungeonColorMap;
-            public MAPTILETYPE[,] DungeonTiles;
+            public int[] Map;
         }
 
         public static int UNITSIZE = 9;
@@ -51,7 +68,7 @@ namespace Little_Might.Utils
         private List<int> _mountainPoints;
         private List<int> _chestPoints;
         private List<Teleportal> _dungeonPoints;
-        private List<DungeonMaps> _dungeonColorMaps;
+        private List<DungeonMap> _dungeonMaps;
 
         private int _width;
         private Random _tileRandom;
@@ -80,9 +97,30 @@ namespace Little_Might.Utils
             STONE
         }
 
-        public List<DungeonMaps> DungeonColorMaps
+        public Teleportal GetPortalByLocation(Vector2 location, bool exiting = false)
         {
-            get { return _dungeonColorMaps; }
+            foreach(Teleportal tele in _dungeonPoints)
+            {
+                if (!exiting)
+                {
+                    if ((int)tele.PortalEnter.X == (int)location.X / UNITSIZE &&
+                        (int)tele.PortalEnter.Y == (int)location.Y / UNITSIZE)
+                        return tele;
+                }
+                else
+                {
+                    if ((int)tele.PortalExit.X == (int)location.X / UNITSIZE &&
+                        (int)tele.PortalExit.Y == (int)location.Y / UNITSIZE)
+                        return tele;
+                }
+            }
+
+            return new Teleportal(Vector2.Zero, Vector2.Zero, "", 0, 0);
+        }
+
+        public List<DungeonMap> DungeonMaps
+        {
+            get { return _dungeonMaps; }
         }
 
         public Color[] ColorMap
@@ -112,7 +150,7 @@ namespace Little_Might.Utils
             _chestPoints = new List<int>();
             _tileRandom = new Random();
             _dungeonPoints = new List<Teleportal>();
-            _dungeonColorMaps = new List<DungeonMaps>();
+            _dungeonMaps = new List<DungeonMap>();
 
             MapTiles = new MAPTILETYPE[(w * UNITSIZE),(w * UNITSIZE)];
 
@@ -236,15 +274,16 @@ namespace Little_Might.Utils
                 _chestPoints.Add(chest);
             }
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 1; i++)
             {
                 int dungeonIndex = _grassPoints[Utils.MathHandler.GetRandomNumber(150, _grassPoints.Count - 1)];
                 colors[dungeonIndex] = GameColors.PrarieDungeonMapColor;
 
                 Vector2 worldPoint = Utils.MathHandler.Get2DPoint(dungeonIndex, _width);
-                Vector2 dungeonDoor = new Vector2(worldPoint.X * 5000, (worldPoint.Y * 5000) + UNITSIZE);
-                _dungeonPoints.Add(new Teleportal(new Vector2(worldPoint.X, worldPoint.Y + UNITSIZE), dungeonDoor));
-                _dungeonColorMaps.Add(new DungeonMaps(dungeonDoor, 300));
+                _dungeonPoints.Add(new Teleportal(new Vector2((int)worldPoint.X, (int)worldPoint.Y), 
+                    new Vector2((int)worldPoint.X, (int)(worldPoint.Y + UNITSIZE)), 
+                    "SKAMRAG", 1, 0));
+                _dungeonMaps.Add(new DungeonMap(worldPoint));
             }
 
             _colorMap = colors;
@@ -255,11 +294,6 @@ namespace Little_Might.Utils
             noiseTexture.SaveAsPng(stream, noiseTexture.Width, noiseTexture.Height);
             stream.Dispose();
             noiseTexture.Dispose();
-        }
-
-        private void PlacePrarieDungeons(int max, ref Color[] colorMap)
-        {
-            
         }
 
         public Vector2 GetRandomGrassPoint()

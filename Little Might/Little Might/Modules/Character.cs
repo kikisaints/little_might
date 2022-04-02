@@ -305,13 +305,33 @@ namespace Little_Might.Modules
                         _graphicsManager.ShowSystemMessage("Picked up " + randomChestItem.ToString());
                 }
 
-                //wMap.ChangeTile(new Vector2(Position.X, Position.Y), Utils.WorldMap.MAPTILETYPE.GRASS);
                 _graphicsManager.ChangeWorldObjectVisual(content.Load<Texture2D>("tile_grass"),
                     Utils.GameColors.GrassMapColor,
                     (int)Position.X,
                     (int)Position.Y,
                     Modules.Inventory.ITEMTYPE.NONE,
                     Utils.WorldMap.MAPTILETYPE.GRASS);
+            }
+            else if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.PRARIEDUNGEON)
+            {
+                Utils.WorldMap.Teleportal portal = wMap.GetPortalByLocation(movePos);
+
+                //if the portal has a name, than it's legit, therefore we can teleport to it's other location
+                if (portal.PortalName != "")
+                {
+                    if (DrawLayer != portal.PortalEnterLayer)
+                    {
+                        _graphicsManager.ShowSystemMessage("Entered Dungeon\n" + portal.PortalName.ToUpper() + "!");
+                        _graphicsManager.SetDrawLayer(portal.PortalEnterLayer);
+                        DrawLayer = portal.PortalEnterLayer;
+                    }
+                    else
+                    {
+                        _graphicsManager.ShowSystemMessage("Exited Dungeon\n" + portal.PortalName.ToUpper() + "!");
+                        _graphicsManager.SetDrawLayer(0);
+                        DrawLayer = 0;
+                    }
+                }
             }
 
             if (_graphicsManager.IsCampfireAffectedTile((int)movePos.X, (int)movePos.Y))
@@ -668,24 +688,29 @@ namespace Little_Might.Modules
             }
         }
 
-        private bool CanMoveToTile(Vector2 movePos, Utils.WorldMap wMap)
+        private bool CanMoveToTile(Vector2 movePos, Utils.WorldMap wMap, string dungeonName = "")
         {
-            if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) != Utils.WorldMap.MAPTILETYPE.WATER &&
-                wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) != Utils.WorldMap.MAPTILETYPE.MOUNTAIN &&
-                wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) != Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS &&
-                wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) != Utils.WorldMap.MAPTILETYPE.CAMPFIRE)
+            return CheckOverworldTiles(movePos, wMap);
+        }
+
+        private bool CheckOverworldTiles(Vector2 pos, Utils.WorldMap map)
+        {
+            if (map.GetTileType(new Vector2(pos.X, pos.Y)) != Utils.WorldMap.MAPTILETYPE.WATER &&
+                map.GetTileType(new Vector2(pos.X, pos.Y)) != Utils.WorldMap.MAPTILETYPE.MOUNTAIN &&
+                map.GetTileType(new Vector2(pos.X, pos.Y)) != Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS &&
+                map.GetTileType(new Vector2(pos.X, pos.Y)) != Utils.WorldMap.MAPTILETYPE.CAMPFIRE)
             {
                 return true;
             }
-            else if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS)
+            else if (map.GetTileType(new Vector2(pos.X, pos.Y)) == Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS)
             {
-                if (movePos.X < 0)
-                    Position = new Vector2(wMap.MapWidth * Utils.WorldMap.UNITSIZE, Position.Y);
-                else if (movePos.Y < 0)
-                    Position = new Vector2(Position.X, wMap.MapWidth * Utils.WorldMap.UNITSIZE);
-                else if (movePos.Y >= (wMap.MapWidth * Utils.WorldMap.UNITSIZE))
+                if (pos.X < 0)
+                    Position = new Vector2(map.MapWidth * Utils.WorldMap.UNITSIZE, Position.Y);
+                else if (pos.Y < 0)
+                    Position = new Vector2(Position.X, map.MapWidth * Utils.WorldMap.UNITSIZE);
+                else if (pos.Y >= (map.MapWidth * Utils.WorldMap.UNITSIZE))
                     Position = new Vector2(Position.X, 0 - Utils.WorldMap.UNITSIZE);
-                else if (movePos.X >= (wMap.MapWidth * Utils.WorldMap.UNITSIZE))
+                else if (pos.X >= (map.MapWidth * Utils.WorldMap.UNITSIZE))
                     Position = new Vector2(0 - Utils.WorldMap.UNITSIZE, Position.Y);
                 return true;
             }

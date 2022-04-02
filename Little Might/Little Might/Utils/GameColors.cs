@@ -25,6 +25,7 @@ namespace Little_Might.Utils
         static private Color _furnaceMapColor = Color.Orange;
         static private Color _chestMapColor = new Color(168, 117, 50);
         static private Color _prarieDungeonMapColor = new Color(62, 85, 115);
+        static private Color _stoneMapColor = new Color(116, 138, 237);
 
         public static Color GetColorByStringName(string name)
         {
@@ -41,6 +42,11 @@ namespace Little_Might.Utils
                 default:
                     return _mainBackgroundColor;
             }
+        }
+
+        static public Color StoneMapColor
+        {
+            get { return _stoneMapColor; }
         }
 
         static public Color PrarieDungeonMapColor
