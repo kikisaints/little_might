@@ -18,6 +18,7 @@ namespace Little_Might.Utils
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private List<Modules.WorldObject> _worldObjects;
+        private List<Modules.WorldObject> _worldObjects_l1;
         private List<Modules.WorldObject> _characters;
         private List<Modules.ScreenObject> _screenObjects;
         private SpriteFont _font;
@@ -56,6 +57,7 @@ namespace Little_Might.Utils
         {
             _graphics = new GraphicsDeviceManager(gameClass);
             _worldObjects = new List<Modules.WorldObject>();
+            _worldObjects_l1 = new List<Modules.WorldObject>();
             _characters = new List<Modules.WorldObject>();
             _screenObjects = new List<Modules.ScreenObject>();
         }
@@ -193,8 +195,12 @@ namespace Little_Might.Utils
             foreach (WorldMap.DungeonMap dMap in map.DungeonMaps)
             {
                 Vector2 startPos = dMap.DungeonDoor;
-                startPos.X = (startPos.X - 3) * Utils.WorldMap.UNITSIZE;
-                startPos.Y = (startPos.Y - 5) * Utils.WorldMap.UNITSIZE;
+
+                //need to offset from the dungoen door position to the 0,0 in the dungoen map array
+                //which is dependent on where the door starts and is not necessarily an even distance
+                //Should NOT be hardcoded, need to change that...
+                startPos.X = (startPos.X - 7) * Utils.WorldMap.UNITSIZE;
+                startPos.Y = (startPos.Y - 19) * Utils.WorldMap.UNITSIZE;
 
                 for (int j = 0; j < dMap.Map.Length; j++)
                 {
@@ -203,14 +209,14 @@ namespace Little_Might.Utils
 
                     if (dMap.Map[j] == 1)
                     {
-                        AddWorldObject(new Modules.WorldObject(contentManager.Load<Texture2D>("tile_stone"),
+                        _worldObjects_l1.Add(new Modules.WorldObject(contentManager.Load<Texture2D>("tile_stone"),
                         new Vector2(startPos.X + dMapX, startPos.Y + dMapY),
                         GameColors.StoneMapColor, 1));
                     }
                     if (dMap.Map[j] == 8)
                     {
-                        AddWorldObject(new Modules.WorldObject(contentManager.Load<Texture2D>("dungeon_entrance_1"),
-                        new Vector2(dMap.DungeonDoor.X * Utils.WorldMap.UNITSIZE, dMap.DungeonDoor.Y * Utils.WorldMap.UNITSIZE),
+                        _worldObjects_l1.Add(new Modules.WorldObject(contentManager.Load<Texture2D>("dungeon_entrance_1"),
+                        new Vector2(startPos.X + dMapX, startPos.Y + dMapY),
                         GameColors.PrarieDungeonMapColor, 1));
                     }
                 }
@@ -242,40 +248,86 @@ namespace Little_Might.Utils
 
         public void AddWorldObject(Modules.WorldObject worldObject) { _worldObjects.Add(worldObject); }
 
-        public void ChangeWorldObjectVisual(Texture2D newSprite, Color newColor, int x, int y, Modules.Inventory.ITEMTYPE type, Utils.WorldMap.MAPTILETYPE mapTile = WorldMap.MAPTILETYPE.OUTOFBOUNDS)
+        public void ChangeWorldObjectVisual(Texture2D newSprite, Color newColor, int x, int y, Modules.Inventory.ITEMTYPE type, 
+            Utils.WorldMap.MAPTILETYPE mapTile = WorldMap.MAPTILETYPE.OUTOFBOUNDS)
         {
-            int indexX = x / Utils.WorldMap.UNITSIZE;
-            int indexY = y / Utils.WorldMap.UNITSIZE;
-            int index = Utils.MathHandler.Get1DIndex(indexY, indexX, _worldMap.MapWidth);
-
-            _worldObjects[index].Sprite = newSprite;
-            _worldObjects[index].ObjectColor = newColor;
-
-            if (mapTile != WorldMap.MAPTILETYPE.OUTOFBOUNDS)
-                _worldMap.MapTiles[x, y] = mapTile;
-
-            if (type == Modules.Inventory.ITEMTYPE.CAMPFIRE || type == Modules.Inventory.ITEMTYPE.FURNACE)
+            if (_activeDrawLayer == 0)
             {
-                int[] fireAffectedArea = GetAffectShape(4, new Vector2(x, y), _worldMap.MapWidth);
+                int indexX = x / Utils.WorldMap.UNITSIZE;
+                int indexY = y / Utils.WorldMap.UNITSIZE;
+                int index = Utils.MathHandler.Get1DIndex(indexY, indexX, _worldMap.MapWidth);
 
-                foreach (int i in fireAffectedArea)
+                _worldObjects[index].Sprite = newSprite;
+                _worldObjects[index].ObjectColor = newColor;
+
+                if (mapTile != WorldMap.MAPTILETYPE.OUTOFBOUNDS)
+                    _worldMap.MapTiles[x, y] = mapTile;
+
+                if (type == Modules.Inventory.ITEMTYPE.CAMPFIRE || type == Modules.Inventory.ITEMTYPE.FURNACE)
                 {
-                    _worldObjects[i].ObjectColor = Utils.MathHandler.BlendColor(Utils.GameColors.CampfireMapColor, _worldObjects[i].ObjectColor, 0.5f);
-                    _worldObjects[i].FireAffected = true;
+                    int[] fireAffectedArea = GetAffectShape(4, new Vector2(x, y), _worldMap.MapWidth);
+
+                    foreach (int i in fireAffectedArea)
+                    {
+                        _worldObjects[i].ObjectColor = Utils.MathHandler.BlendColor(Utils.GameColors.CampfireMapColor, _worldObjects[i].ObjectColor, 0.5f);
+                        _worldObjects[i].FireAffected = true;
+                    }
+                }
+            }
+            else if (_activeDrawLayer == 1)
+            {
+                Vector2 startPoint = new Vector2(x, y);
+
+                for (int i = 0; i < _worldObjects_l1.Count; i++)
+                {
+                    if (Utils.MathHandler.WorldObjectIntersects(startPoint, _worldObjects_l1[i].Position))
+                    {
+                        _worldObjects_l1[i].Sprite = newSprite;
+                        _worldObjects_l1[i].ObjectColor = newColor;
+                    }
+                }
+
+                if (type == Modules.Inventory.ITEMTYPE.CAMPFIRE || type == Modules.Inventory.ITEMTYPE.FURNACE)
+                {
+                    foreach (Modules.WorldObject wobj in _worldObjects_l1)
+                    {
+                        if (Utils.MathHandler.IsPointInCircle((int)wobj.Position.X / Utils.WorldMap.UNITSIZE,
+                        (int)wobj.Position.Y / Utils.WorldMap.UNITSIZE,
+                        (int)startPoint.X / Utils.WorldMap.UNITSIZE,
+                        (int)startPoint.Y / Utils.WorldMap.UNITSIZE,
+                        4))
+                        {
+                            wobj.ObjectColor = Utils.MathHandler.BlendColor(Utils.GameColors.CampfireMapColor, wobj.ObjectColor, 0.5f);
+                            wobj.FireAffected = true;
+                        }
+                    }
                 }
             }
         }
 
         public bool IsCampfireAffectedTile(int x, int y)
         {
-            int indexX = x / Utils.WorldMap.UNITSIZE;
-            int indexY = y / Utils.WorldMap.UNITSIZE;
-            int index = Utils.MathHandler.Get1DIndex(indexY, indexX, _worldMap.MapWidth);
+            if (_activeDrawLayer == 0)
+            {
+                int indexX = x / Utils.WorldMap.UNITSIZE;
+                int indexY = y / Utils.WorldMap.UNITSIZE;
+                int index = Utils.MathHandler.Get1DIndex(indexY, indexX, _worldMap.MapWidth);
 
-            if (index >= _worldObjects.Count || index < 0)
-                return false;
+                if (index >= _worldObjects.Count || index < 0)
+                    return false;
 
-            return _worldObjects[index].FireAffected;
+                return _worldObjects[index].FireAffected;
+            }
+            else if (_activeDrawLayer == 1)
+            {
+                foreach (Modules.WorldObject wobj_l1 in _worldObjects_l1)
+                {
+                    if (Utils.MathHandler.WorldObjectIntersects(new Vector2(x, y), wobj_l1.Position))
+                        return wobj_l1.FireAffected;
+                }
+            }
+
+            return false;
         }
 
         public Modules.WorldObject GetWorldObject(int x, int y)
@@ -342,7 +394,7 @@ namespace Little_Might.Utils
                         if (viewIndex >= 0 && viewIndex < _worldObjects.Count)
                         {
                             drawIndicies[drawIndiciesCount] = viewIndex;
-                            drawIndiciesCount++;                            
+                            drawIndiciesCount++;
                         }                       
                     }
 
@@ -396,14 +448,16 @@ namespace Little_Might.Utils
                             _spriteBatch.Draw(_worldObjects[i].Sprite, _worldObjects[i].Position, null, _worldObjects[i].ObjectColor);
                     }
                 }
-                else
+                else if (_activeDrawLayer == 1)
                 {
-                    foreach (Modules.WorldObject wo in _worldObjects)
+                    foreach (Modules.WorldObject wobj in _worldObjects_l1)
                     {
-                        if (wo.DrawLayer == _activeDrawLayer)
-                        {
-                            _spriteBatch.Draw(wo.Sprite, wo.Position, null, wo.ObjectColor);
-                        }
+                        if (Utils.MathHandler.IsPointInCircle((int)wobj.Position.X / Utils.WorldMap.UNITSIZE,
+                        (int)wobj.Position.Y / Utils.WorldMap.UNITSIZE,
+                        (int)charPos.X / Utils.WorldMap.UNITSIZE,
+                        (int)charPos.Y / Utils.WorldMap.UNITSIZE,
+                        3))
+                            _spriteBatch.Draw(wobj.Sprite, wobj.Position, null, wobj.ObjectColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                     }
                 }
 

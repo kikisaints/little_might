@@ -79,7 +79,9 @@ namespace Little_Might
         {
             for (int i = 1; i < _graphicsManager.Characters.Count; i++)
             {
-                if (Utils.MathHandler.WorldObjectIntersects(_graphicsManager.Characters[i], _character))
+                //If the characters intersect AND they are on the same draw layer, then we can begin the encounter
+                if (Utils.MathHandler.WorldObjectIntersects(_graphicsManager.Characters[i], _character) &&
+                    _graphicsManager.Characters[i].DrawLayer == _character.DrawLayer)
                 {
                     _inOverworld = false;
                     _interactor = _graphicsManager.Characters[i] as Modules.Monster;
@@ -120,6 +122,9 @@ namespace Little_Might
         {
             _character.EndFight();
             LeaveInteraction();
+
+            if (_interactor == null)
+                return;
 
             _graphicsManager.DisplayInteractionOptions(true);
 

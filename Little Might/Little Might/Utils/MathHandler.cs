@@ -50,5 +50,13 @@ namespace Little_Might.Utils
 
             return rectA.Intersects(rectB);
         }
+
+        public static bool WorldObjectIntersects(Vector2 objA, Vector2 objB)
+        {
+            Rectangle rectA = new Rectangle((int)objA.X, (int)objA.Y, Utils.WorldMap.UNITSIZE, Utils.WorldMap.UNITSIZE);
+            Rectangle rectB = new Rectangle((int)objB.X, (int)objB.Y, Utils.WorldMap.UNITSIZE, Utils.WorldMap.UNITSIZE);
+
+            return rectA.Intersects(rectB);
+        }
     }
 }

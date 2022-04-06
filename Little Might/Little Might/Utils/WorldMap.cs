@@ -13,12 +13,13 @@ namespace Little_Might.Utils
     {
         public struct Teleportal
         {
-            public Teleportal (Vector2 portalEnter, Vector2 portalExit, string name, int enterLayer, int exitLayer)
+            public Teleportal (Vector2 portalEnter, Vector2 portalExit, string name, int enterLayer, int exitLayer, DungeonMap dMap)
             {
                 PortalName = name;
                 PortalEnter = portalEnter;
                 PortalExit = portalExit;
 
+                PortalDungeonMap = dMap;
                 PortalEnterLayer = enterLayer;
                 PortalExitLayer = exitLayer;
             }
@@ -27,33 +28,97 @@ namespace Little_Might.Utils
             public Vector2 PortalEnter;
             public Vector2 PortalExit;
 
+            public DungeonMap PortalDungeonMap;
             public int PortalEnterLayer;
             public int PortalExitLayer;
         }
 
+        public struct LayerMapTiles
+        {
+            public LayerMapTiles(MAPTILETYPE t, Vector2 pos)
+            {
+                WorldPosition = pos;
+                TileType = t;
+            }
+
+            public MAPTILETYPE TileType;
+            public Vector2 WorldPosition;
+        }
+
         public struct DungeonMap
         {
-            public DungeonMap (Vector2 door)
+            public DungeonMap(Vector2 door, int mapSize, string name)
             {
                 DungeonDoor = door;
-                MapWidth = 7;
-                MapHeight = 7;
-
-                //7x7 map in a 1d array
                 Map = new int[]
-                {0, 0, 1, 1, 1, 0, 0,
-                 0, 0, 1, 1, 1, 1, 1,
-                 1, 1, 1, 1, 1, 0, 1,
-                 1, 1, 0, 1, 0, 1, 1,
-                 1, 0, 0, 1, 0, 1, 1,
-                 1, 1, 1, 8, 1, 1, 0,
-                 0, 0, 0, 0, 0, 0, 0};
+                   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                    0,0,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,
+                    0,0,1,1,1,1,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,
+                    0,0,1,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,
+                    0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,
+                    0,0,1,1,1,1,0,0,0,0,0,1,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,
+                    0,0,1,0,1,1,0,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,
+                    0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,
+                    0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,1,1,0,0,
+                    0,0,1,0,1,1,1,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,1,1,1,1,0,0,
+                    0,0,1,0,0,0,0,0,1,0,1,0,1,0,1,1,0,1,0,0,0,0,1,1,1,1,0,0,
+                    0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,8,0,
+                    0,0,1,0,0,0,0,0,1,0,1,0,1,0,1,1,0,1,0,0,0,0,1,1,1,1,0,0,
+                    0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,1,1,1,1,0,0,
+                    0,0,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,1,1,0,0,
+                    0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,
+                    0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,
+                    0,0,0,1,1,1,1,8,1,1,1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,1,1,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                    0,0,0,1,0,0,0,0,0,0,0,1,0,1,1,1,1,1,0,0,0,0,0,1,1,0,0,0,
+                    0,0,0,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,
+                    1,1,0,0,1,1,1,0,1,0,0,1,0,1,1,1,1,1,0,0,0,0,0,1,1,0,0,0,
+                    1,1,0,0,1,0,0,0,1,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
+                    1,1,1,1,1,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                    0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+
+                MapWorldPoints = new LayerMapTiles[Map.Length];
+                MapWidth = mapSize;
+                DungeonName = name;
+                GenerateMapWorldPoints();
             }
 
             public int MapWidth;
-            public int MapHeight;
             public Vector2 DungeonDoor;
             public int[] Map;
+            public LayerMapTiles[] MapWorldPoints;
+            public string DungeonName;
+
+            private void GenerateMapWorldPoints()
+            {
+                Vector2 StartPoint = new Vector2((DungeonDoor.X - 7) * Utils.WorldMap.UNITSIZE, 
+                    (DungeonDoor.Y - 19) * Utils.WorldMap.UNITSIZE);
+
+                Vector2 trackingPoint = StartPoint;
+                int widthTracker = 0;
+                for (int i = 0; i < MapWorldPoints.Length; i++)
+                {
+                    if (Map[i] == 0)
+                        MapWorldPoints[i] = new LayerMapTiles(MAPTILETYPE.OUTOFBOUNDS, trackingPoint);
+                    else if (Map[i] == 1)
+                        MapWorldPoints[i] = new LayerMapTiles(MAPTILETYPE.STONE, trackingPoint);
+                    else if (Map[i] == 8)
+                        MapWorldPoints[i] = new LayerMapTiles(MAPTILETYPE.PRARIEDUNGEON, trackingPoint);
+                    
+                    trackingPoint.X += UNITSIZE;
+                    widthTracker++;
+
+                    if (widthTracker >= MapWidth)
+                    {
+                        widthTracker = 0;
+                        trackingPoint.Y += UNITSIZE;
+                        trackingPoint.X = StartPoint.X;
+                    }
+                }
+            }
         }
 
         public static int UNITSIZE = 9;
@@ -115,7 +180,7 @@ namespace Little_Might.Utils
                 }
             }
 
-            return new Teleportal(Vector2.Zero, Vector2.Zero, "", 0, 0);
+            return new Teleportal(Vector2.Zero, Vector2.Zero, "", 0, 0, new DungeonMap());
         }
 
         public List<DungeonMap> DungeonMaps
@@ -280,10 +345,11 @@ namespace Little_Might.Utils
                 colors[dungeonIndex] = GameColors.PrarieDungeonMapColor;
 
                 Vector2 worldPoint = Utils.MathHandler.Get2DPoint(dungeonIndex, _width);
+                DungeonMap dungeonMap = new DungeonMap(worldPoint, 28, "SKAME RAGH");
                 _dungeonPoints.Add(new Teleportal(new Vector2((int)worldPoint.X, (int)worldPoint.Y), 
                     new Vector2((int)worldPoint.X, (int)(worldPoint.Y + UNITSIZE)), 
-                    "SKAMRAG", 1, 0));
-                _dungeonMaps.Add(new DungeonMap(worldPoint));
+                    "SKAME RAGH", 1, 0, dungeonMap));
+                _dungeonMaps.Add(dungeonMap);
             }
 
             _colorMap = colors;
@@ -365,9 +431,20 @@ namespace Little_Might.Utils
             return Modules.Inventory.ITEMTYPE.NONE;
         }
 
-        public void ChangeTile(Vector2 pos, MAPTILETYPE tileType)
+        public void ChangeTile(Vector2 pos, MAPTILETYPE tileType, DungeonMap dMap)
         {
-            MapTiles[(int)pos.X, (int)pos.Y] = tileType;
+            if (dMap.DungeonName == "" || dMap.DungeonName == null)
+            {
+                MapTiles[(int)pos.X, (int)pos.Y] = tileType;
+            }
+            else
+            {
+                for (int i = 0; i < dMap.MapWorldPoints.Length; i++)
+                {
+                    if (Utils.MathHandler.WorldObjectIntersects(dMap.MapWorldPoints[i].WorldPosition, pos))
+                        dMap.MapWorldPoints[i].TileType = tileType;
+                }
+            }
         }
 
         public MAPTILETYPE GetTileType(Vector2 pos)
@@ -377,6 +454,17 @@ namespace Little_Might.Utils
                 return MAPTILETYPE.OUTOFBOUNDS;
 
             return MapTiles[(int)pos.X, (int)pos.Y];
+        }
+
+        public MAPTILETYPE GetDungeonTileType(Vector2 pos, DungeonMap dMap)
+        {
+            for (int i = 0; i < dMap.MapWorldPoints.Length; i++)
+            {
+                if (Utils.MathHandler.WorldObjectIntersects(dMap.MapWorldPoints[i].WorldPosition, pos))
+                    return dMap.MapWorldPoints[i].TileType;
+            }
+
+            return MAPTILETYPE.OUTOFBOUNDS;
         }
     }
 }

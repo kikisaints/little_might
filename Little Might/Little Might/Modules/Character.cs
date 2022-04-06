@@ -14,6 +14,7 @@ namespace Little_Might.Modules
         private Inventory _playerInventory;
         private Utils.GraphicsManager _graphicsManager;
         private Game1 _game;
+        private Utils.WorldMap.Teleportal _activePortal;
 
         private Texture2D _interactionSprite;
         private int _steps = 0;
@@ -115,6 +116,11 @@ namespace Little_Might.Modules
                 return _accessorySprite;
         }
 
+        public Utils.WorldMap.Teleportal ClearPortalValues() 
+        {
+            return new Utils.WorldMap.Teleportal(Vector2.Zero, Vector2.Zero, "", -1, -1, new Utils.WorldMap.DungeonMap());
+        }
+
         public Character (string spriteName, string interactSpriteName, Vector2 startingPosition, ContentManager contentManager, Utils.GraphicsManager gManager, Game1 gameClass)
         {
             _inputManager = new Utils.InputManager();
@@ -123,6 +129,8 @@ namespace Little_Might.Modules
             _interactionOptions = new string[] { "Communicate -", "Fight", "Run Away" };
             _fightOptions = Utils.CombatHandler.SetCombatOptions("none");
             _equippedItems = new string[] { "NO WEAPON", "NO HEADGEAR", "NO FOOTGEAR", "NO CHESTGEAR", "NO ACCESSORY" };
+
+            _activePortal = ClearPortalValues();
 
             _currentOptions = _interactionOptions;
 
@@ -221,12 +229,17 @@ namespace Little_Might.Modules
 
         private void CheckTileResource(Vector2 movePos, Utils.WorldMap wMap, ContentManager content)
         {
-            if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.FRUIT)
+            Utils.WorldMap.MAPTILETYPE currentTileType = wMap.GetTileType(movePos);
+
+            if (DrawLayer != 0)
+                currentTileType = wMap.GetDungeonTileType(movePos, _activePortal.PortalDungeonMap);
+
+            if (currentTileType == Utils.WorldMap.MAPTILETYPE.FRUIT)
             {
                 if (_playerInventory.AddItem(Inventory.ITEMTYPE.FRUIT))
                     _graphicsManager.ShowSystemMessage("Picked up " + Inventory.ITEMTYPE.FRUIT.ToString());
             }
-            else if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.BUSH)
+            else if (currentTileType == Utils.WorldMap.MAPTILETYPE.BUSH)
             {
                 Inventory.ITEMTYPE randomBushItem = wMap.GetBushItem();
 
@@ -236,7 +249,7 @@ namespace Little_Might.Modules
                         _graphicsManager.ShowSystemMessage("Picked up " + randomBushItem.ToString());
                 }
             }
-            else if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.HERBS)
+            else if (currentTileType == Utils.WorldMap.MAPTILETYPE.HERBS)
             {
                 Inventory.ITEMTYPE randomHerbItem = wMap.GetHerbItem();
 
@@ -246,7 +259,7 @@ namespace Little_Might.Modules
                         _graphicsManager.ShowSystemMessage("Picked up " + randomHerbItem.ToString());
                 }
             }
-            else if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.ROCK)
+            else if (currentTileType == Utils.WorldMap.MAPTILETYPE.ROCK)
             {
                 Inventory.ITEMTYPE randomRockItem = wMap.GetStoneItem();
 
@@ -256,7 +269,7 @@ namespace Little_Might.Modules
                         _graphicsManager.ShowSystemMessage("Picked up " + randomRockItem.ToString());
                 }
             }
-            else if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.TREE)
+            else if (currentTileType == Utils.WorldMap.MAPTILETYPE.TREE)
             {
                 Inventory.ITEMTYPE randomTreeItem = wMap.GetTreeItem();
 
@@ -266,7 +279,7 @@ namespace Little_Might.Modules
                         _graphicsManager.ShowSystemMessage("Picked up " + randomTreeItem.ToString());
                 }
             }
-            else if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.ITEMDROP)
+            else if (currentTileType == Utils.WorldMap.MAPTILETYPE.ITEMDROP)
             {
                 WorldObject obj = _graphicsManager.GetWorldObject((int)movePos.X, (int)movePos.Y);
                 Inventory.ITEMTYPE monsterDropType = Utils.MonsterManager.GetMonsterDrop(obj.ObjectColor);
@@ -274,14 +287,14 @@ namespace Little_Might.Modules
                 if (_playerInventory.AddItem(monsterDropType))
                     _graphicsManager.ShowSystemMessage("Picked up " + monsterDropType.ToString());
 
-                wMap.ChangeTile(new Vector2(Position.X, Position.Y), Utils.WorldMap.MAPTILETYPE.GRASS);
+                wMap.ChangeTile(new Vector2(Position.X, Position.Y), Utils.WorldMap.MAPTILETYPE.GRASS, _activePortal.PortalDungeonMap);
                 _graphicsManager.ChangeWorldObjectVisual(content.Load<Texture2D>("tile_grass"),
                     Utils.GameColors.GrassMapColor,
                     (int)Position.X,
                     (int)Position.Y,
                     Modules.Inventory.ITEMTYPE.NONE);
             }
-            else if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.CHEST)
+            else if (currentTileType == Utils.WorldMap.MAPTILETYPE.CHEST)
             {
                 Inventory.ITEMTYPE randomChestItem = wMap.GetChestItem();
 
@@ -312,7 +325,7 @@ namespace Little_Might.Modules
                     Modules.Inventory.ITEMTYPE.NONE,
                     Utils.WorldMap.MAPTILETYPE.GRASS);
             }
-            else if (wMap.GetTileType(new Vector2(movePos.X, movePos.Y)) == Utils.WorldMap.MAPTILETYPE.PRARIEDUNGEON)
+            else if (currentTileType == Utils.WorldMap.MAPTILETYPE.PRARIEDUNGEON)
             {
                 Utils.WorldMap.Teleportal portal = wMap.GetPortalByLocation(movePos);
 
@@ -324,12 +337,14 @@ namespace Little_Might.Modules
                         _graphicsManager.ShowSystemMessage("Entered Dungeon\n" + portal.PortalName.ToUpper() + "!");
                         _graphicsManager.SetDrawLayer(portal.PortalEnterLayer);
                         DrawLayer = portal.PortalEnterLayer;
+                        _activePortal = portal;
                     }
                     else
                     {
                         _graphicsManager.ShowSystemMessage("Exited Dungeon\n" + portal.PortalName.ToUpper() + "!");
                         _graphicsManager.SetDrawLayer(0);
                         DrawLayer = 0;
+                        _activePortal = ClearPortalValues();
                     }
                 }
             }
@@ -487,20 +502,20 @@ namespace Little_Might.Modules
                     {
                         if (_itemType == Inventory.ITEMTYPE.CAMPFIRE)
                         {
-                            map.ChangeTile(new Vector2(Position.X, Position.Y + Utils.WorldMap.UNITSIZE), Utils.WorldMap.MAPTILETYPE.CAMPFIRE);
+                            map.ChangeTile(new Vector2(Position.X, Position.Y), Utils.WorldMap.MAPTILETYPE.CAMPFIRE, _activePortal.PortalDungeonMap);
                             _graphicsManager.ChangeWorldObjectVisual(_playerInventory.GetSelectedItem().Sprite,
                                 Utils.GameColors.CampfireMapColor,
                                 (int)Position.X,
-                                (int)Position.Y + Utils.WorldMap.UNITSIZE,
+                                (int)Position.Y,
                                 _itemType);
                         }
                         else if (_itemType == Inventory.ITEMTYPE.FURNACE)
                         {
-                            map.ChangeTile(new Vector2(Position.X, Position.Y + Utils.WorldMap.UNITSIZE), Utils.WorldMap.MAPTILETYPE.FURNACE);
+                            map.ChangeTile(new Vector2(Position.X, Position.Y), Utils.WorldMap.MAPTILETYPE.FURNACE, _activePortal.PortalDungeonMap);
                             _graphicsManager.ChangeWorldObjectVisual(_playerInventory.GetSelectedItem().Sprite,
                                 Utils.GameColors.FurnaceMapColor,
                                 (int)Position.X,
-                                (int)Position.Y + Utils.WorldMap.UNITSIZE,
+                                (int)Position.Y,
                                 _itemType);
                         }
 
@@ -666,12 +681,17 @@ namespace Little_Might.Modules
         {
             if (_canMove)
             {
-                if (wMap.GetTileType(new Vector2(Position.X, Position.Y)) == Utils.WorldMap.MAPTILETYPE.TREE)
+                Utils.WorldMap.MAPTILETYPE currentTileType = wMap.GetTileType(new Vector2(Position.X, Position.Y));
+
+                if (DrawLayer != 0)
+                    currentTileType = wMap.GetDungeonTileType(Position, _activePortal.PortalDungeonMap);
+
+                if (currentTileType == Utils.WorldMap.MAPTILETYPE.TREE)
                 {
                     _inputManager.MoveSpeed = 0.5 * _stats.Speed;
                     _fieldOfView = 7;
                 }
-                else if (wMap.GetTileType(new Vector2(Position.X, Position.Y)) == Utils.WorldMap.MAPTILETYPE.EVERGREEN)
+                else if (currentTileType == Utils.WorldMap.MAPTILETYPE.EVERGREEN)
                 {
                     _inputManager.MoveSpeed = 1.5 * _stats.Speed;
                     _fieldOfView = 5;
@@ -690,15 +710,27 @@ namespace Little_Might.Modules
 
         private bool CanMoveToTile(Vector2 movePos, Utils.WorldMap wMap, string dungeonName = "")
         {
-            return CheckOverworldTiles(movePos, wMap);
+            if (_activePortal.PortalEnterLayer < 0 && _activePortal.PortalExitLayer < 0)
+                return CheckOverworldTiles(movePos, wMap);
+            else
+                return CheckDungeonWorldTiles(movePos, wMap);
+        }
+
+        private bool CheckDungeonWorldTiles(Vector2 pos, Utils.WorldMap wMap)
+        {
+            if (wMap.GetDungeonTileType(pos, _activePortal.PortalDungeonMap) != Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private bool CheckOverworldTiles(Vector2 pos, Utils.WorldMap map)
         {
             if (map.GetTileType(new Vector2(pos.X, pos.Y)) != Utils.WorldMap.MAPTILETYPE.WATER &&
                 map.GetTileType(new Vector2(pos.X, pos.Y)) != Utils.WorldMap.MAPTILETYPE.MOUNTAIN &&
-                map.GetTileType(new Vector2(pos.X, pos.Y)) != Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS &&
-                map.GetTileType(new Vector2(pos.X, pos.Y)) != Utils.WorldMap.MAPTILETYPE.CAMPFIRE)
+                map.GetTileType(new Vector2(pos.X, pos.Y)) != Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS)
             {
                 return true;
             }
