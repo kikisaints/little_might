@@ -14,3 +14,20 @@ Then run that mgcb editor you installed in **step 2** in visual studio and "buil
 Selecting game difficulties bigger than 2 may result in some significant load time. This is because the noise map is generating in the background and there is no current visual cues to indicate that the game hasn't crashed and is indeed still loading.
 
 The ``ItemData.xml`` and ``MonsterData.xml`` files live directly in the debug build folder, NOT in the solution. This is because I haven't prioritized figuring out how to get the mgcb editor to load in data files yet so they're not building/reading any files put into the content folder that weren't put there using that editor. So if you want to edit items or monster info, you'll have to open the raw file that lives in the debug build folder. Sorry :D.
+
+# Crafting
+There is crafting in the game, but it's lightweight right now. There's not books or anything to tell you what to craft, so I'm just going to build a small table of what's available today so you can make some stuff.
+
+| Item 1 | Item 2 | Item 3 | Item 4 | Crafted Item |
+|--------|--------|--------|--------|--------------|
+|Stone   |Stone   |Goop    |Campfire|Furnace       |
+|Flint   |Stick   |        |        |Campfire      |
+|Twine   |Stick   |Stone   |        |Stonesword    |
+|Flint   |Pelt    |        |        |Leather Set   |
+
+# General Play Advice
+If you have a disease, pick up some herbs in the grass land and eat them, they'll cure one of hte common illnesses you can get.
+
+Becareful when drinking water, you can get sick. Slimes are poisonous. Apples are your best friend. Chests drop any type of common items. There is only one dungeon in the game and it's currently very boring but randomly placed (instanced once you get in).
+
+There is an extremely dangerous monster in the forest, you cannot fight him yet, don't try.
