@@ -650,7 +650,7 @@ namespace Little_Might.Utils
 
                     FontOrigin = _font.MeasureString(_item.Description) / 2;
                     _spriteBatch.DrawString(_font,
-                        _item.Description + "\n\n Selected: " + _item.Toggled + "\n\n T - Trash",
+                        _item.Description + "\n\nSelected: " + _item.Toggled + "\n\nT - Trash" + "\n\nP - Place",
                         new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 800, (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 160),
                         Color.White,
                         0,
