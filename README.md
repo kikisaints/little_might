@@ -16,7 +16,7 @@ Selecting game difficulties bigger than 2 may result in some significant load ti
 The ``ItemData.xml`` and ``MonsterData.xml`` files live directly in the debug build folder, NOT in the solution. This is because I haven't prioritized figuring out how to get the mgcb editor to load in data files yet so they're not building/reading any files put into the content folder that weren't put there using that editor. So if you want to edit items or monster info, you'll have to open the raw file that lives in the debug build folder. Sorry :D.
 
 # Crafting
-There is crafting in the game, but it's lightweight right now. There's not books or anything to tell you what to craft, so I'm just going to build a small table of what's available today so you can make some stuff.
+There is crafting in the game, but it's lightweight right now. There aren't any books or anything to tell you what to craft, so I'm just going to build a small table of what's available today so you can make some stuff.
 
 | Item 1 | Item 2 | Item 3 | Item 4 | Crafted Item |
 |--------|--------|--------|--------|--------------|
