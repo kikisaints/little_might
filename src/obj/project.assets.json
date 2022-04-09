@@ -332,9 +332,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Sandbox\\src\\lm4\\src\\Little Might.csproj",
-      "projectName": "Little Might",
-      "projectPath": "C:\\Sandbox\\src\\lm4\\src\\Little Might.csproj",
+      "projectUniqueName": "C:\\Sandbox\\src\\lm4\\src\\LittleMight.csproj",
+      "projectName": "LittleMight",
+      "projectPath": "C:\\Sandbox\\src\\lm4\\src\\LittleMight.csproj",
       "packagesPath": "C:\\Users\\bstru\\.nuget\\packages\\",
       "outputPath": "C:\\Sandbox\\src\\lm4\\src\\obj\\",
       "projectStyle": "PackageReference",
