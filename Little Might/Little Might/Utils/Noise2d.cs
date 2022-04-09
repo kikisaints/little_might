@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Little_Might.Utils
 {
@@ -60,7 +58,6 @@ namespace Little_Might.Utils
 
                 grad[i] = gradient;
             }
-
         }
 
         private static float Drop(float t)
@@ -97,6 +94,5 @@ namespace Little_Might.Utils
 
             return Math.Max(Math.Min(total, 1f), -1f);
         }
-
     }
 }

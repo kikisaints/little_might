@@ -2,12 +2,10 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Little_Might.Modules
 {
-    class Monster : WorldObject
+    internal class Monster : WorldObject
     {
         public enum MONSTERTYPE
         {
@@ -67,7 +65,7 @@ namespace Little_Might.Modules
             set { _monsterType = value; }
         }
 
-        public Monster() 
+        public Monster()
         {
             MoveTime = _movementWaitTime.Next(1, 5) * 0.5;
         }
@@ -111,11 +109,11 @@ namespace Little_Might.Modules
                     movePosition = new Vector2(Position.X - Utils.WorldMap.UNITSIZE, Position.Y);
                 }
 
-                if ((_monsterType == MONSTERTYPE.SLIME || _monsterType == MONSTERTYPE.RABBIT) && 
+                if ((_monsterType == MONSTERTYPE.SLIME || _monsterType == MONSTERTYPE.RABBIT) &&
                     map.GetTileType(movePosition) == Utils.WorldMap.MAPTILETYPE.GRASS &&
                     map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS)
                     Position = movePosition;
-                else if ((_monsterType == MONSTERTYPE.DEER) && 
+                else if ((_monsterType == MONSTERTYPE.DEER) &&
                     map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.EVERGREEN &&
                     map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.WATER &&
                     map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS)
@@ -125,7 +123,7 @@ namespace Little_Might.Modules
 
         public void UpdateMonster(GameTime gTime, Game1 game, Utils.GraphicsManager gManager)
         {
-            _timer += gTime.ElapsedGameTime.TotalSeconds;            
+            _timer += gTime.ElapsedGameTime.TotalSeconds;
 
             if (_timer >= _turnWaitTime)
             {

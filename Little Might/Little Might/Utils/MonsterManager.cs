@@ -4,12 +4,11 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Xml;
 
 namespace Little_Might.Utils
 {
-    class MonsterManager
+    internal class MonsterManager
     {
         private Utils.GraphicsManager _graphicsManager;
         private ContentManager _content;
@@ -19,6 +18,7 @@ namespace Little_Might.Utils
 
         //Need to adjust these numbers based on map size...
         private int _maxSlimeCount = 100;
+
         private int _maxDeerCount = 50;
         private int _maxRabbitCount = 100;
 

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Little_Might.Utils
+﻿namespace Little_Might.Utils
 {
-    class SceneInfo
+    internal class SceneInfo
     {
         public static string[] GetSceneMessage(Game1.SCENE scene, string deathCause = "")
         {
@@ -12,9 +8,10 @@ namespace Little_Might.Utils
             {
                 case Game1.SCENE.MENU:
                     return new string[] {
-                        "LITTLE MIGHT", 
-                        "press ENTER to start" 
+                        "LITTLE MIGHT",
+                        "press ENTER to start"
                     };
+
                 case Game1.SCENE.DIFFICULTY:
                     return new string[] {
                         "SELECT DIFFICULTY",
@@ -23,12 +20,14 @@ namespace Little_Might.Utils
                     "3 - Normal",
                     "4 - Challenge me!"
                     };
+
                 case Game1.SCENE.DEATH:
                     return new string[] {
                     "YOU DIED" + deathCause,
                     "Press F to Rage Quit",
                     "Press R to Restart"
                     };
+
                 default:
                     return new string[] { "" };
             }
@@ -40,10 +39,13 @@ namespace Little_Might.Utils
             {
                 case Game1.SCENE.MENU:
                     return new float[] { 2f, 1f };
+
                 case Game1.SCENE.DIFFICULTY:
                     return new float[] { 2f, 1f, 1f, 1f, 1f };
+
                 case Game1.SCENE.DEATH:
                     return new float[] { 2f, 1f, 1f };
+
                 default:
                     return new float[] { 0f };
             }

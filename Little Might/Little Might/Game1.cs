@@ -9,11 +9,11 @@ namespace Little_Might
 {
     public class Game1 : Game
     {
-        Utils.GraphicsManager _graphicsManager;
-        Utils.WorldMap _worldMap;
-        Utils.MonsterManager _monsterManager;
-        Modules.Character _character;
-        Modules.Monster _interactor;
+        private Utils.GraphicsManager _graphicsManager;
+        private Utils.WorldMap _worldMap;
+        private Utils.MonsterManager _monsterManager;
+        private Modules.Character _character;
+        private Modules.Monster _interactor;
 
         private OrthographicCamera _camera;
         private Texture2D _mapTexture;
@@ -35,13 +35,13 @@ namespace Little_Might
             DEATH,
             CREDITS,
             OPTIONS
-        }        
+        }
 
         public Game1()
         {
             _graphicsManager = new Utils.GraphicsManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = false;            
+            IsMouseVisible = false;
         }
 
         protected override void Initialize()
@@ -55,7 +55,7 @@ namespace Little_Might
         protected override void LoadContent()
         {
             _graphicsManager.Load(GraphicsDevice, Content, this.Window);
-            ResolutionHandler.ChangeResolution(_graphicsManager.Graphics, 1920, 1080);       
+            ResolutionHandler.ChangeResolution(_graphicsManager.Graphics, 1920, 1080);
         }
 
         protected override void Update(GameTime gameTime)
@@ -66,13 +66,13 @@ namespace Little_Might
 
             UpdateGame(gameTime);
 
-            base.Update(gameTime);            
+            base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             DrawGame(gameTime);
-            base.Draw(gameTime);            
+            base.Draw(gameTime);
         }
 
         private void CheckCharacterInteractions()
@@ -99,7 +99,7 @@ namespace Little_Might
 
         public void LeaveInteraction()
         {
-            _character.Position = new Vector2(_character.Position .X, _character.Position.Y - Utils.WorldMap.UNITSIZE);
+            _character.Position = new Vector2(_character.Position.X, _character.Position.Y - Utils.WorldMap.UNITSIZE);
             _inOverworld = true;
         }
 
@@ -153,7 +153,7 @@ namespace Little_Might
             int totalDamage = Utils.CombatHandler.AttackCharacter(ref _character, _interactor, action) - (_character.GetDamageDefenseModifier());
             _graphicsManager.ShowSystemMessage("Took " + totalDamage.ToString() + " DAMAGE");
 
-            _character.Stats.HP -= totalDamage;            
+            _character.Stats.HP -= totalDamage;
         }
 
         private void UpdateGame(GameTime gTime)
@@ -266,11 +266,11 @@ namespace Little_Might
         {
             _graphicsManager.ClearGraphics();
             _character = new Modules.Character("character_base", "player_interaction_img", Vector2.Zero, Content, _graphicsManager, this);
-            _mapTexture = new Texture2D(GraphicsDevice, _mapSize, _mapSize);            
-            _worldMap = new WorldMap(_mapSize, _mapSize, ref _mapTexture, 11, GraphicsDevice);            
+            _mapTexture = new Texture2D(GraphicsDevice, _mapSize, _mapSize);
+            _worldMap = new WorldMap(_mapSize, _mapSize, ref _mapTexture, 11, GraphicsDevice);
 
             _graphicsManager.VisualizeWorld(_worldMap, Content);
-            _graphicsManager.AddCharacterObject(_character);            
+            _graphicsManager.AddCharacterObject(_character);
             _character.Position = _worldMap.GetRandomGrassPoint();
 
             _monsterManager = new MonsterManager(Content, _graphicsManager, _worldMap);

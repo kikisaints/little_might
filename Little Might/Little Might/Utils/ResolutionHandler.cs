@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Little_Might.Utils
 {
-    class ResolutionHandler
+    internal class ResolutionHandler
     {
         public static int WindowWidth;
         public static int WindowHeight;

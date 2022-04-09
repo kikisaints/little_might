@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Little_Might.Modules
+﻿namespace Little_Might.Modules
 {
-    class Stats
+    internal class Stats
     {
         private int _health;
         private int _stamina;
         private int _mana;
         private float _speed;
-         
+
         private int _INT;
         private int _STR;
         private int _WIS;
         private int _DEX;
         private int _CHAR;
 
-        private float _DEF;         
+        private float _DEF;
         private float _CRIT;
 
         public int HP
@@ -86,7 +82,8 @@ namespace Little_Might.Modules
             set { _CRIT = value; }
         }
 
-        public Stats() { }
+        public Stats()
+        { }
 
         public Stats(int hp, int sp, int mp, float spd, int intel, int str, int wis, int dex, int charisma, float def, float crit)
         {

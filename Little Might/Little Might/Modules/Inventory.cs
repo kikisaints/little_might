@@ -3,16 +3,10 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Xml.Linq;
-using System.Web;
-using System.Xml;
-using System.Text.RegularExpressions;
 
 namespace Little_Might.Modules
 {
-    class InventoryItem : ScreenObject
+    internal class InventoryItem : ScreenObject
     {
         private Inventory.ITEMTYPE _itemType;
         private string _description;
@@ -66,13 +60,13 @@ namespace Little_Might.Modules
             Position = position;
         }
 
-        public InventoryItem() 
+        public InventoryItem()
         {
             Scale = 3f;
         }
     }
 
-    class Inventory
+    internal class Inventory
     {
         [Flags]
         public enum ITEMTYPE
@@ -98,7 +92,7 @@ namespace Little_Might.Modules
             CHESTGEAR,
             FOOTGEAR,
             ACCESSORY
-        }        
+        }
 
         private List<InventoryItem> _invItems;
         private Vector2 _startingSlotPos;
@@ -135,8 +129,8 @@ namespace Little_Might.Modules
             _startingSlotPos = new Vector2(-282, 233);
             _startingInvSelectorPos = new Vector2(-288, 227);
             _spacing = new Vector2(35, 35);
-            _invSelector = new ScreenObject(content.Load<Texture2D>("inventory_selector"), 
-                _startingInvSelectorPos, 
+            _invSelector = new ScreenObject(content.Load<Texture2D>("inventory_selector"),
+                _startingInvSelectorPos,
                 4f);
 
             Utils.ItemInfo.LoadAllItems(content);

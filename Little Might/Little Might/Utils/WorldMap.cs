@@ -4,16 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Little_Might.Utils
 {
-    class WorldMap
+    internal class WorldMap
     {
         public struct Teleportal
         {
-            public Teleportal (Vector2 portalEnter, Vector2 portalExit, string name, int enterLayer, int exitLayer, DungeonMap dMap)
+            public Teleportal(Vector2 portalEnter, Vector2 portalExit, string name, int enterLayer, int exitLayer, DungeonMap dMap)
             {
                 PortalName = name;
                 PortalEnter = portalEnter;
@@ -94,7 +93,7 @@ namespace Little_Might.Utils
 
             private void GenerateMapWorldPoints()
             {
-                Vector2 StartPoint = new Vector2((DungeonDoor.X - 7) * Utils.WorldMap.UNITSIZE, 
+                Vector2 StartPoint = new Vector2((DungeonDoor.X - 7) * Utils.WorldMap.UNITSIZE,
                     (DungeonDoor.Y - 19) * Utils.WorldMap.UNITSIZE);
 
                 Vector2 trackingPoint = StartPoint;
@@ -107,7 +106,7 @@ namespace Little_Might.Utils
                         MapWorldPoints[i] = new LayerMapTiles(MAPTILETYPE.STONE, trackingPoint);
                     else if (Map[i] == 8)
                         MapWorldPoints[i] = new LayerMapTiles(MAPTILETYPE.PRARIEDUNGEON, trackingPoint);
-                    
+
                     trackingPoint.X += UNITSIZE;
                     widthTracker++;
 
@@ -164,7 +163,7 @@ namespace Little_Might.Utils
 
         public Teleportal GetPortalByLocation(Vector2 location, bool exiting = false)
         {
-            foreach(Teleportal tele in _dungeonPoints)
+            foreach (Teleportal tele in _dungeonPoints)
             {
                 if (!exiting)
                 {
@@ -217,7 +216,7 @@ namespace Little_Might.Utils
             _dungeonPoints = new List<Teleportal>();
             _dungeonMaps = new List<DungeonMap>();
 
-            MapTiles = new MAPTILETYPE[(w * UNITSIZE),(w * UNITSIZE)];
+            MapTiles = new MAPTILETYPE[(w * UNITSIZE), (w * UNITSIZE)];
 
             GenerateNoiseMap(w, h, ref tex, oct, dev);
         }
@@ -230,8 +229,8 @@ namespace Little_Might.Utils
             var min = float.MaxValue;
             var max = float.MinValue;
 
-            /// rebuild the permutation table to get a different noise pattern. 
-            /// Leave this out if you want to play with changing the number of octaves while 
+            /// rebuild the permutation table to get a different noise pattern.
+            /// Leave this out if you want to play with changing the number of octaves while
             /// maintaining the same overall pattern.
             Noise2d.Reseed();
 
@@ -252,14 +251,12 @@ namespace Little_Might.Utils
 
                         min = Math.Min(min, noise);
                         max = Math.Max(max, noise);
-
                     }
                 );
 
                 frequency *= 5;
                 amplitude /= 2;
             }
-
 
             if (noiseTexture != null && (noiseTexture.Width != width || noiseTexture.Height != height))
             {
@@ -330,7 +327,7 @@ namespace Little_Might.Utils
                 }
             ).ToArray();
 
-            //Place chests            
+            //Place chests
             for (int i = 0; i < (width * 0.25f); i++)
             {
                 int chest = rand.Next(0, colors.Length - 1);
@@ -346,8 +343,8 @@ namespace Little_Might.Utils
 
                 Vector2 worldPoint = Utils.MathHandler.Get2DPoint(dungeonIndex, _width);
                 DungeonMap dungeonMap = new DungeonMap(worldPoint, 28, "SKAME RAGH");
-                _dungeonPoints.Add(new Teleportal(new Vector2((int)worldPoint.X, (int)worldPoint.Y), 
-                    new Vector2((int)worldPoint.X, (int)(worldPoint.Y + UNITSIZE)), 
+                _dungeonPoints.Add(new Teleportal(new Vector2((int)worldPoint.X, (int)worldPoint.Y),
+                    new Vector2((int)worldPoint.X, (int)(worldPoint.Y + UNITSIZE)),
                     "SKAME RAGH", 1, 0, dungeonMap));
                 _dungeonMaps.Add(dungeonMap);
             }
@@ -365,7 +362,7 @@ namespace Little_Might.Utils
         public Vector2 GetRandomGrassPoint()
         {
             int arrayIndex = _grassPoints[Utils.MathHandler.GetRandomNumber(150, _grassPoints.Count - 1)];
-            
+
             _startingPosition = MathHandler.Get2DPoint(arrayIndex, _width) * UNITSIZE;
             return _startingPosition;
         }

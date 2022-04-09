@@ -1,12 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Little_Might.Modules
 {
-    class ScreenObject
+    internal class ScreenObject
     {
         private Texture2D _sprite;
         private Vector2 _position;
@@ -37,6 +34,7 @@ namespace Little_Might.Modules
             _position = pos;
         }
 
-        public ScreenObject() { }
+        public ScreenObject()
+        { }
     }
 }

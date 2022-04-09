@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace Little_Might.Modules
 {
-    class Character : WorldObject
+    internal class Character : WorldObject
     {
         private AdvancedStats _stats;
         private Utils.InputManager _inputManager;
@@ -37,6 +35,7 @@ namespace Little_Might.Modules
         private Modules.InventoryItem _equippedWeapon = null;
 
         private int _craftIndex = 0;
+
         private Modules.Inventory.ITEMTYPE[] _craftingList = {
             Modules.Inventory.ITEMTYPE.NONE,
             Modules.Inventory.ITEMTYPE.NONE,
@@ -74,7 +73,8 @@ namespace Little_Might.Modules
             get { return _equippedItems; }
         }
 
-        public Modules.InventoryItem GetWeapon() { return _equippedWeapon; }
+        public Modules.InventoryItem GetWeapon()
+        { return _equippedWeapon; }
 
         public Texture2D GetWeaponSprite()
         {
@@ -116,12 +116,12 @@ namespace Little_Might.Modules
                 return _accessorySprite;
         }
 
-        public Utils.WorldMap.Teleportal ClearPortalValues() 
+        public Utils.WorldMap.Teleportal ClearPortalValues()
         {
             return new Utils.WorldMap.Teleportal(Vector2.Zero, Vector2.Zero, "", -1, -1, new Utils.WorldMap.DungeonMap());
         }
 
-        public Character (string spriteName, string interactSpriteName, Vector2 startingPosition, ContentManager contentManager, Utils.GraphicsManager gManager, Game1 gameClass)
+        public Character(string spriteName, string interactSpriteName, Vector2 startingPosition, ContentManager contentManager, Utils.GraphicsManager gManager, Game1 gameClass)
         {
             _inputManager = new Utils.InputManager();
             _stats = new AdvancedStats(50, 10, 0, 1, 10, 10, 10, 10, 10, 2f, 0f);
@@ -148,8 +148,8 @@ namespace Little_Might.Modules
 
             if (!inInteraction)
             {
-                UpdateMovement(map);                
-                UpdateInventoryInteraction(content, map);                
+                UpdateMovement(map);
+                UpdateInventoryInteraction(content, map);
 
                 if (_canMove)
                 {
@@ -167,7 +167,7 @@ namespace Little_Might.Modules
                                 _stats.Illness = AdvancedStats.ILLNESSES.CHOLERA;
                         }
                     }
-                }                
+                }
             }
             else
             {
@@ -304,7 +304,7 @@ namespace Little_Might.Modules
                     if (chance == 0)
                     {
                         if (_playerInventory.AddItem("steel sword"))
-                            _graphicsManager.ShowSystemMessage("Picked up STEELSWORD");                        
+                            _graphicsManager.ShowSystemMessage("Picked up STEELSWORD");
                     }
                     else if (chance == 1)
                     {
@@ -408,7 +408,7 @@ namespace Little_Might.Modules
                     if (_playerInventory.GetSelectedItem() == null)
                         return;
 
-                    Inventory.ITEMTYPE _itemType = _playerInventory.GetSelectedItem().ItemType;                    
+                    Inventory.ITEMTYPE _itemType = _playerInventory.GetSelectedItem().ItemType;
 
                     if (_itemType == Inventory.ITEMTYPE.WEAPON)
                     {
@@ -481,10 +481,9 @@ namespace Little_Might.Modules
                             _craftIndex = 0;
                     }
 
-
                     if (Utils.ItemInfo.CheckCraftables(_craftingList, ref _playerInventory, _graphicsManager))
                     {
-                        _playerInventory.RemoveToggledItems();                        
+                        _playerInventory.RemoveToggledItems();
 
                         _craftIndex = 0;
                         Array.Clear(_craftingList, 0, _craftingList.Length);
@@ -557,7 +556,7 @@ namespace Little_Might.Modules
 
                 if (equipItemType == Inventory.ITEMTYPE.WEAPON)
                 {
-                    _equippedWeapon = _playerInventory.GetSelectedItem();                    
+                    _equippedWeapon = _playerInventory.GetSelectedItem();
                     _fightOptions = Utils.CombatHandler.SetCombatOptions(_playerInventory.GetSelectedItem().Name);
                 }
             }
@@ -568,7 +567,7 @@ namespace Little_Might.Modules
 
                 if (equipItemType == Inventory.ITEMTYPE.WEAPON)
                 {
-                    _equippedWeapon = null;                    
+                    _equippedWeapon = null;
                     _fightOptions = Utils.CombatHandler.SetCombatOptions("none");
                 }
             }
@@ -756,6 +755,7 @@ namespace Little_Might.Modules
             {
                 case Inventory.ITEMTYPE.THYME:
                     break;
+
                 case Inventory.ITEMTYPE.OREGANO:
                     if (_stats.Illness == AdvancedStats.ILLNESSES.MOUNTAINFEVER)
                     {
@@ -763,6 +763,7 @@ namespace Little_Might.Modules
                         _stats.Illness = AdvancedStats.ILLNESSES.NONE;
                     }
                     break;
+
                 case Inventory.ITEMTYPE.GARLIC:
                     if (_stats.Illness == AdvancedStats.ILLNESSES.CHOLERA)
                         _stats.Illness = AdvancedStats.ILLNESSES.NONE;

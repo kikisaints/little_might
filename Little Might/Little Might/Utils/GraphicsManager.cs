@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 
 //debug
-using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended;
-using MonoGame.Extended.ViewportAdapters;
 
 namespace Little_Might.Utils
 {
-    class GraphicsManager
+    internal class GraphicsManager
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -35,13 +30,15 @@ namespace Little_Might.Utils
 
         //UI Icons -- TEMP
         private Texture2D _hpIcon;
+
         private Texture2D _waterIcon;
         private Texture2D _foodIcon;
         private Texture2D _diseaseIcon;
         private Texture2D _systemPopup;
         private WorldMap _worldMap;
 
-        public void SetDrawLayer(int newLayer) { _activeDrawLayer = newLayer; }
+        public void SetDrawLayer(int newLayer)
+        { _activeDrawLayer = newLayer; }
 
         public GraphicsDeviceManager Graphics
         {
@@ -73,7 +70,6 @@ namespace Little_Might.Utils
             _showInteractionOptions = value;
         }
 
-
         public void Load(GraphicsDevice graphicsDevice, ContentManager contentManager, GameWindow window)
         {
             _spriteBatch = new SpriteBatch(graphicsDevice);
@@ -95,7 +91,7 @@ namespace Little_Might.Utils
 
         public void VisualizeWorld(WorldMap map, ContentManager contentManager)
         {
-            _worldMap = map;            
+            _worldMap = map;
 
             for (int i = 0; i < map.ColorMap.Length; i++)
             {
@@ -104,8 +100,8 @@ namespace Little_Might.Utils
 
                 if (map.ColorMap[i] == GameColors.EvergreenForestMapColor)
                 {
-                    AddWorldObject(new Modules.WorldObject(contentManager.Load<Texture2D>("tree_evergreen"), 
-                        new Vector2(mapX, mapY), 
+                    AddWorldObject(new Modules.WorldObject(contentManager.Load<Texture2D>("tree_evergreen"),
+                        new Vector2(mapX, mapY),
                         GameColors.EvergreenForestMapColor));
 
                     map.MapTiles[mapX, mapY] = WorldMap.MAPTILETYPE.EVERGREEN;
@@ -246,9 +242,10 @@ namespace Little_Might.Utils
             _effect.Parameters["outputSize"].SetValue(new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight));
         }
 
-        public void AddWorldObject(Modules.WorldObject worldObject) { _worldObjects.Add(worldObject); }
+        public void AddWorldObject(Modules.WorldObject worldObject)
+        { _worldObjects.Add(worldObject); }
 
-        public void ChangeWorldObjectVisual(Texture2D newSprite, Color newColor, int x, int y, Modules.Inventory.ITEMTYPE type, 
+        public void ChangeWorldObjectVisual(Texture2D newSprite, Color newColor, int x, int y, Modules.Inventory.ITEMTYPE type,
             Utils.WorldMap.MAPTILETYPE mapTile = WorldMap.MAPTILETYPE.OUTOFBOUNDS)
         {
             if (_activeDrawLayer == 0)
@@ -339,14 +336,16 @@ namespace Little_Might.Utils
             return _worldObjects[index];
         }
 
-        public void AddScreenObject(Modules.ScreenObject screenObject) { _screenObjects.Add(screenObject); }
+        public void AddScreenObject(Modules.ScreenObject screenObject)
+        { _screenObjects.Add(screenObject); }
 
-        public void AddCharacterObject(Modules.WorldObject worldObject) { _characters.Add(worldObject); }
-        
-        public void RemoveCharacterObject(Modules.WorldObject worldObject) 
+        public void AddCharacterObject(Modules.WorldObject worldObject)
+        { _characters.Add(worldObject); }
+
+        public void RemoveCharacterObject(Modules.WorldObject worldObject)
         {
             Modules.Monster monster = worldObject as Modules.Monster;
-            
+
             if (monster != null)
             {
                 Modules.Inventory.ITEMTYPE dropType;
@@ -358,7 +357,7 @@ namespace Little_Might.Utils
                 }
             }
 
-            _characters.Remove(worldObject); 
+            _characters.Remove(worldObject);
         }
 
         private int[] GetAffectShape(int drawRadius, Vector2 centerPoint, int mapWidth)
@@ -382,7 +381,7 @@ namespace Little_Might.Utils
                     int viewIndexB = MathHandler.Get1DIndex(y, (x - (x * 2)), mapWidth);
                     int viewIndexC = MathHandler.Get1DIndex((y - (y * 2)), (x - (x * 2)), mapWidth);
 
-                    if (y != 0)                    
+                    if (y != 0)
                         viewIndexA += startFOWIndex;
                     if (x != 0)
                         viewIndexB += startFOWIndex;
@@ -395,7 +394,7 @@ namespace Little_Might.Utils
                         {
                             drawIndicies[drawIndiciesCount] = viewIndex;
                             drawIndiciesCount++;
-                        }                       
+                        }
                     }
 
                     if (Utils.MathHandler.IsPointInCircle(viewIndexA % mapWidth, viewIndexA / mapWidth, startFOWIndex % mapWidth, startFOWIndex / mapWidth, drawRadius))
@@ -487,9 +486,9 @@ namespace Little_Might.Utils
             for (int s = 0; s < text.Length; s++)
             {
                 Vector2 FontOrigin = _font.MeasureString(text[s]);
-                _spriteBatch.DrawString(_font, text[s], 
-                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + offset.X, 
-                    (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + (offset.Y) + (s * spacing)), 
+                _spriteBatch.DrawString(_font, text[s],
+                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + offset.X,
+                    (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + (offset.Y) + (s * spacing)),
                     Color.White, 0, FontOrigin, scale[s], SpriteEffects.None, 0.5f);
             }
 
@@ -581,7 +580,7 @@ namespace Little_Might.Utils
 
             if (character.Inv.NavigatingInventory)
             {
-                //DRAW UI OBJECTS            
+                //DRAW UI OBJECTS
                 foreach (Modules.ScreenObject screenObj in _screenObjects)
                 {
                     _spriteBatch.Draw(screenObj.Sprite,
@@ -631,7 +630,7 @@ namespace Little_Might.Utils
                     Vector2.Zero,
                     character.Inv.InventorySelector.Scale,
                     SpriteEffects.None,
-                    0.5f);                               
+                    0.5f);
 
                 //Display item info here
                 Modules.InventoryItem _item = character.Inv.GetSelectedItem();
@@ -659,7 +658,7 @@ namespace Little_Might.Utils
                         SpriteEffects.None,
                         1f);
                 }
-            }            
+            }
         }
 
         private void DisplayInteractionUI(Modules.Character character, Modules.WorldObject interactor)
@@ -721,14 +720,14 @@ namespace Little_Might.Utils
             if (_showSystemUI)
             {
                 Vector2 FontOrigin = _font.MeasureString(_systemMessage) / 2;
-                _spriteBatch.DrawString(_font, _systemMessage, 
-                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 35, 
-                    (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 455), 
+                _spriteBatch.DrawString(_font, _systemMessage,
+                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 35,
+                    (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 455),
                     Color.Black, 0, FontOrigin, 1f, SpriteEffects.None, 1f);
 
-                _spriteBatch.Draw(_systemPopup, 
-                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) - 150, 
-                    (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 400), 
+                _spriteBatch.Draw(_systemPopup,
+                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) - 150,
+                    (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 400),
                     null, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.1f);
             }
 

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Little_Might.Modules
 {
-    class WorldObject
+    internal class WorldObject
     {
         private Texture2D _sprite;
         private Vector2 _position;
@@ -44,7 +41,8 @@ namespace Little_Might.Modules
             set { _position = value; }
         }
 
-        public WorldObject() { }
+        public WorldObject()
+        { }
 
         public WorldObject(Texture2D sprite, Vector2 position, Color color, int layer = 0)
         {
