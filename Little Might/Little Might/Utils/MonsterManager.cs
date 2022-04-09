@@ -99,10 +99,15 @@ namespace Little_Might.Utils
             return itemType;
         }
 
-        public void AddMonsterToWorld(int numberOfMonsters, string monsterName)
+        public void AddMonsterToWorld(int numberOfMonsters, string monsterName, Utils.WorldMap.DungeonMap dunMap, int drawLayer = 0)
         {
             for (int i = 0; i < numberOfMonsters; i++)
             {
+                Vector2 sPosition = _map.GetRandomGrassPoint();
+
+                if (monsterName == "Goblin")
+                    sPosition = _map.GetRandomDungeonMapPoint("SKAME RAGH");
+
                 Monster ListMonster = AllMonsters.Find(monster => monster.Name.Equals(monsterName));
                 Monster newMonster = new Monster()
                 {
@@ -120,11 +125,13 @@ namespace Little_Might.Utils
                         ListMonster.Stats.DEFENSE,
                         ListMonster.Stats.CRIT
                         ),
-                    Position = _map.GetRandomGrassPoint(),
+                    Position = sPosition,
                     ObjectColor = ListMonster.ObjectColor,
                     MonsterType = ListMonster.MonsterType,
                     ItemDrop = ListMonster.ItemDrop,
-                    Name = ListMonster.Name
+                    Name = ListMonster.Name,
+                    MonsterDungeonMap = dunMap,
+                    DrawLayer = drawLayer
                 };
 
                 if (newMonster.MonsterType == Modules.Monster.MONSTERTYPE.CELESTIALHORROR)
@@ -147,10 +154,12 @@ namespace Little_Might.Utils
             _content = content;
             _map = wMap;
 
-            AddMonsterToWorld(_maxSlimeCount, "Slime");
-            AddMonsterToWorld(_maxDeerCount, "Deer");
-            AddMonsterToWorld(_maxRabbitCount, "Rabbit");
-            AddMonsterToWorld(1, "Celestial Horror");
+            AddMonsterToWorld(_maxSlimeCount, "Slime", _map.GetDungeonByName(""));
+            AddMonsterToWorld(_maxDeerCount, "Deer",_map.GetDungeonByName(""));
+            AddMonsterToWorld(_maxRabbitCount, "Rabbit", _map.GetDungeonByName(""));
+            AddMonsterToWorld(10, "Goblin", _map.GetDungeonByName("SKAME RAGH"), 1);
+
+            AddMonsterToWorld(1, "Celestial Horror", _map.GetDungeonByName(""));
         }
 
         public void UpdateMonsters(GameTime time, bool overworldActive = true)

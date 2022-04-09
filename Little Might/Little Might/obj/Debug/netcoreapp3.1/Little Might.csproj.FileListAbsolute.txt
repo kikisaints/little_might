@@ -216,3 +216,5 @@ C:\Users\Kiki\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\
 C:\Users\Kiki\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\item_leathershoes.xnb
 C:\Users\Kiki\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\dungeon_entrance_1.xnb
 C:\Users\Kiki\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\tile_stone.xnb
+C:\Users\Kiki\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\goblin_interaction_img.xnb
+C:\Users\Kiki\Documents\GitHub\little_might\Little Might\Little Might\bin\Debug\netcoreapp3.1\Content\monster_goblin.xnb

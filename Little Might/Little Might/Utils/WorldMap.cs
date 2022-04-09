@@ -102,11 +102,17 @@ namespace Little_Might.Utils
                 for (int i = 0; i < MapWorldPoints.Length; i++)
                 {
                     if (Map[i] == 0)
+                    {
                         MapWorldPoints[i] = new LayerMapTiles(MAPTILETYPE.OUTOFBOUNDS, trackingPoint);
+                    }
                     else if (Map[i] == 1)
+                    {
                         MapWorldPoints[i] = new LayerMapTiles(MAPTILETYPE.STONE, trackingPoint);
+                    }
                     else if (Map[i] == 8)
+                    { 
                         MapWorldPoints[i] = new LayerMapTiles(MAPTILETYPE.PRARIEDUNGEON, trackingPoint);
+                    }
                     
                     trackingPoint.X += UNITSIZE;
                     widthTracker++;
@@ -360,6 +366,42 @@ namespace Little_Might.Utils
             noiseTexture.SaveAsPng(stream, noiseTexture.Width, noiseTexture.Height);
             stream.Dispose();
             noiseTexture.Dispose();
+        }
+
+        public DungeonMap GetDungeonByName(string name)
+        {
+            foreach (DungeonMap dMap in _dungeonMaps)
+            {
+                if (dMap.DungeonName == name)
+                {
+                    return dMap;
+                }
+            }
+
+            return new DungeonMap();
+        }
+
+        public Vector2 GetRandomDungeonMapPoint(string dungeonName)
+        {
+            Random rand = new Random();
+            foreach (DungeonMap dMap in _dungeonMaps)
+            {
+                MAPTILETYPE randTileType = MAPTILETYPE.OUTOFBOUNDS;
+
+                if (dMap.DungeonName == dungeonName)
+                {
+                    while (randTileType == MAPTILETYPE.OUTOFBOUNDS)
+                    {
+                        int randIndex = rand.Next(0, dMap.MapWorldPoints.Length);
+                        if (dMap.MapWorldPoints[randIndex].TileType == MAPTILETYPE.STONE)
+                            return dMap.MapWorldPoints[randIndex].WorldPosition;
+
+                        randTileType = dMap.MapWorldPoints[randIndex].TileType;
+                    }
+                }
+            }
+
+            return Vector2.Zero;
         }
 
         public Vector2 GetRandomGrassPoint()

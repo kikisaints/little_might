@@ -46,11 +46,17 @@ namespace Little_Might.Utils
             switch (monsterType)
             {
                 case Modules.Monster.MONSTERTYPE.SLIME:
-                    int type = Utils.MathHandler.GetRandomNumber(0, 3);
-                    if (type == 0)
+                    int slimeATTK = Utils.MathHandler.GetRandomNumber(0, 3);
+                    if (slimeATTK == 0)
                         return "poison";
                     else
                         return "spit";
+                case Modules.Monster.MONSTERTYPE.GOBLIN:
+                    int goblinATTK = Utils.MathHandler.GetRandomNumber(0, 3);
+                    if (goblinATTK == 0)
+                        return "strike";
+                    else
+                        return "poison";
                 case Modules.Monster.MONSTERTYPE.RABBIT:
                     return "runaway";
                 case Modules.Monster.MONSTERTYPE.DEER:
@@ -78,6 +84,8 @@ namespace Little_Might.Utils
             {
                 case "spit":
                     return (int)((monster.Stats.DEX + monster.Stats.Stamina) - character.Stats.DEFENSE);
+                case "strike":
+                    return (int)((monster.Stats.STR + monster.Stats.Speed) - character.Stats.DEFENSE);
                 case "poison":
                     character.Stats.Illness = Modules.AdvancedStats.ILLNESSES.MOUNTAINFEVER;
                     break;

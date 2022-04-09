@@ -438,6 +438,11 @@ namespace Little_Might.Utils
 
             if (world)
             {
+                int drawRadius = radius;
+
+                if (_activeDrawLayer != 0)
+                    drawRadius = 3;
+
                 if (_activeDrawLayer == 0)
                 {
                     int[] drawArray = GetAffectShape(radius, charPos, width);
@@ -456,7 +461,7 @@ namespace Little_Might.Utils
                         (int)wobj.Position.Y / Utils.WorldMap.UNITSIZE,
                         (int)charPos.X / Utils.WorldMap.UNITSIZE,
                         (int)charPos.Y / Utils.WorldMap.UNITSIZE,
-                        3))
+                        drawRadius))
                             _spriteBatch.Draw(wobj.Sprite, wobj.Position, null, wobj.ObjectColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                     }
                 }
@@ -467,7 +472,7 @@ namespace Little_Might.Utils
                         (int)cobj.Position.Y / Utils.WorldMap.UNITSIZE,
                         (int)charPos.X / Utils.WorldMap.UNITSIZE,
                         (int)charPos.Y / Utils.WorldMap.UNITSIZE,
-                        radius) && cobj.DrawLayer == _activeDrawLayer)
+                        drawRadius) && cobj.DrawLayer == _activeDrawLayer)
                         _spriteBatch.Draw(cobj.Sprite, cobj.Position, null, cobj.ObjectColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 }
             }

@@ -266,6 +266,7 @@ namespace Little_Might
         {
             _graphicsManager.ClearGraphics();
             _character = new Modules.Character("character_base", "player_interaction_img", Vector2.Zero, Content, _graphicsManager, this);
+
             _mapTexture = new Texture2D(GraphicsDevice, _mapSize, _mapSize);            
             _worldMap = new WorldMap(_mapSize, _mapSize, ref _mapTexture, 11, GraphicsDevice);            
 

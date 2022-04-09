@@ -18,14 +18,18 @@ namespace Little_Might.Utils
         static private Color _herbMapColor = new Color(145, 213, 63, 255);
         static private Color _waterMapColor = new Color(66, 135, 245, 255);
         static private Color _campfireMapColor = Color.IndianRed;
+
         static private Color _monsterSlimeColor = new Color(3, 132, 256, 255);
         static private Color _monsterDeerColor = new Color(235, 172, 101, 255);
         static private Color _monsterRabbitColor = new Color(255, 204, 232, 255);
         static private Color _monsterCelestialHorrorColor = Color.Red;
+        static private Color _monsterGoblinColor = new Color(36, 255, 131);
+
         static private Color _furnaceMapColor = Color.Orange;
         static private Color _chestMapColor = new Color(168, 117, 50);
         static private Color _prarieDungeonMapColor = new Color(62, 85, 115);
         static private Color _stoneMapColor = new Color(116, 138, 237);
+        
 
         public static Color GetColorByStringName(string name)
         {
@@ -37,11 +41,18 @@ namespace Little_Might.Utils
                     return _monsterRabbitColor;
                 case "MonsterDeerColor":
                     return _monsterDeerColor;
+                case "MonsterGoblinColor":
+                    return _monsterGoblinColor;
                 case "MonsterCelestialHorrorColor":
                     return _monsterCelestialHorrorColor;
                 default:
                     return _mainBackgroundColor;
             }
+        }
+
+        static public Color MonsterGoblinColor
+        {
+            get { return _monsterGoblinColor; }
         }
 
         static public Color StoneMapColor

@@ -272,6 +272,18 @@
 /processorParam:TextureFormat=Color
 /build:garlic.png
 
+#begin goblin_interaction_img.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:goblin_interaction_img.png
+
 #begin icon_disease.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -403,6 +415,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:monster_deer.png
+
+#begin monster_goblin.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:monster_goblin.png
 
 #begin monster_rabbit.png
 /importer:TextureImporter

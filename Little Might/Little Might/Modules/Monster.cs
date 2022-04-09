@@ -14,6 +14,7 @@ namespace Little_Might.Modules
             SLIME = 0,
             DEER,
             RABBIT,
+            GOBLIN,
             CELESTIALHORROR
         }
 
@@ -22,7 +23,7 @@ namespace Little_Might.Modules
         private MONSTERTYPE _monsterType;
         private string _name;
         private string _itemDrop;
-        private string[] _attacks;
+        private string[] _attacks;        
 
         private double _timer = 0;
         private double _turnWaitTime = 1.5;
@@ -30,6 +31,7 @@ namespace Little_Might.Modules
         private Random _movementWaitTime = new Random();
 
         public double MoveTime = 0;
+        public Utils.WorldMap.DungeonMap MonsterDungeonMap;
 
         public string[] Attacks
         {
@@ -72,7 +74,8 @@ namespace Little_Might.Modules
             MoveTime = _movementWaitTime.Next(1, 5) * 0.5;
         }
 
-        public Monster(string spriteName, string intractSpriteName, Vector2 startingPosition, ContentManager contentManager, Color color, MONSTERTYPE type, Stats monsterStats)
+        public Monster(string spriteName, string intractSpriteName, Vector2 startingPosition, ContentManager contentManager, Color color, 
+            MONSTERTYPE type, Stats monsterStats, Utils.WorldMap.DungeonMap dMap, int layer = 0)
         {
             _stats = monsterStats;
             _monsterType = type;
@@ -80,6 +83,8 @@ namespace Little_Might.Modules
             _interactionSprite = contentManager.Load<Texture2D>(intractSpriteName);
             Position = startingPosition;
             ObjectColor = color;
+            DrawLayer = layer;
+            MonsterDungeonMap = dMap;
 
             MoveTime = _movementWaitTime.Next(1, 5) * 0.5;
         }
@@ -119,6 +124,9 @@ namespace Little_Might.Modules
                     map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.EVERGREEN &&
                     map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.WATER &&
                     map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS)
+                    Position = movePosition;
+                else if ((_monsterType == MONSTERTYPE.GOBLIN) &&
+                    map.GetDungeonTileType(movePosition, MonsterDungeonMap) == Utils.WorldMap.MAPTILETYPE.STONE)
                     Position = movePosition;
             }
         }
