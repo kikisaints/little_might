@@ -26,7 +26,7 @@ There is crafting in the game, but it's lightweight right now. There aren't any 
 |Flint   |Pelt    |        |        |Leather Set   |
 
 # General Play Advice
-If you have a disease, pick up some herbs in the grass land and eat them, they'll cure one of hte common illnesses you can get.
+If you have a disease, pick up some herbs in the grass land and eat them, each herb cures one of the common illnesses you can get.
 
 Becareful when drinking water, you can get sick. Slimes are poisonous. Apples are your best friend. Chests drop any type of common items. There is only one dungeon in the game and it's currently very boring but randomly placed (instanced once you get in).
 
