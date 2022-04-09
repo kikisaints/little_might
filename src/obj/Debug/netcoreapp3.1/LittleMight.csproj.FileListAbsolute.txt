@@ -78,7 +78,6 @@ C:\Sandbox\src\lm4\src\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\SDL2.dll
 C:\Sandbox\src\lm4\src\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\soft_oal.dll
 C:\Sandbox\src\lm4\src\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\SDL2.dll
 C:\Sandbox\src\lm4\src\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\soft_oal.dll
-C:\Sandbox\src\lm4\src\obj\Debug\netcoreapp3.1\LittleMight.csproj.AssemblyReference.cache
 C:\Sandbox\src\lm4\src\obj\Debug\netcoreapp3.1\LittleMight.GeneratedMSBuildEditorConfig.editorconfig
 C:\Sandbox\src\lm4\src\obj\Debug\netcoreapp3.1\LittleMight.AssemblyInfoInputs.cache
 C:\Sandbox\src\lm4\src\obj\Debug\netcoreapp3.1\LittleMight.AssemblyInfo.cs
