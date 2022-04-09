@@ -2,7 +2,7 @@
 Old-school looking survival game made in Monogame/XNA.
 
 # Building the Project
-This project used Monogame. To install it:
+This project uses Monogame. To install it:
 
 1. [follow these steps](https://docs.monogame.net/articles/getting_started/1_setting_up_your_development_environment_windows.html) from their site.
 2. Install the content editor, [found here](https://docs.monogame.net/articles/tools/mgcb_editor.html). To allow you to edit and build the content for the game.
