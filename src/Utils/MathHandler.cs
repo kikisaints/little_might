@@ -1,11 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Little_Might.Utils
 {
-    class MathHandler
+    internal class MathHandler
     {
         private static Random _randomNumber = new Random();
 

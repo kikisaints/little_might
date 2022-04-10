@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace Little_Might.Utils
 {
-    class InputManager
+    internal class InputManager
     {
         private bool buttonPressed = false;
         private Keys _lastKeyDown = Keys.None;
@@ -20,7 +17,6 @@ namespace Little_Might.Utils
             set { _moveUnlock = value; }
         }
 
-
         public bool ButtonToggled(string keyName)
         {
             return false;
@@ -31,7 +27,7 @@ namespace Little_Might.Utils
             if (Keyboard.GetState().IsKeyDown(keyName) && !buttonPressed)
             {
                 buttonPressed = true;
-                _lastKeyDown = keyName;                
+                _lastKeyDown = keyName;
                 return true;
             }
 

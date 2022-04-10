@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Little_Might.Modules
+﻿namespace Little_Might.Modules
 {
-    class AdvancedStats : Stats
+    internal class AdvancedStats : Stats
     {
         public enum ILLNESSES
         {
@@ -27,7 +23,8 @@ namespace Little_Might.Modules
         public int Hunger
         {
             get { return _hunger; }
-            set { 
+            set
+            {
                 _hunger = value;
 
                 if (_hunger > _maxHunger)
@@ -38,7 +35,8 @@ namespace Little_Might.Modules
         public int Hydration
         {
             get { return _hydration; }
-            set { 
+            set
+            {
                 _hydration = value;
 
                 if (_hydration > _maxHydration)
