@@ -9,7 +9,7 @@ using System.Xml;
 
 namespace Little_Might.Utils
 {
-    class MonsterManager
+    internal class MonsterManager
     {
         private Utils.GraphicsManager _graphicsManager;
         private ContentManager _content;
@@ -19,6 +19,7 @@ namespace Little_Might.Utils
 
         //Need to adjust these numbers based on map size...
         private int _maxSlimeCount = 100;
+
         private int _maxDeerCount = 50;
         private int _maxRabbitCount = 100;
 
@@ -27,7 +28,7 @@ namespace Little_Might.Utils
             AllMonsters = new List<Monster>();
 
             XmlDocument allItemsList = new XmlDocument();
-            allItemsList.Load(@"..\netcoreapp3.1\Content\data\MonsterData.xml");
+            allItemsList.Load(@"..\..\..\Content\data\MonsterData.xml");
 
             XmlNodeList nodes = allItemsList.SelectNodes("//Monsters/Monster");
 
@@ -155,7 +156,7 @@ namespace Little_Might.Utils
             _map = wMap;
 
             AddMonsterToWorld(_maxSlimeCount, "Slime", _map.GetDungeonByName(""));
-            AddMonsterToWorld(_maxDeerCount, "Deer",_map.GetDungeonByName(""));
+            AddMonsterToWorld(_maxDeerCount, "Deer", _map.GetDungeonByName(""));
             AddMonsterToWorld(_maxRabbitCount, "Rabbit", _map.GetDungeonByName(""));
             AddMonsterToWorld(10, "Goblin", _map.GetDungeonByName("SKAME RAGH"), 1);
 

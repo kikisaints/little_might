@@ -5,9 +5,131 @@
   <Config />
   <SourceFiles>
     <File>C:/Sandbox/src/lm4/src/Content/fonts/pixelfont.spritefont</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/background.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/berries.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/building_house.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/building_hut.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/building_shop.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/building_well.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/bush.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/campfire.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/celestialhorror.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/character_base.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/chest_little.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/deer.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/drop_hareleg.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/drop_pelt.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/drop_veal.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/drops_slime.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/dungeon_entrance_1.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/flint.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/flint_selected.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/furnace.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/garlic.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/goblin_interaction_img.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/icon_disease.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/icon_food.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/icon_heart.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/icon_water.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/inventory_selector.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/inventory_ui.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/item_leathercap.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/item_leathershirt.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/item_leathershoes.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/monster_celestialhorror.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/monster_deer.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/monster_goblin.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/monster_rabbit.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/monster_slime.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/oregano.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/player_interaction_img.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/rabbit.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/rock.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/slime_interaction_img.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/steel_sword.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/stone.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/stone_selected.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/stone_sword.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/system_notice_ui.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/thyme.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/tile_grass.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/tile_herbs.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/tile_mountain.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/tile_stone.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/tile_water.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/tile_water_top.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/tree_evergreen.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/tree_fruit.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/tree_jungle.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/tree_regular.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/twig.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/twig_selected.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/twine.png</File>
+    <File>C:/Sandbox/src/lm4/src/Content/images/twine_selected.png</File>
     <File>C:/Sandbox/src/lm4/src/Content/shaders/crt_lottes_mg.fx</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>

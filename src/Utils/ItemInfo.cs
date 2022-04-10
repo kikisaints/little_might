@@ -12,7 +12,7 @@ using static Little_Might.Modules.Inventory;
 
 namespace Little_Might.Utils
 {
-    class ItemInfo
+    internal class ItemInfo
     {
         public static List<Modules.InventoryItem> AllItems;
 
@@ -21,7 +21,7 @@ namespace Little_Might.Utils
             AllItems = new List<Modules.InventoryItem>();
 
             XmlDocument allItemsList = new XmlDocument();
-            allItemsList.Load(@"..\netcoreapp3.1\Content\data\ItemData.xml");
+            allItemsList.Load(@"..\..\..\Content\data\ItemData.xml");
 
             XmlNodeList nodes = allItemsList.SelectNodes("//Items/Item");
 
@@ -86,40 +86,40 @@ namespace Little_Might.Utils
         {
             itemCombo = itemCombo.OrderBy(e => ((int)e)).ToArray();
 
-            if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] { 
-                Modules.Inventory.ITEMTYPE.NONE, 
-                Modules.Inventory.ITEMTYPE.NONE, 
-                Modules.Inventory.ITEMTYPE.FLINT, 
+            if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] {
+                Modules.Inventory.ITEMTYPE.NONE,
+                Modules.Inventory.ITEMTYPE.NONE,
+                Modules.Inventory.ITEMTYPE.FLINT,
                 Modules.Inventory.ITEMTYPE.STICK }))
             {
                 inventory.AddItem(ITEMTYPE.CAMPFIRE);
                 graphicsManager.ShowSystemMessage("Made " + ITEMTYPE.CAMPFIRE.ToString().ToUpper() + "!");
                 return true;
             }
-            else if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] { 
-                Modules.Inventory.ITEMTYPE.NONE, 
-                Modules.Inventory.ITEMTYPE.STONE, 
-                Modules.Inventory.ITEMTYPE.STICK, 
+            else if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] {
+                Modules.Inventory.ITEMTYPE.NONE,
+                Modules.Inventory.ITEMTYPE.STONE,
+                Modules.Inventory.ITEMTYPE.STICK,
                 Modules.Inventory.ITEMTYPE.TWINE }))
             {
                 inventory.AddItem("stone sword");
                 graphicsManager.ShowSystemMessage("Made STONE SWORD!");
                 return true;
             }
-            else if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] { 
-                Modules.Inventory.ITEMTYPE.STONE, 
-                Modules.Inventory.ITEMTYPE.STONE, 
-                Modules.Inventory.ITEMTYPE.CAMPFIRE, 
+            else if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] {
+                Modules.Inventory.ITEMTYPE.STONE,
+                Modules.Inventory.ITEMTYPE.STONE,
+                Modules.Inventory.ITEMTYPE.CAMPFIRE,
                 Modules.Inventory.ITEMTYPE.GOOP }))
             {
                 inventory.AddItem("furnace");
                 graphicsManager.ShowSystemMessage("Made FURNACE!");
                 return true;
             }
-            else if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] { 
-                Modules.Inventory.ITEMTYPE.NONE, 
-                Modules.Inventory.ITEMTYPE.NONE, 
-                Modules.Inventory.ITEMTYPE.FLINT, 
+            else if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] {
+                Modules.Inventory.ITEMTYPE.NONE,
+                Modules.Inventory.ITEMTYPE.NONE,
+                Modules.Inventory.ITEMTYPE.FLINT,
                 Modules.Inventory.ITEMTYPE.PELT }))
             {
                 inventory.AddItem("leather cap");
