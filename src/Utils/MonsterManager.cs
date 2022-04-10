@@ -50,9 +50,9 @@ namespace Little_Might.Utils
                             monster.MonsterType = checkType;
                     }
                     else if (itemAttribute == "WorldSprite")
-                        monster.Sprite = content.Load<Texture2D>(childNode.InnerText);
+                        monster.Sprite = content.Load<Texture2D>($"images/{childNode.InnerText}");
                     else if (itemAttribute == "InteractionSprite")
-                        monster.InteractionSprite = content.Load<Texture2D>(childNode.InnerText);
+                        monster.InteractionSprite = content.Load<Texture2D>($"images/{childNode.InnerText}");
                     else if (itemAttribute == "GameColor")
                         monster.ObjectColor = GameColors.GetColorByStringName(childNode.InnerText);
                     else if (itemAttribute == "HP")

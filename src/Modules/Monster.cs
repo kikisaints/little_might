@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Little_Might.Modules
 {
-    class Monster : WorldObject
+    internal class Monster : WorldObject
     {
         public enum MONSTERTYPE
         {
@@ -23,7 +23,7 @@ namespace Little_Might.Modules
         private MONSTERTYPE _monsterType;
         private string _name;
         private string _itemDrop;
-        private string[] _attacks;        
+        private string[] _attacks;
 
         private double _timer = 0;
         private double _turnWaitTime = 1.5;
@@ -69,18 +69,18 @@ namespace Little_Might.Modules
             set { _monsterType = value; }
         }
 
-        public Monster() 
+        public Monster()
         {
             MoveTime = _movementWaitTime.Next(1, 5) * 0.5;
         }
 
-        public Monster(string spriteName, string intractSpriteName, Vector2 startingPosition, ContentManager contentManager, Color color, 
+        public Monster(string spriteName, string intractSpriteName, Vector2 startingPosition, ContentManager contentManager, Color color,
             MONSTERTYPE type, Stats monsterStats, Utils.WorldMap.DungeonMap dMap, int layer = 0)
         {
             _stats = monsterStats;
             _monsterType = type;
-            Sprite = contentManager.Load<Texture2D>(spriteName);
-            _interactionSprite = contentManager.Load<Texture2D>(intractSpriteName);
+            Sprite = contentManager.Load<Texture2D>($"images/{spriteName}");
+            _interactionSprite = contentManager.Load<Texture2D>($"images/{intractSpriteName}");
             Position = startingPosition;
             ObjectColor = color;
             DrawLayer = layer;
@@ -116,11 +116,11 @@ namespace Little_Might.Modules
                     movePosition = new Vector2(Position.X - Utils.WorldMap.UNITSIZE, Position.Y);
                 }
 
-                if ((_monsterType == MONSTERTYPE.SLIME || _monsterType == MONSTERTYPE.RABBIT) && 
+                if ((_monsterType == MONSTERTYPE.SLIME || _monsterType == MONSTERTYPE.RABBIT) &&
                     map.GetTileType(movePosition) == Utils.WorldMap.MAPTILETYPE.GRASS &&
                     map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS)
                     Position = movePosition;
-                else if ((_monsterType == MONSTERTYPE.DEER) && 
+                else if ((_monsterType == MONSTERTYPE.DEER) &&
                     map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.EVERGREEN &&
                     map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.WATER &&
                     map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS)
@@ -133,7 +133,7 @@ namespace Little_Might.Modules
 
         public void UpdateMonster(GameTime gTime, Game1 game, Utils.GraphicsManager gManager)
         {
-            _timer += gTime.ElapsedGameTime.TotalSeconds;            
+            _timer += gTime.ElapsedGameTime.TotalSeconds;
 
             if (_timer >= _turnWaitTime)
             {

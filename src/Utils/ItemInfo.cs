@@ -42,7 +42,7 @@ namespace Little_Might.Utils
                             item.ItemType = checkType;
                     }
                     else if (itemAttribute == "Sprite")
-                        item.Sprite = content.Load<Texture2D>(childNode.InnerText);
+                        item.Sprite = content.Load<Texture2D>($"images/{childNode.InnerText}");
                     else if (itemAttribute == "Hunger")
                         item.Hunger = Int32.Parse(childNode.InnerText);
                     else if (itemAttribute == "Description")
