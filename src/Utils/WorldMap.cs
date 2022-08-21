@@ -83,6 +83,9 @@ namespace Little_Might.Utils
                     else if (Map[i] == 8)
                     {
                         MapWorldPoints[i] = new LayerMapTiles(MAPTILETYPE.PRARIEDUNGEON, trackingPoint);
+
+                        Vector2 startpoint = MathHandler.Get2DPoint(i, MapWidth);
+                        
                     }
 
                     trackingPoint.X += UNITSIZE;
@@ -314,18 +317,7 @@ namespace Little_Might.Utils
                 _chestPoints.Add(chest);
             }
 
-            for (int i = 0; i < 1; i++)
-            {
-                int dungeonIndex = _grassPoints[Utils.MathHandler.GetRandomNumber(150, _grassPoints.Count - 1)];
-                colors[dungeonIndex] = GameColors.PrarieDungeonMapColor;
-
-                Vector2 worldPoint = Utils.MathHandler.Get2DPoint(dungeonIndex, _width);
-                DungeonMap dungeonMap = new DungeonMap(worldPoint, 28, "SKAME RAGH");
-                _dungeonPoints.Add(new Teleportal(new Vector2((int)worldPoint.X, (int)worldPoint.Y),
-                    new Vector2((int)worldPoint.X, (int)(worldPoint.Y + UNITSIZE)),
-                    "SKAME RAGH", 1, 0, dungeonMap));
-                _dungeonMaps.Add(dungeonMap);
-            }
+            CreateDungoen("SKAME RAGH", ref colors, 28, 0, 1);
 
             _colorMap = colors;
             noiseTexture.SetData(colors);
@@ -335,6 +327,19 @@ namespace Little_Might.Utils
             noiseTexture.SaveAsPng(stream, noiseTexture.Width, noiseTexture.Height);
             stream.Dispose();
             noiseTexture.Dispose();
+        }
+
+        private void CreateDungoen(string dungeonName, ref Color[] mapColors, int dungeonSize, int exitLayer, int enterLayer)
+        {
+            int dungeonIndex = _grassPoints[Utils.MathHandler.GetRandomNumber(150, _grassPoints.Count - 1)];
+            mapColors[dungeonIndex] = GameColors.PrarieDungeonMapColor;
+
+            Vector2 worldPoint = Utils.MathHandler.Get2DPoint(dungeonIndex, _width);
+            DungeonMap dungeonMap = new DungeonMap(worldPoint, dungeonSize, dungeonName);
+            _dungeonPoints.Add(new Teleportal(new Vector2((int)worldPoint.X, (int)worldPoint.Y),
+                new Vector2((int)worldPoint.X, (int)(worldPoint.Y + UNITSIZE)),
+                dungeonName, enterLayer, exitLayer, dungeonMap));
+            _dungeonMaps.Add(dungeonMap);
         }
 
         public DungeonMap GetDungeonByName(string name)
