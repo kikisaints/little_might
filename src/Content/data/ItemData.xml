@@ -6,7 +6,7 @@
 		<Sprite>icon_food</Sprite>
 		<Hunger>20</Hunger>
 		<Description>A satiating fruit from\n a fruit tree</Description>
-		<Damage>0</Damage>
+		<Damage>0</Damage>		
 	</Item>
 	<Item>
 		<Name>Berry</Name>
@@ -47,6 +47,7 @@
 		<Hunger>0</Hunger>
 		<Description>Bundle of burning sticks</Description>
 		<Damage>0</Damage>
+		<Placable>yes</Placable>
 	</Item>
 	<Item>
 		<Name>Twine</Name>
@@ -127,5 +128,6 @@
 		<Hunger>0</Hunger>
 		<Description>Encapsulated campfire\nIt burns hot</Description>
 		<Damage>0</Damage>
+		<Placable>yes</Placable>
 	</Item>
 </Items>
