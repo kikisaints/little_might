@@ -91,7 +91,8 @@ namespace Little_Might.Modules
             HEADGEAR,
             CHESTGEAR,
             FOOTGEAR,
-            ACCESSORY
+            ACCESSORY,
+            IRONORE
         }
 
         private List<InventoryItem> _invItems;

@@ -481,7 +481,7 @@ namespace Little_Might.Modules
                             _craftIndex = 0;
                     }
 
-                    if (Utils.ItemInfo.CheckCraftables(_craftingList, ref _playerInventory, _graphicsManager))
+                    if (Utils.ItemInfo.CheckCraftables(_craftingList, ref _playerInventory, _graphicsManager, map.GetTileType(Position)))
                     {
                         _playerInventory.RemoveToggledItems();
 

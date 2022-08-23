@@ -356,6 +356,18 @@
 /processorParam:TextureFormat=Color
 /build:images/inventory_ui.png
 
+#begin images/item_ironore.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/item_ironore.png
+
 #begin images/item_leathercap.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -13,6 +13,7 @@ namespace Little_Might.Utils
     internal class ItemInfo
     {
         public static List<Modules.InventoryItem> AllItems;
+        private static Random rand = new Random();
 
         public static void LoadAllItems(ContentManager content)
         {
@@ -80,7 +81,7 @@ namespace Little_Might.Utils
 
         //Tthis list is -- ORDERED --, meaning that the if checks must check for the order of largest enum value to smallest.
         // It doesn't matter the order the player has selected for crafting pieces, only the final if check order
-        public static bool CheckCraftables(Modules.Inventory.ITEMTYPE[] itemCombo, ref Modules.Inventory inventory, GraphicsManager graphicsManager)
+        public static bool CheckCraftables(Modules.Inventory.ITEMTYPE[] itemCombo, ref Modules.Inventory inventory, GraphicsManager graphicsManager, WorldMap.MAPTILETYPE standingTile)
         {
             itemCombo = itemCombo.OrderBy(e => ((int)e)).ToArray();
 
@@ -124,6 +125,34 @@ namespace Little_Might.Utils
                 inventory.AddItem("leather shirt");
                 inventory.AddItem("leather shoes");
                 graphicsManager.ShowSystemMessage("Made LEATHER SET!");
+                return true;
+            }
+            else if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] {
+                Modules.Inventory.ITEMTYPE.NONE,
+                Modules.Inventory.ITEMTYPE.NONE,
+                Modules.Inventory.ITEMTYPE.NONE,
+                Modules.Inventory.ITEMTYPE.STONE }) && standingTile == WorldMap.MAPTILETYPE.FURNACE)
+            {
+                int ironChance = rand.Next(1, 5);
+
+                if (ironChance >= 3)
+                {
+                    inventory.AddItem("iron ore");
+                    graphicsManager.ShowSystemMessage("Discovered IRON ORE!");
+                    return true;
+                }
+
+                graphicsManager.ShowSystemMessage("STONE was DESTROYED!");
+                return true;
+            }
+            else if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] {
+                Modules.Inventory.ITEMTYPE.NONE,
+                Modules.Inventory.ITEMTYPE.STICK,
+                Modules.Inventory.ITEMTYPE.TWINE,
+                Modules.Inventory.ITEMTYPE.IRONORE }) && standingTile == WorldMap.MAPTILETYPE.FURNACE)
+            {
+                inventory.AddItem("steel sword");
+                graphicsManager.ShowSystemMessage("Made STEEL SWORD!");
                 return true;
             }
 

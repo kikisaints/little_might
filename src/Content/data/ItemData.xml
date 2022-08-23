@@ -33,6 +33,14 @@
 		<Damage>0</Damage>
 	</Item>
 	<Item>
+		<Name>Iron Ore</Name>
+		<ItemType>ironore</ItemType>
+		<Sprite>item_ironore</Sprite>
+		<Hunger>0</Hunger>
+		<Description>a chunk of\nhardy mineral</Description>
+		<Damage>0</Damage>
+	</Item>
+	<Item>
 		<Name>Flint</Name>
 		<ItemType>flint</ItemType>
 		<Sprite>flint</Sprite>
@@ -98,6 +106,14 @@
 		<Damage>0</Damage>
 	</Item>
 	<Item>
+		<Name>Pelt</Name>
+		<ItemType>pelt</ItemType>
+		<Sprite>drop_pelt</Sprite>
+		<Hunger>0</Hunger>
+		<Description>The hide of an animal</Description>
+		<Damage>0</Damage>
+	</Item>
+	<Item>
 		<Name>Hare Leg</Name>
 		<ItemType>hareleg</ItemType>
 		<Sprite>drop_veal</Sprite>
@@ -112,6 +128,30 @@
 		<Hunger>0</Hunger>
 		<Description>A blunt weapon\nmade of rock</Description>
 		<Damage>5</Damage>
+	</Item>
+	<Item>
+		<Name>Leather Cap</Name>
+		<ItemType>headgear</ItemType>
+		<Sprite>item_leathercap</Sprite>
+		<Hunger>0</Hunger>
+		<Description>A crude cap made\nof animal hide</Description>
+		<Damage>0</Damage>
+	</Item>
+	<Item>
+		<Name>Leather Shirt</Name>
+		<ItemType>chestgear</ItemType>
+		<Sprite>item_leathershirt</Sprite>
+		<Hunger>0</Hunger>
+		<Description>A crude vest made\nof animal hide</Description>
+		<Damage>0</Damage>
+	</Item>
+	<Item>
+		<Name>Leather Shoes</Name>
+		<ItemType>footgear</ItemType>
+		<Sprite>item_leathershoes</Sprite>
+		<Hunger>0</Hunger>
+		<Description>Crude boots made\nof animal hide</Description>
+		<Damage>0</Damage>
 	</Item>
 	<Item>
 		<Name>Steel Sword</Name>
