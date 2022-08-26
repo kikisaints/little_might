@@ -37,4 +37,4 @@ Also, if you've created a Furance, try standing in it and selecting stones or ot
 - There is an extremely dangerous monster in the forest, you cannot fight him yet, don't try
 - Campfires or furances can regain your health if you dance around them
 
-Many elemants of the game are stubbed - meaning they may appear to be a mechanic, but aren't right now. This is because the game is currently still in development.
+> Many elemants of the game are stubbed - meaning they may appear to be a mechanic, but aren't right now. This is because the game is currently still in development.
