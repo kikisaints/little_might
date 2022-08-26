@@ -55,7 +55,7 @@ namespace Little_Might
         protected override void LoadContent()
         {
             _graphicsManager.Load(GraphicsDevice, Content, this.Window);
-            ResolutionHandler.ChangeResolution(_graphicsManager.Graphics, 1920, 1080, true, GraphicsDevice);
+            ResolutionHandler.ChangeResolution(_graphicsManager.Graphics, 1920, 1080);
         }
 
         protected override void Update(GameTime gameTime)

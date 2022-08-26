@@ -21,6 +21,7 @@ namespace Little_Might.Utils
         private static Color _monsterRabbitColor = new Color(255, 204, 232, 255);
         private static Color _monsterCelestialHorrorColor = Color.Red;
         private static Color _monsterGoblinColor = new Color(36, 255, 131);
+        private static Color _monsterMoleRatColor = new Color(168, 50, 68);
 
         private static Color _furnaceMapColor = Color.Orange;
         private static Color _chestMapColor = new Color(168, 117, 50);
@@ -43,6 +44,9 @@ namespace Little_Might.Utils
                 case "MonsterGoblinColor":
                     return _monsterGoblinColor;
 
+                case "MonsterMoleRatColor":
+                    return _monsterMoleRatColor;
+
                 case "MonsterCelestialHorrorColor":
                     return _monsterCelestialHorrorColor;
 
@@ -54,6 +58,11 @@ namespace Little_Might.Utils
         public static Color MonsterGoblinColor
         {
             get { return _monsterGoblinColor; }
+        }
+
+        public static Color MonsterMoleRatColor
+        {
+            get { return _monsterMoleRatColor; }
         }
 
         public static Color StoneMapColor

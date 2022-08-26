@@ -13,7 +13,8 @@ namespace Little_Might.Modules
             DEER,
             RABBIT,
             GOBLIN,
-            CELESTIALHORROR
+            CELESTIALHORROR,
+            MOLERAT
         }
 
         private Stats _stats;
@@ -123,7 +124,7 @@ namespace Little_Might.Modules
                     map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.WATER &&
                     map.GetTileType(movePosition) != Utils.WorldMap.MAPTILETYPE.OUTOFBOUNDS)
                     Position = movePosition;
-                else if ((_monsterType == MONSTERTYPE.GOBLIN) &&
+                else if ((_monsterType == MONSTERTYPE.GOBLIN || _monsterType == MONSTERTYPE.MOLERAT) &&
                     map.GetDungeonTileType(movePosition, MonsterDungeonMap) == Utils.WorldMap.MAPTILETYPE.STONE)
                     Position = movePosition;
             }

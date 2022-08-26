@@ -6,7 +6,7 @@
 		<WorldSprite>monster_slime</WorldSprite>
 		<InteractionSprite>slime_interaction_img</InteractionSprite>
 		<GameColor>MonsterSlimeColor</GameColor>
-		<HP>25</HP>
+		<HP>20</HP>
 		<SP>10</SP>
 		<MP>0</MP>
 		<SPEED>1</SPEED>
@@ -22,12 +22,33 @@
 		<Attack2>poision</Attack2>
 	</Monster>
 	<Monster>
+		<Name>Mole Rat</Name>
+		<MonsterType>MOLERAT</MonsterType>
+		<WorldSprite>monster_molerat</WorldSprite>
+		<InteractionSprite>molerat_interaction</InteractionSprite>
+		<GameColor>MonsterMoleRatColor</GameColor>
+		<HP>35</HP>
+		<SP>30</SP>
+		<MP>0</MP>
+		<SPEED>3</SPEED>
+		<INT>1</INT>
+		<STR>1</STR>
+		<WIS>1</WIS>
+		<DEX>3</DEX>
+		<CHAR>1</CHAR>
+		<DEF>1</DEF>
+		<CRIT>1</CRIT>
+		<Drop></Drop>
+		<Attack1>bite</Attack1>
+		<Attack2>scratch</Attack2>
+	</Monster>
+	<Monster>
 		<Name>Goblin</Name>
 		<MonsterType>GOBLIN</MonsterType>
 		<WorldSprite>monster_goblin</WorldSprite>
 		<InteractionSprite>goblin_interaction_img</InteractionSprite>
 		<GameColor>MonsterGoblinColor</GameColor>
-		<HP>35</HP>
+		<HP>50</HP>
 		<SP>12</SP>
 		<MP>5</MP>
 		<SPEED>5</SPEED>

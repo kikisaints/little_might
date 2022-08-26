@@ -404,6 +404,18 @@
 /processorParam:TextureFormat=Color
 /build:images/item_leathershoes.png
 
+#begin images/molerat_interaction.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/molerat_interaction.png
+
 #begin images/monster_celestialhorror.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -439,6 +451,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:images/monster_goblin.png
+
+#begin images/monster_molerat.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/monster_molerat.png
 
 #begin images/monster_rabbit.png
 /importer:TextureImporter

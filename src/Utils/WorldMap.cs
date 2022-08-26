@@ -32,6 +32,25 @@ namespace Little_Might.Utils
             public int PortalExitLayer;
         }
 
+        private static Vector2 GetDungeonExitDoor(int[] dMap, Vector2 entrance, int mapWidth)
+        {
+            Vector2 exit = Vector2.Zero;
+
+            if (dMap != null)
+            {
+                for (int i = 0; i < dMap.Length; i++)
+                {
+                    if (dMap[i] == 8)
+                    {
+                        exit = MathHandler.Get2DPoint(i, mapWidth);
+                        break;
+                    }
+                }
+            }
+
+            return exit;
+        }
+
         public struct LayerMapTiles
         {
             public LayerMapTiles(MAPTILETYPE t, Vector2 pos)
@@ -54,19 +73,22 @@ namespace Little_Might.Utils
                 MapWorldPoints = new LayerMapTiles[Map.Length];
                 MapWidth = mapSize;
                 DungeonName = name;
+
+                DungeonExitDoor = WorldMap.GetDungeonExitDoor(Map, door, MapWidth);
                 GenerateMapWorldPoints();
             }
 
             public int MapWidth;
             public Vector2 DungeonDoor;
+            public Vector2 DungeonExitDoor;
             public int[] Map;
             public LayerMapTiles[] MapWorldPoints;
             public string DungeonName;
 
             private void GenerateMapWorldPoints()
             {
-                Vector2 StartPoint = new Vector2((DungeonDoor.X - 7) * Utils.WorldMap.UNITSIZE,
-                    (DungeonDoor.Y - 19) * Utils.WorldMap.UNITSIZE);
+                Vector2 StartPoint = new Vector2((DungeonDoor.X - DungeonExitDoor.X) * Utils.WorldMap.UNITSIZE,
+                    (DungeonDoor.Y - DungeonExitDoor.Y) * Utils.WorldMap.UNITSIZE);
 
                 Vector2 trackingPoint = StartPoint;
                 int widthTracker = 0;
@@ -318,6 +340,20 @@ namespace Little_Might.Utils
             }
 
             CreateDungoen("SKAME RAGH", ref colors, 28, 0, 1);
+            CreateDungoen("NORLOCKE", ref colors, 20, 0, 1);
+            CreateDungoen("UNDEACA", ref colors, 50, 0, 1);
+            CreateDungoen("HAWKINEL", ref colors, 10, 0, 1);
+            CreateDungoen("EVANSANO", ref colors, 25, 0, 1);
+            CreateDungoen("THANARG", ref colors, 35, 0, 1);
+            CreateDungoen("MELKOG", ref colors, 40, 0, 1);
+            CreateDungoen("SARKATH", ref colors, 15, 0, 1);
+
+            CreateDungoen("VALISHA", ref colors, 20, 0, 1);
+            CreateDungoen("DORYU", ref colors, 20, 0, 1);
+            CreateDungoen("KAIDA", ref colors, 20, 0, 1);
+            CreateDungoen("VALISHA", ref colors, 20, 0, 1);
+            CreateDungoen("VALISHA", ref colors, 20, 0, 1);
+            CreateDungoen("VALISHA", ref colors, 20, 0, 1);
 
             _colorMap = colors;
             noiseTexture.SetData(colors);
@@ -333,12 +369,14 @@ namespace Little_Might.Utils
         {
             int dungeonIndex = _grassPoints[Utils.MathHandler.GetRandomNumber(150, _grassPoints.Count - 1)];
             mapColors[dungeonIndex] = GameColors.PrarieDungeonMapColor;
-
+                        
             Vector2 worldPoint = Utils.MathHandler.Get2DPoint(dungeonIndex, _width);
             DungeonMap dungeonMap = new DungeonMap(worldPoint, dungeonSize, dungeonName);
+
             _dungeonPoints.Add(new Teleportal(new Vector2((int)worldPoint.X, (int)worldPoint.Y),
-                new Vector2((int)worldPoint.X, (int)(worldPoint.Y + UNITSIZE)),
+                GetDungeonExitDoor(dungeonMap.Map, worldPoint, dungeonMap.MapWidth),
                 dungeonName, enterLayer, exitLayer, dungeonMap));
+
             _dungeonMaps.Add(dungeonMap);
         }
 
@@ -477,7 +515,9 @@ namespace Little_Might.Utils
             for (int i = 0; i < dMap.MapWorldPoints.Length; i++)
             {
                 if (Utils.MathHandler.WorldObjectIntersects(dMap.MapWorldPoints[i].WorldPosition, pos))
+                {
                     return dMap.MapWorldPoints[i].TileType;
+                }
             }
 
             return MAPTILETYPE.OUTOFBOUNDS;

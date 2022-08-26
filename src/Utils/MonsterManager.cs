@@ -107,6 +107,8 @@ namespace Little_Might.Utils
 
                 if (monsterName == "Goblin")
                     sPosition = _map.GetRandomDungeonMapPoint("SKAME RAGH");
+                else if (monsterName == "Mole Rat")
+                    sPosition = _map.GetRandomDungeonMapPoint("NORLOCKE");
 
                 Monster ListMonster = AllMonsters.Find(monster => monster.Name.Equals(monsterName));
                 Monster newMonster = new Monster()
@@ -157,7 +159,14 @@ namespace Little_Might.Utils
             AddMonsterToWorld(_maxSlimeCount, "Slime", _map.GetDungeonByName(""));
             AddMonsterToWorld(_maxDeerCount, "Deer", _map.GetDungeonByName(""));
             AddMonsterToWorld(_maxRabbitCount, "Rabbit", _map.GetDungeonByName(""));
-            AddMonsterToWorld(10, "Goblin", _map.GetDungeonByName("SKAME RAGH"), 1);
+
+            WorldMap.DungeonMap dungeonMap = _map.GetDungeonByName("SKAME RAGH");
+            if (dungeonMap.DungeonName != null)
+                AddMonsterToWorld(10, "Goblin", _map.GetDungeonByName("SKAME RAGH"), 1);
+
+            dungeonMap = _map.GetDungeonByName("NORLOCKE");
+            if (dungeonMap.DungeonName != null)
+                AddMonsterToWorld(5, "Mole Rat", _map.GetDungeonByName("NORLOCKE"), 1);
 
             AddMonsterToWorld(1, "Celestial Horror", _map.GetDungeonByName(""));
         }

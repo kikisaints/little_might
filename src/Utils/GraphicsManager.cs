@@ -191,12 +191,13 @@ namespace Little_Might.Utils
             foreach (WorldMap.DungeonMap dMap in map.DungeonMaps)
             {
                 Vector2 startPos = dMap.DungeonDoor;
+                Vector2 offsetPos = dMap.DungeonExitDoor;
 
                 //need to offset from the dungoen door position to the 0,0 in the dungoen map array
                 //which is dependent on where the door starts and is not necessarily an even distance
                 //Should NOT be hardcoded, need to change that...
-                startPos.X = (startPos.X - 7) * Utils.WorldMap.UNITSIZE;
-                startPos.Y = (startPos.Y - 19) * Utils.WorldMap.UNITSIZE;
+                startPos.X = (startPos.X - offsetPos.X) * Utils.WorldMap.UNITSIZE;
+                startPos.Y = (startPos.Y - offsetPos.Y) * Utils.WorldMap.UNITSIZE;
 
                 for (int j = 0; j < dMap.Map.Length; j++)
                 {

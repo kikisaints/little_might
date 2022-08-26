@@ -61,6 +61,13 @@ namespace Little_Might.Utils
                     else
                         return "poison";
 
+                case Modules.Monster.MONSTERTYPE.MOLERAT:
+                    int moleATTK = Utils.MathHandler.GetRandomNumber(0, 3);
+                    if (moleATTK == 0)
+                        return "bite";
+                    else
+                        return "scratch";
+
                 case Modules.Monster.MONSTERTYPE.RABBIT:
                     return "runaway";
 
@@ -89,6 +96,12 @@ namespace Little_Might.Utils
             switch (attackType.ToLower())
             {
                 case "spit":
+                    return (int)((monster.Stats.DEX + monster.Stats.Stamina) - character.Stats.DEFENSE);
+
+                case "bite":
+                    return (int)((monster.Stats.Speed + monster.Stats.Stamina) - character.Stats.DEFENSE);
+
+                case "scratch":
                     return (int)((monster.Stats.DEX + monster.Stats.Stamina) - character.Stats.DEFENSE);
 
                 case "strike":
