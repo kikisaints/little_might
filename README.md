@@ -28,11 +28,12 @@ Also, if you've created a Furance, try standing in it and selecting stones or ot
 # General Play Advice
 
 - If you have a disease, pick up some herbs in the grass land and eat them, each herb cures one of the common illnesses you can get
+- Walk over resources multiple times to pick up different materials from them (it's random)
 - Becareful when drinking water, you can get sick
 - Slimes are poisonous
 - Apples are your best friend
 - Chests drop any type of common items
-- There is only a few types of dungeons in the game and it's crawling with goblins, mole rats, or nothing, and none of those enemeies reward you for killing them (yet). The dungeons are randomly generated inside and randomly placed on the map. Obviously the larger the map you have the more spaced out these dungeons are. There are a total of **14** dungeons in the game as of today (8/26/2022).
+- There are only a few types of dungeons in the game and they are crawling with goblins, mole rats, or nothing, and none of those enemeies reward you for killing them (yet). The dungeons are randomly generated inside and randomly placed on the map. Obviously the larger the map you have the more spaced out these dungeons are. There are a total of **14** dungeons in the game as of today (8/26/2022).
 - There is an extremely dangerous monster in the forest, you cannot fight him yet, don't try
 - Campfires or furances can regain your health if you dance around them.
 
