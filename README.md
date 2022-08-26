@@ -33,8 +33,8 @@ Also, if you've created a Furance, try standing in it and selecting stones or ot
 - Slimes are poisonous
 - Apples are your best friend
 - Chests drop any type of common items
-- There are only a few types of dungeons in the game and they are crawling with goblins, mole rats, or nothing, and none of those enemeies reward you for killing them (yet). The dungeons are randomly generated inside and randomly placed on the map. Obviously the larger the map you have the more spaced out these dungeons are. There are a total of **14** dungeons in the game as of today (8/26/2022).
+- There are only a few types of dungeons in the game and they are crawling with goblins, mole rats, or nothing, and none of those enemies reward you for killing them (yet). The dungeons are randomly generated inside and randomly placed on the map. Obviously the larger the map you have the more spaced out these dungeons are. There are a total of **14** dungeons in the game as of today (8/26/2022).
 - There is an extremely dangerous monster in the forest, you cannot fight him yet, don't try
-- Campfires or furances can regain your health if you dance around them.
+- Campfires or furances can regain your health if you dance around them
 
 Many elemants of the game are stubbed - meaning they may appear to be a mechanic, but aren't right now. This is because the game is currently still in development.
