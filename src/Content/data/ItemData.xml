@@ -135,7 +135,7 @@
 		<Sprite>item_leathercap</Sprite>
 		<Hunger>0</Hunger>
 		<Description>A crude cap made\nof animal hide</Description>
-		<Damage>0</Damage>
+		<Damage>1</Damage>
 	</Item>
 	<Item>
 		<Name>Leather Shirt</Name>
@@ -143,7 +143,7 @@
 		<Sprite>item_leathershirt</Sprite>
 		<Hunger>0</Hunger>
 		<Description>A crude vest made\nof animal hide</Description>
-		<Damage>0</Damage>
+		<Damage>1</Damage>
 	</Item>
 	<Item>
 		<Name>Leather Shoes</Name>
@@ -151,7 +151,7 @@
 		<Sprite>item_leathershoes</Sprite>
 		<Hunger>0</Hunger>
 		<Description>Crude boots made\nof animal hide</Description>
-		<Damage>0</Damage>
+		<Damage>0.5</Damage>
 	</Item>
 	<Item>
 		<Name>Steel Sword</Name>

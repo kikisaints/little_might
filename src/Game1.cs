@@ -150,7 +150,7 @@ namespace Little_Might
             _graphicsManager.DisplayInteractionOptions(true);
             _isPlayerTurn = true;
 
-            int totalDamage = Utils.CombatHandler.AttackCharacter(ref _character, _interactor, action) - (_character.GetDamageDefenseModifier());
+            int totalDamage = Utils.CombatHandler.AttackCharacter(ref _character, _interactor, action) - (_character.GetEquipModifiers());
             _graphicsManager.ShowSystemMessage("Took " + totalDamage.ToString() + " DAMAGE");
 
             _character.Stats.HP -= totalDamage;

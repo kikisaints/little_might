@@ -11,7 +11,7 @@ namespace Little_Might.Modules
         private Inventory.ITEMTYPE _itemType;
         private string _description;
         private string _name;
-        private int _damage;
+        private float _damage;
         private int _hunger;
 
         public bool Toggled = false;
@@ -29,7 +29,7 @@ namespace Little_Might.Modules
             set { _description = value; }
         }
 
-        public int Damage
+        public float Damage
         {
             get { return _damage; }
             set { _damage = value; }

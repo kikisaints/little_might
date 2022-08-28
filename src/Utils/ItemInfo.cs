@@ -47,7 +47,7 @@ namespace Little_Might.Utils
                     else if (itemAttribute == "Description")
                         item.Description = Regex.Unescape(childNode.InnerText);
                     else if (itemAttribute == "Damage")
-                        item.Damage = Int32.Parse(childNode.InnerText);
+                        item.Damage = float.Parse(childNode.InnerText);
                     else if (itemAttribute == "Placable")
                         if (childNode.InnerText == "yes")
                             item.IsPlaceable = true;

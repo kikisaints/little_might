@@ -528,7 +528,7 @@ namespace Little_Might.Modules
             }
         }
 
-        public int GetDamageDefenseModifier()
+        public int GetEquipModifiers()
         {
             int headgearDef = 0;
             int footgearDef = 0;
@@ -536,13 +536,17 @@ namespace Little_Might.Modules
             int accessoryDef = 0;
 
             if (_equippedItems[1] != "NO HEADGEAR")
-                headgearDef = Utils.ItemInfo.GetItemFromString(_equippedItems[1]).Damage;
-            if (_equippedItems[2] != "NO FOOTGEAR")
-                footgearDef = Utils.ItemInfo.GetItemFromString(_equippedItems[2]).Damage;
+            {
+                headgearDef = (int)Utils.ItemInfo.GetItemFromString(_equippedItems[1]).Damage;
+            }
             if (_equippedItems[3] != "NO CHESTGEAR")
-                chestgearDef = Utils.ItemInfo.GetItemFromString(_equippedItems[3]).Damage;
+            {
+                chestgearDef = (int)Utils.ItemInfo.GetItemFromString(_equippedItems[3]).Damage;
+            }
             if (_equippedItems[4] != "NO ACCESSORY")
-                accessoryDef = Utils.ItemInfo.GetItemFromString(_equippedItems[4]).Damage;
+            {
+                accessoryDef = (int)Utils.ItemInfo.GetItemFromString(_equippedItems[4]).Damage;
+            }
 
             return headgearDef + footgearDef + chestgearDef + accessoryDef;
         }
@@ -551,8 +555,13 @@ namespace Little_Might.Modules
         {
             if (equipItemSprite == null)
             {
+                if (equipItemType.ToString().ToUpper() == "FOOTGEAR")
+                {
+                    _stats.Speed = _stats.Speed * Utils.ItemInfo.GetItemFromString(_equippedItems[2]).Damage;
+                }
+
                 _equippedItems[equipItemIndex] = _playerInventory.GetSelectedItem().Name.ToUpper();
-                equipItemSprite = _playerInventory.GetSelectedItem().Sprite;
+                equipItemSprite = _playerInventory.GetSelectedItem().Sprite;                
 
                 if (equipItemType == Inventory.ITEMTYPE.WEAPON)
                 {
@@ -564,6 +573,9 @@ namespace Little_Might.Modules
             {
                 equipItemSprite = null;
                 _equippedItems[equipItemIndex] = "NO " + equipItemType.ToString().ToUpper();
+
+                if (equipItemType.ToString().ToUpper() == "FOOTGEAR")
+                    _stats.Speed = 1f;
 
                 if (equipItemType == Inventory.ITEMTYPE.WEAPON)
                 {
