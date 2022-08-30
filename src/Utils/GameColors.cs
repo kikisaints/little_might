@@ -15,6 +15,10 @@ namespace Little_Might.Utils
         private static Color _herbMapColor = new Color(145, 213, 63, 255);
         private static Color _waterMapColor = new Color(66, 135, 245, 255);
         private static Color _campfireMapColor = Color.IndianRed;
+        private static Color _furnaceMapColor = Color.Orange;
+        private static Color _chestMapColor = new Color(168, 117, 50);
+        private static Color _prarieDungeonMapColor = new Color(62, 85, 115);
+        private static Color _stoneMapColor = new Color(116, 138, 237);
 
         private static Color _monsterSlimeColor = new Color(3, 132, 256, 255);
         private static Color _monsterDeerColor = new Color(235, 172, 101, 255);
@@ -23,10 +27,7 @@ namespace Little_Might.Utils
         private static Color _monsterGoblinColor = new Color(36, 255, 131);
         private static Color _monsterMoleRatColor = new Color(168, 50, 68);
 
-        private static Color _furnaceMapColor = Color.Orange;
-        private static Color _chestMapColor = new Color(168, 117, 50);
-        private static Color _prarieDungeonMapColor = new Color(62, 85, 115);
-        private static Color _stoneMapColor = new Color(116, 138, 237);
+        private static Color _selectedItemColor = new Color(252, 244, 3);
 
         public static Color GetColorByStringName(string name)
         {
@@ -58,6 +59,11 @@ namespace Little_Might.Utils
         public static Color MonsterGoblinColor
         {
             get { return _monsterGoblinColor; }
+        }
+
+        public static Color SelectedItemColor
+        {
+            get { return _selectedItemColor; }
         }
 
         public static Color MonsterMoleRatColor

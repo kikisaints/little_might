@@ -152,7 +152,7 @@ namespace Little_Might.Modules
                 UpdateInventoryInteraction(content, map);
 
                 if (_canMove)
-                {
+                {                    
                     UpdateInput(map, content);
 
                     if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Enter))
@@ -227,11 +227,16 @@ namespace Little_Might.Modules
             _currentOptions = _interactionOptions;
         }
 
+        public string GetActiveDungeon()
+        {
+            return _activePortal.PortalName;
+        }
+
         private void CheckTileResource(Vector2 movePos, Utils.WorldMap wMap, ContentManager content)
         {
             Utils.WorldMap.MAPTILETYPE currentTileType = wMap.GetTileType(movePos);
 
-            if (DrawLayer != 0)
+            if (DrawLayer != 0 && currentTileType != Utils.WorldMap.MAPTILETYPE.ITEMDROP)
                 currentTileType = wMap.GetDungeonTileType(movePos, _activePortal.PortalDungeonMap);
 
             if (currentTileType == Utils.WorldMap.MAPTILETYPE.FRUIT)
@@ -281,18 +286,40 @@ namespace Little_Might.Modules
             }
             else if (currentTileType == Utils.WorldMap.MAPTILETYPE.ITEMDROP)
             {
-                WorldObject obj = _graphicsManager.GetWorldObject((int)movePos.X, (int)movePos.Y);
-                Inventory.ITEMTYPE monsterDropType = Utils.MonsterManager.GetMonsterDrop(obj.ObjectColor);
 
-                if (_playerInventory.AddItem(monsterDropType))
-                    _graphicsManager.ShowSystemMessage("Picked up " + monsterDropType.ToString());
+                if (DrawLayer == 0)
+                {
+                    WorldObject obj = _graphicsManager.GetWorldObject((int)movePos.X, (int)movePos.Y);
+                    Inventory.ITEMTYPE monsterDropType = Utils.MonsterManager.GetMonsterDrop(obj.ObjectColor);
 
-                wMap.ChangeTile(new Vector2(Position.X, Position.Y), Utils.WorldMap.MAPTILETYPE.GRASS, _activePortal.PortalDungeonMap);
-                _graphicsManager.ChangeWorldObjectVisual(content.Load<Texture2D>("images/tile_grass"),
-                    Utils.GameColors.GrassMapColor,
-                    (int)Position.X,
-                    (int)Position.Y,
-                    Modules.Inventory.ITEMTYPE.NONE);
+                    wMap.ChangeTile(new Vector2(Position.X, Position.Y), Utils.WorldMap.MAPTILETYPE.GRASS, _activePortal.PortalDungeonMap);
+                    _graphicsManager.ChangeWorldObjectVisual(content.Load<Texture2D>("images/tile_grass"),
+                        Utils.GameColors.GrassMapColor,
+                        (int)Position.X,
+                        (int)Position.Y,
+                        Modules.Inventory.ITEMTYPE.NONE,
+                        Utils.WorldMap.MAPTILETYPE.GRASS);
+
+                    if (_playerInventory.AddItem(monsterDropType))
+                        _graphicsManager.ShowSystemMessage("Picked up " + monsterDropType.ToString());
+                }
+                else if (DrawLayer == 1)
+                {
+                    WorldObject obj = _graphicsManager.GetWorldObject((int)movePos.X, (int)movePos.Y, DrawLayer);
+                    Inventory.ITEMTYPE monsterDropType = Utils.MonsterManager.GetMonsterDrop(obj.ObjectColor);
+
+                    wMap.ChangeTile(new Vector2(Position.X, Position.Y), Utils.WorldMap.MAPTILETYPE.STONE, _activePortal.PortalDungeonMap);
+                    _graphicsManager.ChangeWorldObjectVisual(content.Load<Texture2D>("images/tile_stone"),
+                        Utils.GameColors.StoneMapColor,
+                        (int)Position.X,
+                        (int)Position.Y,
+                        Modules.Inventory.ITEMTYPE.NONE,
+                        Utils.WorldMap.MAPTILETYPE.STONE,
+                        _activePortal.PortalDungeonMap.DungeonName);
+
+                    if (_playerInventory.AddItem(monsterDropType))
+                        _graphicsManager.ShowSystemMessage("Picked up " + monsterDropType.ToString());
+                }
             }
             else if (currentTileType == Utils.WorldMap.MAPTILETYPE.CHEST)
             {
@@ -555,10 +582,10 @@ namespace Little_Might.Modules
         {
             if (equipItemSprite == null)
             {
-                if (equipItemType.ToString().ToUpper() == "FOOTGEAR")
-                {
-                    _stats.Speed = _stats.Speed * Utils.ItemInfo.GetItemFromString(_equippedItems[2]).Damage;
-                }
+                //if (equipItemType.ToString().ToUpper() == "FOOTGEAR")
+                //{
+                //    _stats.Speed = _stats.Speed * equipItemType.;
+                //}
 
                 _equippedItems[equipItemIndex] = _playerInventory.GetSelectedItem().Name.ToUpper();
                 equipItemSprite = _playerInventory.GetSelectedItem().Sprite;                

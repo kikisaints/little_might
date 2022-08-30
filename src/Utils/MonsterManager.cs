@@ -77,7 +77,9 @@ namespace Little_Might.Utils
                     else if (itemAttribute == "CRIT")
                         monsterStats.CRIT = float.Parse(childNode.InnerText);
                     else if (itemAttribute == "Drop")
+                    {
                         monster.ItemDrop = childNode.InnerText;
+                    }
                 }
 
                 monster.Stats = monsterStats;

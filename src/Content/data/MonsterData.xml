@@ -48,7 +48,7 @@
 		<WorldSprite>monster_goblin</WorldSprite>
 		<InteractionSprite>goblin_interaction_img</InteractionSprite>
 		<GameColor>MonsterGoblinColor</GameColor>
-		<HP>50</HP>
+		<HP>65</HP>
 		<SP>12</SP>
 		<MP>5</MP>
 		<SPEED>5</SPEED>
@@ -59,7 +59,7 @@
 		<CHAR>1</CHAR>
 		<DEF>4</DEF>
 		<CRIT>1</CRIT>
-		<Drop></Drop>
+		<Drop>orb</Drop>
 		<Attack1>strike</Attack1>
 		<Attack2>bolt</Attack2>
 	</Monster>

@@ -88,6 +88,9 @@ namespace Little_Might.Utils
             if (name == "stone sword" || name == "steel sword")
                 return new string[] { "Slash -", "Stab" };
 
+            if (name == "wood staff")
+                return new string[] { "Hit -", "Firebolt", "Magic Missile" };
+
             return new string[] { "Punch -", "Kick", "Yell At" };
         }
 

@@ -42,6 +42,8 @@ namespace Little_Might.Utils
                     }
                     else if (itemAttribute == "Sprite")
                         item.Sprite = content.Load<Texture2D>($"images/{childNode.InnerText}");
+                    else if (itemAttribute == "SelectedSprite")
+                        item.SelectedSprite = content.Load<Texture2D>($"images/{childNode.InnerText}");
                     else if (itemAttribute == "Hunger")
                         item.Hunger = Int32.Parse(childNode.InnerText);
                     else if (itemAttribute == "Description")

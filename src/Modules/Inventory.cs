@@ -55,6 +55,7 @@ namespace Little_Might.Modules
             _damage = copy.Damage;
             _hunger = copy.Hunger;
             Sprite = copy.Sprite;
+            SelectedSprite = copy.SelectedSprite;
             Scale = copy.Scale;
             IsPlaceable = copy.IsPlaceable;
             Position = position;
@@ -92,7 +93,9 @@ namespace Little_Might.Modules
             CHESTGEAR,
             FOOTGEAR,
             ACCESSORY,
-            IRONORE
+            IRONORE,
+            ORB,
+            WOODSTAFF
         }
 
         private List<InventoryItem> _invItems;

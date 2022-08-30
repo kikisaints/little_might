@@ -247,7 +247,7 @@ namespace Little_Might.Utils
         { _worldObjects.Add(worldObject); }
 
         public void ChangeWorldObjectVisual(Texture2D newSprite, Color newColor, int x, int y, Modules.Inventory.ITEMTYPE type,
-            Utils.WorldMap.MAPTILETYPE mapTile = WorldMap.MAPTILETYPE.OUTOFBOUNDS)
+            Utils.WorldMap.MAPTILETYPE mapTile = WorldMap.MAPTILETYPE.OUTOFBOUNDS, string dungeonName = "")
         {
             if (_activeDrawLayer == 0)
             {
@@ -275,6 +275,14 @@ namespace Little_Might.Utils
             else if (_activeDrawLayer == 1)
             {
                 Vector2 startPoint = new Vector2(x, y);
+                WorldMap.DungeonMap dunMap = _worldMap.GetDungeonByName(dungeonName);
+
+                int indexX = x / Utils.WorldMap.UNITSIZE;
+                int indexY = y / Utils.WorldMap.UNITSIZE;
+                int index = Utils.MathHandler.Get1DIndex(indexY, indexX, dunMap.MapWidth);
+
+                if (mapTile != WorldMap.MAPTILETYPE.OUTOFBOUNDS)
+                    _worldMap.MapTiles[x, y] = mapTile;
 
                 for (int i = 0; i < _worldObjects_l1.Count; i++)
                 {
@@ -328,12 +336,25 @@ namespace Little_Might.Utils
             return false;
         }
 
-        public Modules.WorldObject GetWorldObject(int x, int y)
+        public Modules.WorldObject GetWorldObject(int x, int y, int layer = 0)
         {
             int indexX = x / Utils.WorldMap.UNITSIZE;
             int indexY = y / Utils.WorldMap.UNITSIZE;
             int index = Utils.MathHandler.Get1DIndex(indexY, indexX, _worldMap.MapWidth);
 
+            if (layer == 0)
+            {
+                return _worldObjects[index];
+            }
+            else if (layer == 1)
+            {
+                foreach (Modules.WorldObject wobj in _worldObjects_l1)
+                {
+                    if ((int)wobj.Position.X == x && (int)wobj.Position.Y == y)
+                        return wobj;
+                }                
+            }
+            
             return _worldObjects[index];
         }
 
@@ -354,7 +375,13 @@ namespace Little_Might.Utils
 
                 if (dropType != Modules.Inventory.ITEMTYPE.NONE)
                 {
-                    ChangeWorldObjectVisual(ItemInfo.GetSpriteTexture(dropType), monster.ObjectColor, (int)monster.Position.X, (int)monster.Position.Y, dropType, WorldMap.MAPTILETYPE.ITEMDROP);
+                    ChangeWorldObjectVisual(ItemInfo.GetSpriteTexture(dropType), 
+                        monster.ObjectColor, 
+                        (int)monster.Position.X, 
+                        (int)monster.Position.Y, 
+                        dropType, 
+                        WorldMap.MAPTILETYPE.ITEMDROP,
+                        monster.MonsterDungeonMap.DungeonName);
                 }
             }
 
@@ -602,7 +629,11 @@ namespace Little_Might.Utils
 
                 foreach (Modules.InventoryItem item in character.Inv.Items)
                 {
-                    _spriteBatch.Draw(item.Sprite,
+                    Texture2D itemSprite = item.Sprite;
+                    if (item.Toggled)
+                        itemSprite = item.SelectedSprite;
+
+                    _spriteBatch.Draw(itemSprite,
                         item.Position + new Vector2(_spriteBatch.GraphicsDevice.Viewport.Width, 0),
                         null,
                         Color.White,
@@ -655,7 +686,7 @@ namespace Little_Might.Utils
 
                     FontOrigin = _font.MeasureString(_item.Description) / 2;
                     _spriteBatch.DrawString(_font,
-                        _item.Description + "\n\nSelected: " + _item.Toggled + "\n\nT - Trash" + "\n\nP - Place",
+                        _item.Description + "\n\nT - Trash" + "\n\nP - Place",
                         new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) + 800, (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 160),
                         Color.White,
                         0,
