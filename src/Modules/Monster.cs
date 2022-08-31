@@ -22,6 +22,7 @@ namespace Little_Might.Modules
         private MONSTERTYPE _monsterType;
         private string _name;
         private string _itemDrop;
+        private float _itemDropRate;
         private string[] _attacks;
 
         private double _timer = 0;
@@ -42,6 +43,11 @@ namespace Little_Might.Modules
         {
             get { return _itemDrop; }
             set { _itemDrop = value; }
+        }
+        public float ItemDropRate
+        {
+            get { return _itemDropRate; }
+            set { _itemDropRate = value; }
         }
 
         public string Name

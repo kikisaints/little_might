@@ -582,15 +582,10 @@ namespace Little_Might.Modules
         {
             if (equipItemSprite == null)
             {
-                //if (equipItemType.ToString().ToUpper() == "FOOTGEAR")
-                //{
-                //    _stats.Speed = _stats.Speed * equipItemType.;
-                //}
-
                 _equippedItems[equipItemIndex] = _playerInventory.GetSelectedItem().Name.ToUpper();
                 equipItemSprite = _playerInventory.GetSelectedItem().Sprite;                
 
-                if (equipItemType == Inventory.ITEMTYPE.WEAPON)
+                if (equipItemType == Inventory.ITEMTYPE.WEAPON || equipItemType == Inventory.ITEMTYPE.STAFF)
                 {
                     _equippedWeapon = _playerInventory.GetSelectedItem();
                     _fightOptions = Utils.CombatHandler.SetCombatOptions(_playerInventory.GetSelectedItem().Name);

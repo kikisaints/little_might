@@ -202,7 +202,7 @@
 	</Item>
 	<Item>
 		<Name>Wood Staff</Name>
-		<ItemType>woodstaff</ItemType>
+		<ItemType>staff</ItemType>
 		<Sprite>staff</Sprite>
 		<SelectedSprite>no_selected_img</SelectedSprite>
 		<Hunger>0</Hunger>

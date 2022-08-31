@@ -37,6 +37,8 @@ namespace Little_Might.Utils
         private Texture2D _systemPopup;
         private WorldMap _worldMap;
 
+        private Random rand = new Random();
+
         public void SetDrawLayer(int newLayer)
         { _activeDrawLayer = newLayer; }
 
@@ -370,18 +372,24 @@ namespace Little_Might.Utils
 
             if (monster != null)
             {
-                Modules.Inventory.ITEMTYPE dropType;
-                Enum.TryParse(monster.ItemDrop.ToUpper(), out dropType);
+                int successPercent = (int)(monster.ItemDropRate * 10);
+                float chance = rand.Next(0, successPercent);
 
-                if (dropType != Modules.Inventory.ITEMTYPE.NONE)
+                if (chance <= successPercent)
                 {
-                    ChangeWorldObjectVisual(ItemInfo.GetSpriteTexture(dropType), 
-                        monster.ObjectColor, 
-                        (int)monster.Position.X, 
-                        (int)monster.Position.Y, 
-                        dropType, 
-                        WorldMap.MAPTILETYPE.ITEMDROP,
-                        monster.MonsterDungeonMap.DungeonName);
+                    Modules.Inventory.ITEMTYPE dropType;
+                    Enum.TryParse(monster.ItemDrop.ToUpper(), out dropType);
+
+                    if (dropType != Modules.Inventory.ITEMTYPE.NONE)
+                    {
+                        ChangeWorldObjectVisual(ItemInfo.GetSpriteTexture(dropType),
+                            monster.ObjectColor,
+                            (int)monster.Position.X,
+                            (int)monster.Position.Y,
+                            dropType,
+                            WorldMap.MAPTILETYPE.ITEMDROP,
+                            monster.MonsterDungeonMap.DungeonName);
+                    }
                 }
             }
 
@@ -763,7 +771,7 @@ namespace Little_Might.Utils
                     Color.Black, 0, FontOrigin, 1f, SpriteEffects.None, 1f);
 
                 _spriteBatch.Draw(_systemPopup,
-                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) - 150,
+                    new Vector2((_spriteBatch.GraphicsDevice.Viewport.Width / 2) - 235,
                     (_spriteBatch.GraphicsDevice.Viewport.Height / 2) + 400),
                     null, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.1f);
             }

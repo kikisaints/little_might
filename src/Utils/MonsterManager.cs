@@ -77,9 +77,9 @@ namespace Little_Might.Utils
                     else if (itemAttribute == "CRIT")
                         monsterStats.CRIT = float.Parse(childNode.InnerText);
                     else if (itemAttribute == "Drop")
-                    {
                         monster.ItemDrop = childNode.InnerText;
-                    }
+                    else if (itemAttribute == "DropRate")
+                        monster.ItemDropRate = float.Parse(childNode.InnerText);
                 }
 
                 monster.Stats = monsterStats;
@@ -105,48 +105,58 @@ namespace Little_Might.Utils
         {
             for (int i = 0; i < numberOfMonsters; i++)
             {
-                Vector2 sPosition = _map.GetRandomGrassPoint();
-
-                if (monsterName == "Goblin")
-                    sPosition = _map.GetRandomDungeonMapPoint("SKAME RAGH");
-                else if (monsterName == "Mole Rat")
-                    sPosition = _map.GetRandomDungeonMapPoint("NORLOCKE");
-
-                Monster ListMonster = AllMonsters.Find(monster => monster.Name.Equals(monsterName));
-                Monster newMonster = new Monster()
+                switch (monsterName)
                 {
-                    Sprite = ListMonster.Sprite,
-                    InteractionSprite = ListMonster.InteractionSprite,
-                    Stats = new Stats(ListMonster.Stats.HP,
-                        ListMonster.Stats.Stamina,
-                        ListMonster.Stats.Mana,
-                        ListMonster.Stats.Speed,
-                        ListMonster.Stats.INT,
-                        ListMonster.Stats.STR,
-                        ListMonster.Stats.WIS,
-                        ListMonster.Stats.DEX,
-                        ListMonster.Stats.CHARISMA,
-                        ListMonster.Stats.DEFENSE,
-                        ListMonster.Stats.CRIT
-                        ),
-                    Position = sPosition,
-                    ObjectColor = ListMonster.ObjectColor,
-                    MonsterType = ListMonster.MonsterType,
-                    ItemDrop = ListMonster.ItemDrop,
-                    Name = ListMonster.Name,
-                    MonsterDungeonMap = dunMap,
-                    DrawLayer = drawLayer
-                };
-
-                if (newMonster.MonsterType == Modules.Monster.MONSTERTYPE.CELESTIALHORROR)
-                {
-                    newMonster.Position = _map.GetRandomForestPoint();
-                    newMonster.MoveTime = 0;
+                    case "Goblin":
+                        SpawnMonster(drawLayer, _map.GetRandomDungeonMapPoint(dunMap.DungeonName), dunMap, monsterName);
+                        break;
+                    case "Mole Rat":
+                        SpawnMonster(drawLayer, _map.GetRandomDungeonMapPoint(dunMap.DungeonName), dunMap, monsterName);
+                        break;
+                    default:
+                        SpawnMonster(drawLayer, _map.GetRandomGrassPoint(), dunMap, monsterName);
+                        break;
                 }
-
-                _graphicsManager.AddCharacterObject(newMonster);
-                _worldMonsters.Add(newMonster);
             }
+        }
+
+        private void SpawnMonster(int layer, Vector2 spawnPoint, Utils.WorldMap.DungeonMap map, string mName)
+        {
+            Monster ListMonster = AllMonsters.Find(monster => monster.Name.Equals(mName));
+            Monster newMonster = new Monster()
+            {
+                Sprite = ListMonster.Sprite,
+                InteractionSprite = ListMonster.InteractionSprite,
+                Stats = new Stats(ListMonster.Stats.HP,
+                    ListMonster.Stats.Stamina,
+                    ListMonster.Stats.Mana,
+                    ListMonster.Stats.Speed,
+                    ListMonster.Stats.INT,
+                    ListMonster.Stats.STR,
+                    ListMonster.Stats.WIS,
+                    ListMonster.Stats.DEX,
+                    ListMonster.Stats.CHARISMA,
+                    ListMonster.Stats.DEFENSE,
+                    ListMonster.Stats.CRIT
+                    ),
+                Position = spawnPoint,
+                ObjectColor = ListMonster.ObjectColor,
+                MonsterType = ListMonster.MonsterType,
+                ItemDrop = ListMonster.ItemDrop,
+                ItemDropRate = ListMonster.ItemDropRate,
+                Name = ListMonster.Name,
+                MonsterDungeonMap = map,
+                DrawLayer = layer
+            };
+
+            if (newMonster.MonsterType == Modules.Monster.MONSTERTYPE.CELESTIALHORROR)
+            {
+                newMonster.Position = _map.GetRandomForestPoint();
+                newMonster.MoveTime = 0;
+            }
+
+            _graphicsManager.AddCharacterObject(newMonster);
+            _worldMonsters.Add(newMonster);
         }
 
         public MonsterManager(ContentManager content, Utils.GraphicsManager gManager, Utils.WorldMap wMap)
@@ -162,13 +172,15 @@ namespace Little_Might.Utils
             AddMonsterToWorld(_maxDeerCount, "Deer", _map.GetDungeonByName(""));
             AddMonsterToWorld(_maxRabbitCount, "Rabbit", _map.GetDungeonByName(""));
 
-            WorldMap.DungeonMap dungeonMap = _map.GetDungeonByName("SKAME RAGH");
-            if (dungeonMap.DungeonName != null)
-                AddMonsterToWorld(10, "Goblin", _map.GetDungeonByName("SKAME RAGH"), 1);
+            AddMonsterToWorld(10, "Goblin", _map.GetDungeonByName("SKAME RAGH"), 1);
+            AddMonsterToWorld(10, "Goblin", _map.GetDungeonByName("HAWKINEL"), 1);
+            AddMonsterToWorld(10, "Goblin", _map.GetDungeonByName("MELKOG"), 1);
+            AddMonsterToWorld(10, "Goblin", _map.GetDungeonByName("THANARG"), 1);
+            AddMonsterToWorld(10, "Goblin", _map.GetDungeonByName("DORYU"), 1);
 
-            dungeonMap = _map.GetDungeonByName("NORLOCKE");
-            if (dungeonMap.DungeonName != null)
-                AddMonsterToWorld(5, "Mole Rat", _map.GetDungeonByName("NORLOCKE"), 1);
+            AddMonsterToWorld(5, "Mole Rat", _map.GetDungeonByName("NORLOCKE"), 1);
+            AddMonsterToWorld(5, "Mole Rat", _map.GetDungeonByName("KAIDA"), 1);
+            AddMonsterToWorld(5, "Mole Rat", _map.GetDungeonByName("SARKATH"), 1);
 
             AddMonsterToWorld(1, "Celestial Horror", _map.GetDungeonByName(""));
         }

@@ -102,10 +102,10 @@ namespace Little_Might.Utils
                     return (int)((monster.Stats.DEX + monster.Stats.Stamina) - character.Stats.DEFENSE);
 
                 case "bite":
-                    return (int)((monster.Stats.Speed + monster.Stats.Stamina) - character.Stats.DEFENSE);
+                    return (int)((monster.Stats.Speed) - character.Stats.DEFENSE);
 
                 case "scratch":
-                    return (int)((monster.Stats.DEX + monster.Stats.Stamina) - character.Stats.DEFENSE);
+                    return (int)((monster.Stats.DEX) - character.Stats.DEFENSE);
 
                 case "strike":
                     return (int)((monster.Stats.STR + monster.Stats.Speed) - character.Stats.DEFENSE);

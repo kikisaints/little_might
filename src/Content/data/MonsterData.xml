@@ -18,6 +18,7 @@
 		<DEF>2</DEF>
 		<CRIT>0</CRIT>
 		<Drop>goop</Drop>
+		<DropRate>0.9</DropRate>
 		<Attack1>spit</Attack1>
 		<Attack2>poision</Attack2>
 	</Monster>
@@ -39,6 +40,7 @@
 		<DEF>1</DEF>
 		<CRIT>1</CRIT>
 		<Drop></Drop>
+		<DropRate>1</DropRate>
 		<Attack1>bite</Attack1>
 		<Attack2>scratch</Attack2>
 	</Monster>
@@ -60,6 +62,7 @@
 		<DEF>4</DEF>
 		<CRIT>1</CRIT>
 		<Drop>orb</Drop>
+		<DropRate>0.25</DropRate>
 		<Attack1>strike</Attack1>
 		<Attack2>bolt</Attack2>
 	</Monster>
@@ -81,6 +84,7 @@
 		<DEF>0</DEF>
 		<CRIT>0</CRIT>
 		<Drop>hareleg</Drop>
+		<DropRate>0.8</DropRate>
 		<Attack1>runaway</Attack1>
 		<Attack2 />
 	</Monster>
@@ -102,6 +106,7 @@
 		<DEF>5</DEF>
 		<CRIT>0</CRIT>
 		<Drop>pelt</Drop>
+		<DropRate>0.75</DropRate>
 		<Attack1>runaway</Attack1>
 		<Attack2 />
 	</Monster>
@@ -123,6 +128,7 @@
 		<DEF>50</DEF>
 		<CRIT>50</CRIT>
 		<Drop>none</Drop>
+		<DropRate>1</DropRate>
 		<Attack1>dark strand</Attack1>
 		<Attack2>whip</Attack2>
 	</Monster>

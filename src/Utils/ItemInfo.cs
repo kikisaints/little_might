@@ -157,6 +157,16 @@ namespace Little_Might.Utils
                 graphicsManager.ShowSystemMessage("Made STEEL SWORD!");
                 return true;
             }
+            else if (itemCombo.SequenceEqual(new Modules.Inventory.ITEMTYPE[] {
+                Modules.Inventory.ITEMTYPE.NONE,
+                Modules.Inventory.ITEMTYPE.ORB,
+                Modules.Inventory.ITEMTYPE.STICK,
+                Modules.Inventory.ITEMTYPE.FLINT }) && standingTile == WorldMap.MAPTILETYPE.FURNACE)
+            {
+                inventory.AddItem("Wood Staff");
+                graphicsManager.ShowSystemMessage("Made WOOD STAFF!");
+                return true;
+            }
 
             return false;
         }

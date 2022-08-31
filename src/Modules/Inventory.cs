@@ -95,7 +95,7 @@ namespace Little_Might.Modules
             ACCESSORY,
             IRONORE,
             ORB,
-            WOODSTAFF
+            STAFF
         }
 
         private List<InventoryItem> _invItems;
