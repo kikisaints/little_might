@@ -830,3 +830,57 @@
 /processorParam:DebugMode=Auto
 /build:shaders/crt_lottes_mg.fx
 
+#begin sound/battle_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/battle_1.wav
+
+#begin sound/click.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/click.wav
+
+#begin sound/death.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/death.wav
+
+#begin sound/hitHurt.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/hitHurt.wav
+
+#begin sound/menuselect.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/menuselect.wav
+
+#begin sound/move_blip.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/move_blip.wav
+
+#begin sound/overworld_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/overworld_1.wav
+
+#begin sound/pickupCoin.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/pickupCoin.wav
+
+#begin sound/powerUp.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/powerUp.wav
+

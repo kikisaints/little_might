@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -33,6 +34,10 @@ namespace Little_Might.Modules
         private Texture2D _accessorySprite = null;
 
         private Modules.InventoryItem _equippedWeapon = null;
+
+        // SOUND
+        private SoundEffect _moveSoundfx;
+        private SoundEffect _selectSoundfx;
 
         private int _craftIndex = 0;
 
@@ -140,6 +145,9 @@ namespace Little_Might.Modules
             Position = startingPosition;
             ObjectColor = Color.White;
             _graphicsManager = gManager;
+
+            _moveSoundfx = contentManager.Load<SoundEffect>("sound/click");
+            _selectSoundfx = contentManager.Load<SoundEffect>("sound/menuselect");
         }
 
         public void UpdateCharacter(GameTime time, Utils.WorldMap map, ContentManager content, bool inInteraction = false)
@@ -179,6 +187,8 @@ namespace Little_Might.Modules
                         _currentOptions[_interactIndex] = _currentOptions[_interactIndex].Remove(_currentOptions[_interactIndex].Length - 2, 2);
                         _interactIndex++;
                         _currentOptions[_interactIndex] += " -";
+
+                        _selectSoundfx.Play(0.5f, -0.5f, 0f);
                     }
                 }
                 else if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Up))
@@ -188,6 +198,8 @@ namespace Little_Might.Modules
                         _currentOptions[_interactIndex] = _currentOptions[_interactIndex].Remove(_currentOptions[_interactIndex].Length - 2, 2);
                         _interactIndex--;
                         _currentOptions[_interactIndex] += " -";
+
+                        _selectSoundfx.Play(0.5f, -0.5f, 0f);
                     }
                 }
 
@@ -617,6 +629,8 @@ namespace Little_Might.Modules
 
                 UpdateStats();
                 CheckTileResource(Position, wMap, contentManager);
+
+                _moveSoundfx.Play(1f, -0.5f, 0f);
             }
             else if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Right)
                 && CanMoveToTile(new Vector2(Position.X + Utils.WorldMap.UNITSIZE, Position.Y), wMap))
@@ -626,6 +640,8 @@ namespace Little_Might.Modules
 
                 UpdateStats();
                 CheckTileResource(Position, wMap, contentManager);
+
+                _moveSoundfx.Play(1f, -0.5f, 0f);
             }
             else if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Up)
                 && CanMoveToTile(new Vector2(Position.X, Position.Y - Utils.WorldMap.UNITSIZE), wMap))
@@ -635,6 +651,8 @@ namespace Little_Might.Modules
 
                 UpdateStats();
                 CheckTileResource(Position, wMap, contentManager);
+
+                _moveSoundfx.Play();
             }
             else if (_inputManager.ButtonToggled(Microsoft.Xna.Framework.Input.Keys.Down)
                 && CanMoveToTile(new Vector2(Position.X, Position.Y + Utils.WorldMap.UNITSIZE), wMap))
@@ -644,6 +662,8 @@ namespace Little_Might.Modules
 
                 UpdateStats();
                 CheckTileResource(Position, wMap, contentManager);
+
+                _moveSoundfx.Play();
             }
         }
 

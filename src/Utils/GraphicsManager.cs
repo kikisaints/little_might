@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -38,6 +39,8 @@ namespace Little_Might.Utils
         private WorldMap _worldMap;
 
         private Random rand = new Random();
+
+        private SoundEffect systemMessage;
 
         public void SetDrawLayer(int newLayer)
         { _activeDrawLayer = newLayer; }
@@ -89,6 +92,9 @@ namespace Little_Might.Utils
             //Game UI Objects
             AddScreenObject(new Modules.ScreenObject(contentManager.Load<Texture2D>("images/inventory_ui"), new Vector2(-290, 225), 4f));
             SetupCRTEffect(contentManager);
+
+            //Sounds
+            systemMessage = contentManager.Load<SoundEffect>("sound/pickupCoin");
         }
 
         public void VisualizeWorld(WorldMap map, ContentManager contentManager)
@@ -779,8 +785,13 @@ namespace Little_Might.Utils
             _spriteBatch.End();
         }
 
-        public void ShowSystemMessage(string message)
+        public void ShowSystemMessage(string message, SoundEffect sound = null)
         {
+            if (sound == null)
+                systemMessage.Play();
+            else
+                sound.Play();
+
             if (!_showSystemUI)
                 _showSystemUI = true;
             else

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -29,9 +30,12 @@ namespace Little_Might.Modules
         private double _turnWaitTime = 1.5;
         private string _monstersTurnAction = "";
         private Random _movementWaitTime = new Random();
+        private ContentManager _contentManager;
 
         public double MoveTime = 0;
         public Utils.WorldMap.DungeonMap MonsterDungeonMap;
+
+        private SoundEffect hitSoundfx;
 
         public string[] Attacks
         {
@@ -74,9 +78,10 @@ namespace Little_Might.Modules
             set { _monsterType = value; }
         }
 
-        public Monster()
+        public Monster(ContentManager contentManager)
         {
             MoveTime = _movementWaitTime.Next(1, 5) * 0.5;
+            hitSoundfx = contentManager.Load<SoundEffect>("sound/hitHurt");
         }
 
         public Monster(string spriteName, string intractSpriteName, Vector2 startingPosition, ContentManager contentManager, Color color,
@@ -90,8 +95,9 @@ namespace Little_Might.Modules
             ObjectColor = color;
             DrawLayer = layer;
             MonsterDungeonMap = dMap;
+            _contentManager = contentManager;
 
-            MoveTime = _movementWaitTime.Next(1, 5) * 0.5;
+            MoveTime = _movementWaitTime.Next(1, 5) * 0.5;            
         }
 
         public void UpdateMovement(GameTime gTime, Utils.WorldMap map)
@@ -148,7 +154,7 @@ namespace Little_Might.Modules
                     _monstersTurnAction = Utils.CombatHandler.GetAttack(_monsterType);
 
                     if (_monsterType.ToString().ToUpper() != "CELESTIALHORROR")
-                        gManager.ShowSystemMessage(_monsterType.ToString().ToUpper() + " used " + _monstersTurnAction.ToUpper() + "!");
+                        gManager.ShowSystemMessage(_monsterType.ToString().ToUpper() + " used " + _monstersTurnAction.ToUpper() + "!", hitSoundfx);
                     else
                         gManager.ShowSystemMessage("??? used ????!");
                 }

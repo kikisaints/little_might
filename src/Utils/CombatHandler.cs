@@ -99,23 +99,43 @@ namespace Little_Might.Utils
             switch (attackType.ToLower())
             {
                 case "spit":
-                    return (int)((monster.Stats.DEX + monster.Stats.Stamina) - character.Stats.DEFENSE);
+                    int total = (int)((monster.Stats.DEX + monster.Stats.Stamina) - character.Stats.DEFENSE);
+
+                    if (total < 0)
+                        total = 0;
+                    return total;
 
                 case "bite":
-                    return (int)((monster.Stats.Speed) - character.Stats.DEFENSE);
+                    total = (int)((monster.Stats.Speed + monster.Stats.DEX) - character.Stats.DEFENSE);
+
+                    if (total < 0)
+                        total = 0;
+                    return total;
 
                 case "scratch":
-                    return (int)((monster.Stats.DEX) - character.Stats.DEFENSE);
+                    total = (int)((monster.Stats.Speed + monster.Stats.DEX) - character.Stats.DEFENSE);
+
+                    if (total < 0)
+                        total = 0;
+                    return total;
 
                 case "strike":
-                    return (int)((monster.Stats.STR + monster.Stats.Speed) - character.Stats.DEFENSE);
+                    total = (int)((monster.Stats.STR + monster.Stats.Speed) - character.Stats.DEFENSE);
+
+                    if (total < 0)
+                        total = 0;
+                    return total;
 
                 case "poison":
                     character.Stats.Illness = Modules.AdvancedStats.ILLNESSES.MOUNTAINFEVER;
                     break;
 
                 case "dark strand":
-                    return (int)((monster.Stats.INT + monster.Stats.Speed) - character.Stats.DEFENSE);
+                    total = (int)((monster.Stats.INT + monster.Stats.Speed) - character.Stats.DEFENSE);
+
+                    if (total < 0)
+                        total = 0;
+                    return total;                    
             }
 
             return 0;

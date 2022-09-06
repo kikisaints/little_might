@@ -1,5 +1,6 @@
 ﻿using Little_Might.Utils;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
@@ -26,6 +27,15 @@ namespace Little_Might
         private bool _interactionEnding = false;
         private double _timer = 0;
         private double _waitToEndInteraction = 2;
+
+        private bool overworldMusic = false;
+
+        private SoundEffect deathSoundfx;
+        private SoundEffect menuSelectSound;
+        private SoundEffect overworld_1Sound;
+        private SoundEffectInstance overworldSoundInstance;
+        private SoundEffect battle_1Sound;
+        private SoundEffectInstance battleSoundInstance;
 
         public enum SCENE
         {
@@ -56,6 +66,17 @@ namespace Little_Might
         {
             _graphicsManager.Load(GraphicsDevice, Content, this.Window);
             ResolutionHandler.ChangeResolution(_graphicsManager.Graphics, 1920, 1080);
+
+            deathSoundfx = Content.Load<SoundEffect>("sound/death");
+            menuSelectSound = Content.Load<SoundEffect>("sound/menuselect");
+            overworld_1Sound = Content.Load<SoundEffect>("sound/overworld_1");
+            battle_1Sound = Content.Load<SoundEffect>("sound/battle_1");
+
+            overworldSoundInstance = overworld_1Sound.CreateInstance();
+            overworldSoundInstance.IsLooped = true;
+
+            battleSoundInstance = battle_1Sound.CreateInstance();
+            battleSoundInstance.IsLooped = true;
         }
 
         protected override void Update(GameTime gameTime)
@@ -134,7 +155,7 @@ namespace Little_Might
             _isPlayerTurn = true;
 
             if (!escape)
-                _graphicsManager.ShowSystemMessage("Defeated " + _interactor.MonsterType.ToString().ToUpper() + "!");
+                _graphicsManager.ShowSystemMessage("Defeated " + _interactor.MonsterType.ToString().ToUpper() + "!", deathSoundfx);
             else
                 _graphicsManager.ShowSystemMessage(_interactor.MonsterType.ToString().ToUpper() + " got away!");
         }
@@ -191,29 +212,52 @@ namespace Little_Might
                 }
 
                 if (_inOverworld)
+                {
                     CheckCharacterInteractions();
+
+                    if (!overworldMusic)
+                    {
+                        battleSoundInstance.Stop(true);
+                        overworldMusic = true;
+                        overworldSoundInstance.Play();
+                    }
+                }
+                else if (overworldMusic && !_inOverworld)
+                {
+                    overworldMusic = false;
+                    overworldSoundInstance.Pause();
+                    battleSoundInstance.Play();
+                }
             }
             else if (_currentScene == SCENE.DIFFICULTY)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.D1) || Keyboard.GetState().IsKeyDown(Keys.NumPad1))
                 {
+                    menuSelectSound.Play(0.5f, -0.5f, 0f);
+
                     LoadGameContent();
                     _currentScene = SCENE.GAME;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.D2) || Keyboard.GetState().IsKeyDown(Keys.NumPad2))
                 {
+                    menuSelectSound.Play(0.5f, -0.5f, 0f);
+
                     _mapSize *= 2;
                     LoadGameContent();
                     _currentScene = SCENE.GAME;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.D3) || Keyboard.GetState().IsKeyDown(Keys.NumPad3))
                 {
+                    menuSelectSound.Play(0.5f, -0.5f, 0f);
+
                     _mapSize *= 4;
                     LoadGameContent();
                     _currentScene = SCENE.GAME;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.D4) || Keyboard.GetState().IsKeyDown(Keys.NumPad4))
                 {
+                    menuSelectSound.Play(0.5f, -0.5f, 0f);
+
                     _mapSize *= 6;
                     LoadGameContent();
                     _currentScene = SCENE.GAME;
@@ -223,6 +267,7 @@ namespace Little_Might
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                 {
+                    menuSelectSound.Play(0.5f, -0.5f, 0f);
                     _currentScene = SCENE.DIFFICULTY;
                 }
             }
@@ -230,6 +275,7 @@ namespace Little_Might
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.R))
                 {
+                    menuSelectSound.Play(0.5f, -0.5f, 0f);
                     _currentScene = SCENE.MENU;
                 }
             }

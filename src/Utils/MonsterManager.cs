@@ -33,7 +33,7 @@ namespace Little_Might.Utils
 
             foreach (XmlNode node in nodes)
             {
-                Monster monster = new Monster();
+                Monster monster = new Monster(content);
                 Stats monsterStats = new Stats();
 
                 foreach (XmlNode childNode in node.ChildNodes)
@@ -101,29 +101,29 @@ namespace Little_Might.Utils
             return itemType;
         }
 
-        public void AddMonsterToWorld(int numberOfMonsters, string monsterName, Utils.WorldMap.DungeonMap dunMap, int drawLayer = 0)
+        public void AddMonsterToWorld(int numberOfMonsters, string monsterName, Utils.WorldMap.DungeonMap dunMap, ContentManager contentManager, int drawLayer = 0)
         {
             for (int i = 0; i < numberOfMonsters; i++)
             {
                 switch (monsterName)
                 {
                     case "Goblin":
-                        SpawnMonster(drawLayer, _map.GetRandomDungeonMapPoint(dunMap.DungeonName), dunMap, monsterName);
+                        SpawnMonster(drawLayer, _map.GetRandomDungeonMapPoint(dunMap.DungeonName), dunMap, monsterName, contentManager);
                         break;
                     case "Mole Rat":
-                        SpawnMonster(drawLayer, _map.GetRandomDungeonMapPoint(dunMap.DungeonName), dunMap, monsterName);
+                        SpawnMonster(drawLayer, _map.GetRandomDungeonMapPoint(dunMap.DungeonName), dunMap, monsterName, contentManager);
                         break;
                     default:
-                        SpawnMonster(drawLayer, _map.GetRandomGrassPoint(), dunMap, monsterName);
+                        SpawnMonster(drawLayer, _map.GetRandomGrassPoint(), dunMap, monsterName, contentManager);
                         break;
                 }
             }
         }
 
-        private void SpawnMonster(int layer, Vector2 spawnPoint, Utils.WorldMap.DungeonMap map, string mName)
+        private void SpawnMonster(int layer, Vector2 spawnPoint, Utils.WorldMap.DungeonMap map, string mName, ContentManager content)
         {
             Monster ListMonster = AllMonsters.Find(monster => monster.Name.Equals(mName));
-            Monster newMonster = new Monster()
+            Monster newMonster = new Monster(content)
             {
                 Sprite = ListMonster.Sprite,
                 InteractionSprite = ListMonster.InteractionSprite,
@@ -168,21 +168,21 @@ namespace Little_Might.Utils
             _content = content;
             _map = wMap;
 
-            AddMonsterToWorld(_maxSlimeCount, "Slime", _map.GetDungeonByName(""));
-            AddMonsterToWorld(_maxDeerCount, "Deer", _map.GetDungeonByName(""));
-            AddMonsterToWorld(_maxRabbitCount, "Rabbit", _map.GetDungeonByName(""));
+            AddMonsterToWorld(_maxSlimeCount, "Slime", _map.GetDungeonByName(""), content);
+            AddMonsterToWorld(_maxDeerCount, "Deer", _map.GetDungeonByName(""), content);
+            AddMonsterToWorld(_maxRabbitCount, "Rabbit", _map.GetDungeonByName(""), content);
 
-            AddMonsterToWorld(10, "Goblin", _map.GetDungeonByName("SKAME RAGH"), 1);
-            AddMonsterToWorld(10, "Goblin", _map.GetDungeonByName("HAWKINEL"), 1);
-            AddMonsterToWorld(10, "Goblin", _map.GetDungeonByName("MELKOG"), 1);
-            AddMonsterToWorld(10, "Goblin", _map.GetDungeonByName("THANARG"), 1);
-            AddMonsterToWorld(10, "Goblin", _map.GetDungeonByName("DORYU"), 1);
+            AddMonsterToWorld(10, "Goblin", _map.GetDungeonByName("SKAME RAGH"), content, 1);
+            AddMonsterToWorld(10, "Goblin", _map.GetDungeonByName("HAWKINEL"), content, 1);
+            AddMonsterToWorld(10, "Goblin", _map.GetDungeonByName("MELKOG"), content, 1);
+            AddMonsterToWorld(10, "Goblin", _map.GetDungeonByName("THANARG"), content, 1);
+            AddMonsterToWorld(10, "Goblin", _map.GetDungeonByName("DORYU"), content, 1);
 
-            AddMonsterToWorld(5, "Mole Rat", _map.GetDungeonByName("NORLOCKE"), 1);
-            AddMonsterToWorld(5, "Mole Rat", _map.GetDungeonByName("KAIDA"), 1);
-            AddMonsterToWorld(5, "Mole Rat", _map.GetDungeonByName("SARKATH"), 1);
+            AddMonsterToWorld(5, "Mole Rat", _map.GetDungeonByName("NORLOCKE"), content, 1);
+            AddMonsterToWorld(5, "Mole Rat", _map.GetDungeonByName("KAIDA"), content, 1);
+            AddMonsterToWorld(5, "Mole Rat", _map.GetDungeonByName("SARKATH"), content, 1);
 
-            AddMonsterToWorld(1, "Celestial Horror", _map.GetDungeonByName(""));
+            AddMonsterToWorld(1, "Celestial Horror", _map.GetDungeonByName(""), content);
         }
 
         public void UpdateMonsters(GameTime time, bool overworldActive = true)
