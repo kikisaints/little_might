@@ -481,7 +481,7 @@ namespace Little_Might.Utils
             {
                 int drawRadius = radius;
 
-                if (_activeDrawLayer != 0)
+                if (_activeDrawLayer == 1)
                     drawRadius = 3;
 
                 if (_activeDrawLayer == 0)
@@ -827,12 +827,14 @@ namespace Little_Might.Utils
             }
         }
 
-        public void DrawUpdate(Matrix cameraMatrix, int viewRadius, Vector2 center, int mapWidth, Modules.Character player, GameTime time, bool overworld = true, Modules.WorldObject interactor = null)
+        public void DrawUpdate(Matrix cameraMatrix, int viewRadius, Vector2 center, int mapWidth, Modules.Character player, GameTime time, ref int activeDrawLayer, bool overworld = true, Modules.WorldObject interactor = null)
         {
             DrawGame(viewRadius, center, mapWidth, cameraMatrix, overworld);
             DrawUI(center, player, overworld, interactor);
 
             UpdateSystemDialogs(time);
+
+            activeDrawLayer = _activeDrawLayer;
         }
     }
 }

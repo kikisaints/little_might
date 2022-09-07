@@ -848,11 +848,23 @@
 /processorParam:Quality=Best
 /build:sound/death.wav
 
+#begin sound/dungeon.WAV
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/dungeon.WAV
+
 #begin sound/hitHurt.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:sound/hitHurt.wav
+
+#begin sound/mainmenu.WAV
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/mainmenu.WAV
 
 #begin sound/menuselect.wav
 /importer:WavImporter
@@ -871,6 +883,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:sound/overworld_1.wav
+
+#begin sound/overworld_2.WAV
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/overworld_2.WAV
 
 #begin sound/pickupCoin.wav
 /importer:WavImporter

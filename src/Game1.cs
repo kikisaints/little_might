@@ -27,15 +27,26 @@ namespace Little_Might
         private bool _interactionEnding = false;
         private double _timer = 0;
         private double _waitToEndInteraction = 2;
+        private int _drawLayer = 0;
+        private int _lastDrawLayer = 0;
 
         private bool overworldMusic = false;
+        private bool menuMusic = false;
 
         private SoundEffect deathSoundfx;
         private SoundEffect menuSelectSound;
+
+        private SoundEffect mainMenuSound;
+        private SoundEffectInstance mainMenuSoundInstance;
+
         private SoundEffect overworld_1Sound;
         private SoundEffectInstance overworldSoundInstance;
+
         private SoundEffect battle_1Sound;
         private SoundEffectInstance battleSoundInstance;
+
+        private SoundEffect dungeonSound;
+        private SoundEffectInstance dungeonSoundInstance;
 
         public enum SCENE
         {
@@ -69,14 +80,22 @@ namespace Little_Might
 
             deathSoundfx = Content.Load<SoundEffect>("sound/death");
             menuSelectSound = Content.Load<SoundEffect>("sound/menuselect");
-            overworld_1Sound = Content.Load<SoundEffect>("sound/overworld_1");
+            overworld_1Sound = Content.Load<SoundEffect>("sound/overworld_2");
             battle_1Sound = Content.Load<SoundEffect>("sound/battle_1");
+            mainMenuSound = Content.Load<SoundEffect>("sound/mainmenu");
+            dungeonSound = Content.Load<SoundEffect>("sound/dungeon");
 
             overworldSoundInstance = overworld_1Sound.CreateInstance();
             overworldSoundInstance.IsLooped = true;
 
+            mainMenuSoundInstance = mainMenuSound.CreateInstance();
+            mainMenuSoundInstance.IsLooped = true;
+
             battleSoundInstance = battle_1Sound.CreateInstance();
             battleSoundInstance.IsLooped = true;
+
+            dungeonSoundInstance = dungeonSound.CreateInstance();
+            dungeonSoundInstance.IsLooped = true;
         }
 
         protected override void Update(GameTime gameTime)
@@ -179,8 +198,26 @@ namespace Little_Might
 
         private void UpdateGame(GameTime gTime)
         {
+            if (_currentScene != SCENE.GAME && !menuMusic)
+            {
+                if (overworldMusic)
+                {
+                    overworldSoundInstance.Stop(true);
+                    battleSoundInstance.Stop(true);
+                }
+
+                menuMusic = true;
+                mainMenuSoundInstance.Play();
+            }
+
             if (_currentScene == SCENE.GAME)
             {
+                if (menuMusic)
+                {
+                    mainMenuSoundInstance.Stop(true);
+                    menuMusic = false;
+                }
+
                 if (_interactionEnding)
                 {
                     _timer += gTime.ElapsedGameTime.TotalSeconds;
@@ -209,6 +246,8 @@ namespace Little_Might
                     EndInteraction(true);
 
                     _currentScene = SCENE.DEATH;
+                    overworldMusic = false;
+                    _drawLayer = 0;
                 }
 
                 if (_inOverworld)
@@ -219,13 +258,32 @@ namespace Little_Might
                     {
                         battleSoundInstance.Stop(true);
                         overworldMusic = true;
-                        overworldSoundInstance.Play();
+
+                        if (_drawLayer == 0)
+                        {
+                            overworldSoundInstance.Play();
+                            dungeonSoundInstance.Stop();
+                        }
+                        else if (_drawLayer == 1)
+                        {
+                            dungeonSoundInstance.Play();
+                            overworldSoundInstance.Pause();
+                        }
                     }
                 }
                 else if (overworldMusic && !_inOverworld)
                 {
                     overworldMusic = false;
-                    overworldSoundInstance.Pause();
+
+                    if (_drawLayer == 0)
+                    {
+                        overworldSoundInstance.Pause();
+                    }
+                    else if (_drawLayer == 1)
+                    {
+                        dungeonSoundInstance.Pause();
+                    }
+
                     battleSoundInstance.Play();
                 }
             }
@@ -279,13 +337,20 @@ namespace Little_Might
                     _currentScene = SCENE.MENU;
                 }
             }
+
+            _lastDrawLayer = _drawLayer;
         }
 
         private void DrawGame(GameTime gameTime)
         {
             if (_currentScene == SCENE.GAME)
             {
-                _graphicsManager.DrawUpdate(_camera.GetViewMatrix(), _character.FieldOfView, _character.Position, _mapSize, _character, gameTime, _inOverworld, _interactor);
+                _graphicsManager.DrawUpdate(_camera.GetViewMatrix(), _character.FieldOfView, _character.Position, _mapSize, _character, gameTime, ref _drawLayer, _inOverworld, _interactor);
+
+                if (_lastDrawLayer != _drawLayer)
+                {
+                    overworldMusic = false;
+                }
             }
             else
             {
