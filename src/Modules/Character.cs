@@ -298,7 +298,6 @@ namespace Little_Might.Modules
             }
             else if (currentTileType == Utils.WorldMap.MAPTILETYPE.ITEMDROP)
             {
-
                 if (DrawLayer == 0)
                 {
                     WorldObject obj = _graphicsManager.GetWorldObject((int)movePos.X, (int)movePos.Y);
@@ -312,7 +311,7 @@ namespace Little_Might.Modules
                         Modules.Inventory.ITEMTYPE.NONE,
                         Utils.WorldMap.MAPTILETYPE.GRASS);
 
-                    if (_playerInventory.AddItem(monsterDropType))
+                    if (_playerInventory.AddItem(monsterDropType) && monsterDropType != Inventory.ITEMTYPE.NONE)
                         _graphicsManager.ShowSystemMessage("Picked up " + monsterDropType.ToString());
                 }
                 else if (DrawLayer == 1)
@@ -329,7 +328,7 @@ namespace Little_Might.Modules
                         Utils.WorldMap.MAPTILETYPE.STONE,
                         _activePortal.PortalDungeonMap.DungeonName);
 
-                    if (_playerInventory.AddItem(monsterDropType))
+                    if (_playerInventory.AddItem(monsterDropType) && monsterDropType != Inventory.ITEMTYPE.NONE)
                         _graphicsManager.ShowSystemMessage("Picked up " + monsterDropType.ToString());
                 }
             }
@@ -357,12 +356,26 @@ namespace Little_Might.Modules
                         _graphicsManager.ShowSystemMessage("Picked up " + randomChestItem.ToString());
                 }
 
-                _graphicsManager.ChangeWorldObjectVisual(content.Load<Texture2D>("images/tile_grass"),
-                    Utils.GameColors.GrassMapColor,
-                    (int)Position.X,
-                    (int)Position.Y,
-                    Modules.Inventory.ITEMTYPE.NONE,
-                    Utils.WorldMap.MAPTILETYPE.GRASS);
+                if (DrawLayer == 0)
+                {
+                    _graphicsManager.ChangeWorldObjectVisual(content.Load<Texture2D>("images/tile_grass"),
+                        Utils.GameColors.GrassMapColor,
+                        (int)Position.X,
+                        (int)Position.Y,
+                        Modules.Inventory.ITEMTYPE.NONE,
+                        Utils.WorldMap.MAPTILETYPE.GRASS);
+                }
+                else if (DrawLayer == 1)
+                {
+                    _graphicsManager.ChangeWorldObjectVisual(content.Load<Texture2D>("images/tile_stone"),
+                        Utils.GameColors.StoneMapColor,
+                        (int)Position.X,
+                        (int)Position.Y,
+                        Modules.Inventory.ITEMTYPE.NONE,
+                        Utils.WorldMap.MAPTILETYPE.STONE, 
+                        _activePortal.PortalDungeonMap.DungeonName, 
+                        Utils.WorldMap.MAPTILETYPE.CHEST);
+                }
             }
             else if (currentTileType == Utils.WorldMap.MAPTILETYPE.PRARIEDUNGEON)
             {

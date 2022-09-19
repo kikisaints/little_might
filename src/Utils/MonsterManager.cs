@@ -16,6 +16,8 @@ namespace Little_Might.Utils
         public static List<Modules.Monster> AllMonsters;
         private Utils.WorldMap _map;
 
+        private static Random rand = new Random();
+
         //Need to adjust these numbers based on map size...
         private int _maxSlimeCount = 100;
 
@@ -90,7 +92,8 @@ namespace Little_Might.Utils
         public static Inventory.ITEMTYPE GetMonsterDrop(Color monsterColor)
         {
             Inventory.ITEMTYPE itemType;
-            Enum.TryParse(AllMonsters.Find(monster => monster.ObjectColor == monsterColor).ItemDrop, out itemType);
+            Monster dropFromMonster = AllMonsters.Find(monster => monster.ObjectColor == monsterColor);
+            Enum.TryParse(dropFromMonster.ItemDrop, out itemType);
 
             foreach (Monster m in AllMonsters)
             {

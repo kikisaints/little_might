@@ -128,7 +128,11 @@ namespace Little_Might.Utils
 
                 case "poison":
                     character.Stats.Illness = Modules.AdvancedStats.ILLNESSES.MOUNTAINFEVER;
-                    break;
+                    total = (int)((monster.Stats.DEX + monster.Stats.Stamina) - character.Stats.DEFENSE);
+
+                    if (total < 0)
+                        total = 0;
+                    return total;
 
                 case "dark strand":
                     total = (int)((monster.Stats.INT + monster.Stats.Speed) - character.Stats.DEFENSE);

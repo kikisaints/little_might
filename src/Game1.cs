@@ -200,11 +200,8 @@ namespace Little_Might
         {
             if (_currentScene != SCENE.GAME && !menuMusic)
             {
-                if (overworldMusic)
-                {
-                    overworldSoundInstance.Stop(true);
-                    battleSoundInstance.Stop(true);
-                }
+                overworldSoundInstance.Stop(true);
+                battleSoundInstance.Stop(true);
 
                 menuMusic = true;
                 mainMenuSoundInstance.Play();
@@ -333,8 +330,12 @@ namespace Little_Might
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.R))
                 {
+                    _graphicsManager.SetDrawLayer(0);
                     menuSelectSound.Play(0.5f, -0.5f, 0f);
                     _currentScene = SCENE.MENU;
+
+                    overworldMusic = false;
+                    _inOverworld = true;
                 }
             }
 

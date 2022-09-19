@@ -38,7 +38,7 @@ namespace Little_Might.Utils
         private Texture2D _systemPopup;
         private WorldMap _worldMap;
 
-        private Random rand = new Random();
+        private Random rand = new Random(2589);
 
         private SoundEffect systemMessage;
 
@@ -218,11 +218,17 @@ namespace Little_Might.Utils
                         new Vector2(startPos.X + dMapX, startPos.Y + dMapY),
                         GameColors.StoneMapColor, 1));
                     }
-                    if (dMap.Map[j] == 8)
+                    else if (dMap.Map[j] == 8)
                     {
                         _worldObjects_l1.Add(new Modules.WorldObject(contentManager.Load<Texture2D>("images/dungeon_entrance_1"),
                         new Vector2(startPos.X + dMapX, startPos.Y + dMapY),
                         GameColors.PrarieDungeonMapColor, 1));
+                    }
+                    else if (dMap.Map[j] == 2)
+                    {
+                        _worldObjects_l1.Add(new Modules.WorldObject(contentManager.Load<Texture2D>("images/chest_little"),
+                        new Vector2(startPos.X + dMapX, startPos.Y + dMapY),
+                        GameColors.ChestMapColor, 1));
                     }
                 }
             }
@@ -255,7 +261,7 @@ namespace Little_Might.Utils
         { _worldObjects.Add(worldObject); }
 
         public void ChangeWorldObjectVisual(Texture2D newSprite, Color newColor, int x, int y, Modules.Inventory.ITEMTYPE type,
-            Utils.WorldMap.MAPTILETYPE mapTile = WorldMap.MAPTILETYPE.OUTOFBOUNDS, string dungeonName = "")
+            Utils.WorldMap.MAPTILETYPE mapTile = WorldMap.MAPTILETYPE.OUTOFBOUNDS, string dungeonName = "", Utils.WorldMap.MAPTILETYPE pastMapTile = WorldMap.MAPTILETYPE.OUTOFBOUNDS)
         {
             if (_activeDrawLayer == 0)
             {
@@ -289,8 +295,18 @@ namespace Little_Might.Utils
                 int indexY = y / Utils.WorldMap.UNITSIZE;
                 int index = Utils.MathHandler.Get1DIndex(indexY, indexX, dunMap.MapWidth);
 
-                if (mapTile != WorldMap.MAPTILETYPE.OUTOFBOUNDS)
-                    _worldMap.MapTiles[x, y] = mapTile;
+                if (pastMapTile == WorldMap.MAPTILETYPE.CHEST)
+                {
+                    for (int i = 0; i < dunMap.Map.Length; i++)
+                    {
+                        if (dunMap.Map[i] == 2)
+                        {
+                            dunMap.MapWorldPoints[i].TileType = mapTile;
+                            dunMap.Map[i] = 1;
+                            break;
+                        }
+                    }
+                }
 
                 for (int i = 0; i < _worldObjects_l1.Count; i++)
                 {
@@ -379,9 +395,8 @@ namespace Little_Might.Utils
             if (monster != null)
             {
                 int successPercent = (int)(monster.ItemDropRate * 10);
-                float chance = rand.Next(0, successPercent);
 
-                if (chance <= successPercent)
+                if (rand.Next(0, 10) <= successPercent)
                 {
                     Modules.Inventory.ITEMTYPE dropType;
                     Enum.TryParse(monster.ItemDrop.ToUpper(), out dropType);

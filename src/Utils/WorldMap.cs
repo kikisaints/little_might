@@ -102,12 +102,15 @@ namespace Little_Might.Utils
                     {
                         MapWorldPoints[i] = new LayerMapTiles(MAPTILETYPE.STONE, trackingPoint);
                     }
+                    else if (Map[i] == 2)
+                    {
+                        MapWorldPoints[i] = new LayerMapTiles(MAPTILETYPE.CHEST, trackingPoint);
+                    }
                     else if (Map[i] == 8)
                     {
                         MapWorldPoints[i] = new LayerMapTiles(MAPTILETYPE.PRARIEDUNGEON, trackingPoint);
 
                         Vector2 startpoint = MathHandler.Get2DPoint(i, MapWidth);
-                        
                     }
 
                     trackingPoint.X += UNITSIZE;

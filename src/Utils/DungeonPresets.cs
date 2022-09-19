@@ -27,6 +27,7 @@ namespace Little_Might.Utils
             genDungeon[startPointX, startPointY] = 8;
             int filledCells = 0;
             int attempts = 100;
+            bool chestPlaced = false;
 
             Point newPoint = new Point(startPointX, startPointY);
             while (filledCells <= availCells)
@@ -60,7 +61,7 @@ namespace Little_Might.Utils
                 {
                     if (genDungeon[newPoint.X, newPoint.Y] != 1 &&
                         genDungeon[newPoint.X, newPoint.Y] != 8)
-                    {
+                    {                        
                         genDungeon[newPoint.X, newPoint.Y] = 1;
                         filledCells++;
                     }
@@ -75,13 +76,21 @@ namespace Little_Might.Utils
             }
 
             int[] finalDun = new int[size * size];
-
             int i = 0;
             for (int x = 0; x < size; x++)
             {
                 for (int y = 0; y < size; y++)
                 {
                     finalDun[i] = genDungeon[y, x];
+
+                    int chest = rand.Next(0, 2);
+
+                    if (!chestPlaced && chest <= 1 && finalDun[i] == 1)
+                    {
+                        chestPlaced = true;
+                        finalDun[i] = 2;
+                    }
+
                     i++;
                 }
             }
