@@ -1,7 +1,7 @@
 # Little Might
 Old-school looking survival game made in Monogame/XNA.
 
-![little_might_screenshot](https://user-images.githubusercontent.com/6964369/186939391-0d6c4d07-83b4-4474-957b-b4cc0103bde3.png)
+![gameplay_gif_1](https://user-images.githubusercontent.com/6964369/191069471-9c6d0a42-b10a-4f02-a8bb-256c9f762ec2.gif)
 
 # Building the Project
 This project uses Monogame. To install it:
