@@ -85,8 +85,8 @@ namespace Little_Might
             mainMenuSound = Content.Load<SoundEffect>("sound/mainmenu");
             dungeonSound = Content.Load<SoundEffect>("sound/dungeon");
 
-            overworldSoundInstance = overworld_1Sound.CreateInstance();
-            overworldSoundInstance.IsLooped = true;
+            //overworldSoundInstance = overworld_1Sound.CreateInstance();
+            //overworldSoundInstance.IsLooped = true;
 
             mainMenuSoundInstance = mainMenuSound.CreateInstance();
             mainMenuSoundInstance.IsLooped = true;
@@ -200,7 +200,7 @@ namespace Little_Might
         {
             if (_currentScene != SCENE.GAME && !menuMusic)
             {
-                overworldSoundInstance.Stop(true);
+                //overworldSoundInstance.Stop(true);
                 battleSoundInstance.Stop(true);
 
                 menuMusic = true;
@@ -258,13 +258,13 @@ namespace Little_Might
 
                         if (_drawLayer == 0)
                         {
-                            overworldSoundInstance.Play();
+                            //overworldSoundInstance.Play();
                             dungeonSoundInstance.Stop();
                         }
                         else if (_drawLayer == 1)
                         {
                             dungeonSoundInstance.Play();
-                            overworldSoundInstance.Pause();
+                            //overworldSoundInstance.Pause();
                         }
                     }
                 }
@@ -274,7 +274,7 @@ namespace Little_Might
 
                     if (_drawLayer == 0)
                     {
-                        overworldSoundInstance.Pause();
+                        //overworldSoundInstance.Pause();
                     }
                     else if (_drawLayer == 1)
                     {
